@@ -2,7 +2,9 @@
 import EvidenceLegend from './EvidenceLegend.astro';
 import { Y_TICKS } from '../lib/treatments.js';
 
-const { categories, banner } = Astro.props;
+// `banners` are the warnings shown above the comparison, in order: the shared
+// cost/efficacy disclaimer first, then anything specific to the page.
+const { categories, banners = [] } = Astro.props;
 ---
 
 <div class="compare-head">
@@ -16,7 +18,7 @@ const { categories, banner } = Astro.props;
   >ⓘ 證據等級與效果星等說明</button>
 </div>
 
-<p class="notice notice--warn" style="margin:0 0 16px;">⚠ {banner}</p>
+{banners.map((text) => <p class="notice notice--warn" style="margin:0 0 16px;">⚠ {text}</p>)}
 
 <EvidenceLegend />
 

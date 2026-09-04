@@ -7,15 +7,13 @@ import Faq from '../../components/Faq.astro';
 import Lightbox from '../../components/Lightbox.astro';
 import { MALE_FAQ, NORWOOD_STAGES } from '../../data/TreatmentData.js';
 import { buildCategories, collectLightboxes } from '../../lib/treatments.js';
+import { COST_DISCLAIMER } from '../../consts.js';
 
 const categories = buildCategories('male');
 const lightboxes = collectLightboxes(categories);
 
 const description =
   '男性雄性禿衛教：DHT 造成毛囊微小化的致病機轉、Hamilton–Norwood 分期、皮膚鏡表現，以及口服與外用藥物、LLLT、PRP、植髮等治療的證據等級、效果與費用比較。';
-
-const costBanner =
-  '下列治療效果與費用會因院所、醫師操作及個人體質而有所不同，象限圖與表格僅供衛教參考，非實際療效或收費承諾；實際治療計畫與費用請以醫師當面診察評估之結果為主。';
 ---
 
 <BaseLayout title="雄性禿：男性版" description={description} current="aga">
@@ -69,7 +67,7 @@ const costBanner =
       <ImageSlot id="male-derm-3" radius={12} alt="皮膚鏡下的毛髮直徑變異" placeholder="毛髮直徑變異（圖片準備中）" />
     </div>
 
-    <TreatmentComparison categories={categories} banner={costBanner} />
+    <TreatmentComparison categories={categories} banners={[COST_DISCLAIMER]} />
 
     <Faq items={MALE_FAQ} idPrefix="faq-m" />
   </section>

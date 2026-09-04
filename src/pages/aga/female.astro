@@ -7,6 +7,7 @@ import Faq from '../../components/Faq.astro';
 import Lightbox from '../../components/Lightbox.astro';
 import { FEMALE_FAQ, FEMALE_STAGES } from '../../data/TreatmentData.js';
 import { buildCategories, collectLightboxes } from '../../lib/treatments.js';
+import { COST_DISCLAIMER } from '../../consts.js';
 
 const categories = buildCategories('female');
 const lightboxes = collectLightboxes(categories);
@@ -77,7 +78,7 @@ const warningBanner = '表格中標示紅色背景的項目，屬於育齡婦女
       <ImageSlot id="female-derm-3" radius={12} alt="皮膚鏡下的毛髮直徑變異" placeholder="毛髮直徑變異（圖片準備中）" />
     </div>
 
-    <TreatmentComparison categories={categories} banner={warningBanner} />
+    <TreatmentComparison categories={categories} banners={[COST_DISCLAIMER, warningBanner]} />
 
     <Faq items={FEMALE_FAQ} idPrefix="faq-f" />
   </section>
