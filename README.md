@@ -48,15 +48,40 @@ tools/import-design-export.py  # 從 Claude Design 匯出檔重新匯入內容
 
 ## 更新內容
 
-### 修改文案或治療資料
+內容分成兩類，改的地方不一樣：
 
-直接改 `src/data/TreatmentData.js`，或在 Claude Design 改完後重新匯出，再跑：
+| 要改什麼 | 改哪裡 | 會不會從 Design 同步 |
+| --- | --- | --- |
+| 治療項目、證據等級、副作用、注意事項、藥品廠牌 | Claude Design 或 `src/data/TreatmentData.js` | ✅ 會 |
+| Norwood／Ludwig 各分期說明文字 | 同上 | ✅ 會 |
+| FAQ 問答 | 同上 | ✅ 會 |
+| 自我檢測的題目、選項、結果說明 | 同上 | ✅ 會 |
+| 圖片（含分期圖、皮膚鏡、藥品外觀） | Claude Design 拖曳，或直接放進 `src/assets/` | ✅ 會 |
+| 頁面標題、致病機轉段落、皮膚鏡條列 | `src/pages/aga/male.astro`、`female.astro` | ❌ 不會 |
+| 首頁標語與四張卡片說明 | `src/pages/index.astro` | ❌ 不會 |
+| 網站名稱、免責聲明、SEO 描述 | `src/consts.js`、各頁 `description` | ❌ 不會 |
+| 版面、配色、新頁面 | `src/styles/global.css`、`src/components/`、`src/pages/` | ❌ 不會 |
+
+**會同步的部分**：在 Claude Design 改完後重新匯出 zip，然後跑
 
 ```bash
 python3 tools/import-design-export.py ~/Downloads/皮膚科落髮衛教網站.zip
 ```
 
-這支腳本會更新 `TreatmentData.js`、`src/assets/` 的圖片，以及 `slot-manifest.json`；Design 編輯器的執行期檔案（`support.js`、`image-slot.js`）不會被帶進來。
+腳本只會覆寫 `TreatmentData.js`、`src/assets/` 的圖片與 `slot-manifest.json`，不會動到 `src/pages/` 的版面與文案。Design 編輯器的執行期檔案（`support.js`、`image-slot.js`）也不會被帶進來。
+
+**不會同步的部分**：這些文案在移植時寫進了 `.astro` 頁面檔，所以在 Design 裡改不會傳過來，要直接編輯對應檔案。
+
+### 改完之後上線
+
+```bash
+npm run dev                          # 本機預覽（可選），開 http://localhost:4321
+git add -A
+git commit -m "更新雄性禿治療資料"    # 訊息寫改了什麼
+git push
+```
+
+push 完 Cloudflare 會自動重新 build，約 2–3 分鐘後線上就更新了。
 
 ### 補上缺圖
 
