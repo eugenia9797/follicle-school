@@ -87,15 +87,19 @@ Cloudflare Pages 直接連 GitHub repo，push 到 `main` 就會自動 build 並�
    | Build output directory | `dist` |
    | Production branch | `main` |
 
-3. 建好之後，到 **Settings → Environment variables** 加上正式網址（讓 canonical 連結與 sitemap 指向正確網域）：
+3. 掛上自訂網域後（**Custom domains → Set up a domain**），到 **Settings → Environment variables** 加上：
 
    ```
    SITE_URL = https://你的網域
    ```
 
-   沒設定時會退回 Cloudflare 自動給的 `CF_PAGES_URL`，預覽部署因此也會有正確的 canonical。
+   讓 canonical 連結與 sitemap 指向正確網域。
 
-4. 要用自訂網域的話：**Custom domains → Set up a domain**，然後把 `SITE_URL` 改成該網域。
+### 網址是怎麼決定的
+
+`astro.config.mjs` 依序取：`SITE_URL` → 預覽分支用 `CF_PAGES_URL` → 否則固定用 `https://follicle-school.pages.dev`。
+
+注意 Cloudflare 的 `CF_PAGES_URL` 連 production build 也是給單次部署網址（`https://<commit-hash>.follicle-school.pages.dev`），所以它只能用在預覽分支——正式站若用它，canonical 每次部署都會換一個網址。
 
 Node 版本由 `.node-version` 指定（22）。`public/_headers` 設定了快取與基本安全標頭，Cloudflare Pages 會自動套用。
 
