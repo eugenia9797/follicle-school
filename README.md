@@ -12,7 +12,7 @@
 | `/aga/` | 雄性禿總覽 |
 | `/aga/male/` | 男性版：致病機轉、Hamilton–Norwood 分期、皮膚鏡、治療比較、FAQ |
 | `/aga/female/` | 女性版：致病機轉、Ludwig 分期、皮膚鏡、治療比較、FAQ |
-| `/quiz/` | 自我落髮檢測（10 題分流問卷） |
+| `/quiz/` | 自我落髮檢測（計分式問卷，判定六種落髮分類並建議進一步檢查） |
 | `/coming-soon/telogen/`、`/coming-soon/areata/` | 建置中頁面（`noindex`，不列入 sitemap） |
 
 ## 開發
@@ -37,7 +37,7 @@ src/
   assets/                    # 原始圖片；build 時由 Astro 壓縮並轉 webp
   lib/slots.js               # 依 id 取出圖片，還原 Design 的裁切與縮放
   lib/treatments.js          # 建立治療分類、費用×效果象限圖座標
-  lib/quiz-view.js           # 問卷畫面（build 與瀏覽器共用同一份）
+  lib/quiz.js                # 問卷計分、條件顯示題目、選項畫面（build 與瀏覽器共用）
   components/                # Header、Footer、ImageSlot、治療比較、Lightbox…
   scripts/                   # 前端互動（手風琴、象限圖、Lightbox、問卷）
   pages/                     # 路由
@@ -55,7 +55,7 @@ tools/import-design-export.py  # 從 Claude Design 匯出檔重新匯入內容
 | 治療項目、證據等級、副作用、注意事項、藥品廠牌 | Claude Design 或 `src/data/TreatmentData.js` | ✅ 會 |
 | Norwood／Ludwig 各分期說明文字 | 同上 | ✅ 會 |
 | FAQ 問答 | 同上 | ✅ 會 |
-| 自我檢測的題目、選項、結果說明 | 同上 | ✅ 會 |
+| 自我檢測的題目、選項、計分權重、結果說明 | 同上 | ✅ 會 |
 | 圖片（含分期圖、皮膚鏡、藥品外觀） | Claude Design 拖曳，或直接放進 `src/assets/` | ✅ 會 |
 | 頁面標題、致病機轉段落、皮膚鏡條列 | `src/pages/aga/male.astro`、`female.astro` | ❌ 不會 |
 | 首頁標語與四張卡片說明 | `src/pages/index.astro` | ❌ 不會 |

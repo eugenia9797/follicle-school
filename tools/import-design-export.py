@@ -40,10 +40,15 @@ SLOT_DIR = SRC_ASSETS / "slots"
 FULL_RES_ASSETS = [
     "logo.png",
     "icon-aga.jpg",
+    "icon-aga-female-result.jpg",
     "icon-areata.jpg",
     "icon-quiz.jpg",
     "icon-telogen.jpg",
     "male-mechanism.png",
+    "mascot-walk.png",
+    "exam-pulltest.jpeg",
+    "exam-dermoscopy.jpeg",
+    "exam-bloodtest.jpeg",
 ]
 
 # Slots whose full-resolution original lives in assets/ — the design runtime

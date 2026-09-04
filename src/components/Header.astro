@@ -10,7 +10,14 @@ const { current = '' } = Astro.props;
 <header class="site-header">
   <div class="site-header__bar">
     <a class="brand" href="/">
-      <Image src={logo} alt={`${SITE_NAME} ${SITE_NAME_EN}`} widths={[78, 156]} sizes="78px" loading="eager" />
+      <Image
+        src={logo}
+        alt={`${SITE_NAME} ${SITE_NAME_EN}`}
+        width={78}
+        height={52}
+        densities={[1, 2, 3]}
+        loading="eager"
+      />
       <span class="brand__text">
         <span class="brand__name">{SITE_NAME}</span>
         <span class="brand__latin">{SITE_NAME_EN}</span>

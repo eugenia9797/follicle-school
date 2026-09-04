@@ -10,6 +10,7 @@ const {
   placeholder = '',
   class: className,
   style = '',
+  width,
   widths,
   sizes,
   loading = 'lazy',
@@ -28,6 +29,7 @@ const imgStyle = `object-fit:${fit}` + (transform ? `;transform:${transform}` : 
         <Image
           src={slot.image}
           alt={alt}
+          width={width}
           widths={widths}
           sizes={sizes}
           loading={loading}

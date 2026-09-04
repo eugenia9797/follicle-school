@@ -1,19 +1,155 @@
 ---
+import { Image } from 'astro:assets';
 import BaseLayout from '../layouts/BaseLayout.astro';
-import { FIRST_STEP, questionHTML } from '../lib/quiz-view.js';
+import { CATEGORIES, optionsHTML, questionState } from '../lib/quiz.js';
+import { SELF_CHECK_RESULT_INFO } from '../data/TreatmentData.js';
+import mascot from '../assets/mascot-walk.png';
+import iconAga from '../assets/icon-aga.jpg';
+import iconAgaFemale from '../assets/icon-aga-female-result.jpg';
+import iconTelogen from '../assets/icon-telogen.jpg';
+import iconAreata from '../assets/icon-areata.jpg';
+import iconQuiz from '../assets/icon-quiz.jpg';
+import examPullTest from '../assets/exam-pulltest.jpeg';
+import examDermoscopy from '../assets/exam-dermoscopy.jpeg';
+import examBloodTest from '../assets/exam-bloodtest.jpeg';
 
 const description =
-  '花 2 分鐘回答問題，初步判斷可能的落髮型態：雄性禿、休止期落髮或圓禿。結果僅供初步參考，不能取代醫師之當面診斷。';
+  '回答 10 題左右的問題，依落髮型態、分佈部位、持續時間與家族史計分，初步判斷可能的落髮分類。結果僅為衛教參考，不能取代醫師之當面診斷。';
 
-// The first question never depends on an answer, so it can be rendered at build
-// time — the page is useful the moment it paints.
-const firstQuestion = questionHTML({ stepId: FIRST_STEP, answers: {}, historyLength: 0 });
+// Question 1 never depends on an answer, so the first step is built here and
+// the page is usable the moment it paints.
+const first = questionState(0, {});
+const firstOptions = optionsHTML(first.question);
+
+const RESULT_MEDIA = {
+  male_aga: { image: iconAga, href: '/aga/male/' },
+  female_aga: { image: iconAgaFemale, href: '/aga/female/' },
+  acute_telogen: { image: iconTelogen },
+  chronic_telogen: { image: iconTelogen },
+  areata: { image: iconAreata },
+  other: { image: iconQuiz },
+};
+
+const results = CATEGORIES.map((key) => ({
+  key,
+  ...SELF_CHECK_RESULT_INFO[key],
+  ...RESULT_MEDIA[key],
+}));
+
+const exams = [
+  { image: examPullTest, title: '頭髮拉扯測試', subtitle: 'Hair Pull Test' },
+  { image: examDermoscopy, title: '頭髮鏡檢查', subtitle: 'Trichoscopy' },
+  { image: examBloodTest, title: '抽血檢驗與其他檢查', subtitle: '排除內分泌等其他病因' },
+];
+
+const examWidths = [170, 340, 510];
+const examSizes = '(min-width: 700px) 170px, 30vw';
 ---
 
 <BaseLayout title="自我落髮檢測" description={description} current="quiz">
   <section class="quiz">
     <h1 class="visually-hidden">自我落髮檢測</h1>
-    <div id="quiz-root" set:html={firstQuestion} />
+
+    <div id="quiz-question">
+      <div class="quiz__top">
+        <span class="quiz__step" data-quiz-step>第 {first.number} 題</span>
+        <button type="button" class="quiz__back" data-quiz-back hidden>← 上一題</button>
+      </div>
+
+      <div class="quiz__track" aria-hidden="true">
+        <span class="quiz__track-line"></span>
+        <span class="quiz__track-start">🌱</span>
+        <span class="quiz__track-end">🏁</span>
+        <Image
+          src={mascot}
+          alt=""
+          width={34}
+          densities={[1, 2, 3]}
+          class="quiz__mascot"
+          data-quiz-mascot
+          style={`left:${first.progress}%;`}
+          loading="eager"
+        />
+      </div>
+
+      <div
+        class="quiz__bar"
+        role="progressbar"
+        aria-valuemin="0"
+        aria-valuemax="100"
+        aria-valuenow={first.progress}
+        aria-label="作答進度"
+        data-quiz-bar
+      >
+        <span style={`width:${first.progress}%;`}></span>
+      </div>
+
+      <p class="quiz__question" data-quiz-text>{first.question.text}</p>
+
+      <div class="quiz__options" data-quiz-options set:html={firstOptions} />
+
+      <button type="button" class="btn btn--wide" data-quiz-multi-next hidden>下一題 →</button>
+    </div>
+
+    <div class="quiz__result" id="quiz-result" hidden tabindex="-1">
+      <p class="quiz__result-eyebrow">檢測結果</p>
+
+      {
+        results.map((result) => (
+          <div data-quiz-result={result.key} hidden>
+            <Image
+              src={result.image}
+              alt=""
+              width={88}
+              height={88}
+              densities={[1, 2, 3]}
+              class="quiz__result-thumb"
+              loading="eager"
+            />
+            <p class="quiz__result-title">{result.title}</p>
+            <p class="quiz__result-desc">{result.desc}</p>
+            {result.href && (
+              <a class="btn btn--block" href={result.href} style="margin-bottom:12px;">
+                {result.goLabel}
+              </a>
+            )}
+          </div>
+        ))
+      }
+
+      <div class="quiz__result-actions">
+        <button type="button" class="btn btn--ghost" data-quiz-restart>重新測驗</button>
+        <a class="btn btn--ghost" href="/">返回首頁</a>
+      </div>
+
+      <div class="exams">
+        <p class="exams__title">你可能還需要的檢查</p>
+        <div class="exams__grid">
+          {
+            exams.map((exam) => (
+              <div class="exam-card">
+                <Image
+                  src={exam.image}
+                  alt={exam.title}
+                  width={510}
+                  widths={examWidths}
+                  sizes={examSizes}
+                  class="exam-card__img"
+                  loading="lazy"
+                />
+                <p class="exam-card__title">{exam.title}</p>
+                <p class="exam-card__subtitle">{exam.subtitle}</p>
+              </div>
+            ))
+          }
+        </div>
+      </div>
+
+      <p class="quiz__result-note">
+        本檢測結果僅為初步衛教參考，無法取代醫師之當面診斷。建議至皮膚科門診由醫師進行理學檢查，並由醫師評估是否需安排其他進一步檢查（如毛髮鏡檢查、抽血檢驗等），以確立診斷並擬定合適的治療計畫。
+      </p>
+    </div>
+
     <noscript>
       <p class="hint" style="margin-top:24px;">
         自我檢測需要啟用 JavaScript 才能作答。您也可以直接閱讀

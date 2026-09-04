@@ -339,121 +339,115 @@ export const FEMALE_FAQ = [
   { q: '生產後大量落髮也是雄性禿嗎？', a: '產後大量落髮多屬於「休止期落髮」，通常在產後 2–4 個月開始、多在 6–12 個月內逐漸恢復，與雄性禿的漸進式落髮型態不同，建議至門診由醫師鑑別診斷。' }
 ];
 
-// ---------- 自我落髮檢測問卷 ----------
-export const QUIZ_STEPS = {
-  q_gender: {
-    text: '請問您的性別是？',
-    options: [
-      { label: '男性', next: 'q_sudden' },
-      { label: '女性', next: 'q_sudden' }
-    ]
+// ---------- 自我落髮檢測問卷（計分式，依各型態落髮特徵評分） ----------
+export const SELF_CHECK_RESULT_INFO = {
+  male_aga: {
+    title: '較符合「雄性禿（男性型落髮）」特徵',
+    desc: '您描述的落髮型態、好發部位與家族史，較符合男性型雄性禿（AGA）的常見表現。雄性禿為漸進式落髮，與遺傳體質及雄性素代謝相關，早期介入治療效果較好。',
+    goLabel: '查看雄性禿男性版完整衛教內容', goGender: 'male'
   },
-  q_sudden: {
-    text: '近期是否有「忽然大量落髮」的情形？（例如洗頭、梳頭時掉髮量明顯增加一大把）',
-    options: [
-      { label: '是，掉髮量明顯突然增加', next: 'q_duration' },
-      { label: '否，是慢慢地、漸進式變稀疏', next: 'q_patch' }
-    ]
+  female_aga: {
+    title: '較符合「女性形態落髮（女性雄性禿）」特徵',
+    desc: '您描述的瀰漫性稀疏型態，較符合女性型雄性禿（FPHL）的常見表現，但仍需排除甲狀腺功能異常、缺鐵性貧血、多囊性卵巢症候群等其他內分泌或全身性因素。',
+    goLabel: '查看雄性禿女性版完整衛教內容', goGender: 'female'
   },
-  q_patch: {
-    text: '頭皮上是否有一塊或多塊「完全光滑、無毛髮」的圓形或橢圓形區域？',
-    options: [
-      { label: '是，有明顯的局部光滑無毛區塊', result: 'RESULT_AREATA' },
-      { label: '否，是整體性的稀疏，沒有局部光滑塊狀', next: 'q_pattern' }
-    ]
+  acute_telogen: {
+    title: '較符合「急性休止期落髮」特徵',
+    desc: '短期內大量落髮，且伴隨明確誘因（如手術、生產、外傷、飲食改變、壓力或環境改變等），較符合急性休止期落髮（Acute Telogen Effluvium）的表現。多數會在誘因移除後數月內逐漸恢復。'
   },
-  q_duration: {
-    text: '這樣的大量落髮情形持續多久了？',
-    options: [
-      { label: '小於 3 個月', next: (a) => a.q_sudden === '是，掉髮量明顯突然增加' ? 'RESULT_TELOGEN' : 'q_patch' },
-      { label: '3–6 個月', next: (a) => a.q_sudden === '是，掉髮量明顯突然增加' ? 'RESULT_TELOGEN' : 'q_patch' },
-      { label: '6 個月以上', next: 'q_patch' }
-    ]
+  chronic_telogen: {
+    title: '較符合「慢性休止期落髮」特徵',
+    desc: '持續較長時間、反覆或波動性的瀰漫性落髮，較符合慢性休止期落髮的表現，成因可能包含長期壓力、甲狀腺功能異常、鐵質缺乏等，建議進一步檢查以找出潛在原因。'
   },
-  q_pattern: {
-    text: '主要的落髮／頭皮變化型態比較接近下列何者？',
-    dependsOn: 'q_gender',
-    optionsMale: [
-      { label: '前額兩側髮際線後退，呈 M 字型', next: 'q_family' },
-      { label: '頭頂逐漸稀疏（俗稱地中海）', next: 'q_family' },
-      { label: '前額與頭頂都有稀疏現象', next: 'q_family' },
-      { label: '整頭均勻變稀疏，找不到特定型態', next: 'q_family' }
-    ],
-    optionsFemale: [
-      { label: '頭頂中線頭皮變寬，呈聖誕樹型', next: 'q_family' },
-      { label: '整頭均勻變稀疏，頭皮較容易看見', next: 'q_family' },
-      { label: '髮量整體變少但型態不明顯', next: 'q_family' }
-    ]
+  areata: {
+    title: '較符合「圓禿」特徵',
+    desc: '局部邊界清楚的落髮區塊，甚至合併眉毛、睫毛或體毛脫落，較符合圓禿（Alopecia Areata）的表現，為自體免疫相關疾病，建議儘早就診、及早介入治療效果較好。'
   },
-  q_family: {
-    text: '家族中（父母、兄弟姊妹等）是否有明顯落髮或雄性禿病史？',
-    options: [
-      { label: '有', next: 'q_hormone' },
-      { label: '沒有', next: 'q_hormone' },
-      { label: '不確定', next: 'q_hormone' }
-    ]
-  },
-  q_hormone: {
-    text: '男性版',
-    dependsOn: 'q_gender',
-    textMale: '是否合併頭皮出油量增加、粉刺或頭皮屑增多？',
-    textFemale: '是否有月經週期不規則、多毛（臉部／體毛增生）或痤瘡等情形？',
-    optionsMale: [
-      { label: '是', next: 'q_age' },
-      { label: '否', next: 'q_age' },
-      { label: '不確定', next: 'q_age' }
-    ],
-    optionsFemale: [
-      { label: '是', next: 'q_age' },
-      { label: '否', next: 'q_age' },
-      { label: '不確定', next: 'q_age' }
-    ]
-  },
-  q_age: {
-    text: '請問您的年齡區間是？',
-    options: [
-      { label: '20 歲以下', next: 'q_current' },
-      { label: '20–35 歲', next: 'q_current' },
-      { label: '35–50 歲', next: 'q_current' },
-      { label: '50 歲以上', next: 'q_current' }
-    ]
-  },
-  q_current: {
-    text: '目前是否已經在使用落髮相關的藥物或產品？',
-    options: [
-      { label: '是', next: 'q_severity' },
-      { label: '否', next: 'q_severity' }
-    ]
-  },
-  q_severity: {
-    text: '落髮這件事對您造成的困擾程度？',
-    options: [
-      { label: '輕微，只是有點在意', next: (a) => a.q_gender === '男性' ? 'RESULT_MALE_AGA' : 'RESULT_FEMALE_AGA' },
-      { label: '中等，會影響到自信心', next: (a) => a.q_gender === '男性' ? 'RESULT_MALE_AGA' : 'RESULT_FEMALE_AGA' },
-      { label: '嚴重，造成明顯困擾', next: (a) => a.q_gender === '男性' ? 'RESULT_MALE_AGA' : 'RESULT_FEMALE_AGA' }
-    ]
+  other: {
+    title: '型態較不典型，建議由醫師進一步鑑別',
+    desc: '您所描述的情形無法明確歸類至單一常見落髮型態。落髮成因多元，建議由醫師詳細問診、理學檢查，並安排必要的進一步檢查以確認病因。'
   }
 };
 
-export const QUIZ_RESULTS = {
-  RESULT_TELOGEN: {
-    title: '較符合「休止期落髮」特徵',
-    desc: '突然且短期內（3–6 個月內）大量落髮，較符合休止期落髮（Telogen Effluvium）的特徵，常見誘因包含壓力、生產、手術、發燒、快速減重、營養不足或部分藥物等。多數會在誘因移除後數月內逐漸恢復，但仍建議至皮膚科門診由醫師評估，排除其他潛在病因。',
-    tone: 'info'
+export const SELF_CHECK_QUESTIONS = [
+  {
+    id: 'q1_gender', text: '請問您的性別是？', type: 'single',
+    options: [
+      { label: '男', points: { male_aga: 1, acute_telogen: 1, chronic_telogen: 1, areata: 1, other: 1 } },
+      { label: '女', points: { female_aga: 1, acute_telogen: 1, chronic_telogen: 1, areata: 1, other: 1 } }
+    ]
   },
-  RESULT_AREATA: {
-    title: '較符合「圓禿」特徵',
-    desc: '局部圓形或橢圓形的完全光滑無毛區塊，較符合圓禿（Alopecia Areata）的表現，為自體免疫相關疾病。建議儘早至皮膚科門診就診，及早介入治療效果較好。',
-    tone: 'info'
+  {
+    id: 'q2_pcos', text: '是否有月經週期不規則、手腳等體毛較為茂盛、容易長痘痘的情形？', type: 'single',
+    showIf: (a) => a.q1_gender === '女',
+    options: [
+      { label: '是', points: { female_aga: 1 } },
+      { label: '否', points: {} }
+    ]
   },
-  RESULT_MALE_AGA: {
-    title: '較符合「男性雄性禿（AGA）」特徵',
-    desc: '您描述的漸進式落髮型態、家族史與好發部位，較符合男性型雄性禿的常見表現。建議進一步閱讀雄性禿男性版的完整衛教內容，並至門診由醫師確認分期與擬定治療計畫。',
-    tone: 'aga', gender: 'male'
+  {
+    id: 'q3_age', text: '請問您的年齡區間是？', type: 'single',
+    options: [
+      { label: '20 歲以下', points: { areata: 1, acute_telogen: 1, other: 1 } },
+      { label: '20–35 歲', points: { male_aga: 1, female_aga: 1, chronic_telogen: 1 } },
+      { label: '35–50 歲', points: { male_aga: 2, female_aga: 2, chronic_telogen: 1 } },
+      { label: '50 歲以上', points: { male_aga: 2, female_aga: 2, chronic_telogen: 2 } }
+    ]
   },
-  RESULT_FEMALE_AGA: {
-    title: '較符合「女性雄性禿（FPHL）」特徵',
-    desc: '您描述的瀰漫性稀疏型態，較符合女性型雄性禿的常見表現，但仍需排除甲狀腺、貧血、多囊性卵巢症候群等其他內分泌因素。建議進一步閱讀雄性禿女性版的完整衛教內容，並至門診安排評估與必要抽血檢查。',
-    tone: 'aga', gender: 'female'
+  {
+    id: 'q4_type', text: '落髮型態比較接近下列何者？', type: 'single',
+    options: [
+      { label: '局部落髮（特定區塊）', points: { areata: 3, other: 1 } },
+      { label: '瀰漫性落髮（整體均勻變稀疏）', points: { male_aga: 1, female_aga: 1, acute_telogen: 1, chronic_telogen: 1, other: 1 } }
+    ]
+  },
+  {
+    id: 'q5_patch', text: '頭皮上是否有一塊或多塊「邊界清楚」的落髮區塊？', type: 'single',
+    options: [
+      { label: '是', points: { areata: 3 } },
+      { label: '否', points: {} }
+    ]
+  },
+  {
+    id: 'q6_distribution', text: '落髮主要分佈在哪些部位？（可多選）', type: 'multi',
+    options: [
+      { label: '頭頂', points: { male_aga: 1, female_aga: 1, acute_telogen: 1, chronic_telogen: 1 } },
+      { label: '頭髮分線變寬（頭頂中線）', points: { female_aga: 2, acute_telogen: 1, chronic_telogen: 1 } },
+      { label: '前額髮際線後退', points: { male_aga: 2, acute_telogen: 1, chronic_telogen: 1 } },
+      { label: '雙邊顳側', points: { acute_telogen: 1, chronic_telogen: 1 } },
+      { label: '枕側（後腦）', points: { acute_telogen: 1, chronic_telogen: 1 } },
+      { label: '其他部位', points: { acute_telogen: 1, chronic_telogen: 1 } },
+      { label: '沒有特別集中的部位', points: {} }
+    ]
+  },
+  {
+    id: 'q7_brow', text: '眉毛、睫毛或手腳毛是否也有脫落的情形？', type: 'single',
+    options: [
+      { label: '是', points: { areata: 2 } },
+      { label: '否', points: {} }
+    ]
+  },
+  {
+    id: 'q8_duration', text: '落髮持續的時間大約多久？', type: 'single',
+    options: [
+      { label: '30 天內', points: { acute_telogen: 2, areata: 1, other: 1 } },
+      { label: '1–3 個月內', points: { areata: 1, other: 1 } },
+      { label: '3 個月到 2 年', points: { male_aga: 1, female_aga: 1, chronic_telogen: 2, other: 1 } },
+      { label: '2 年以上', points: { male_aga: 2, female_aga: 2, chronic_telogen: 2, other: 1 } }
+    ]
+  },
+  {
+    id: 'q9_trigger', text: '開始察覺落髮前的半年內，是否有體重明顯下降、手術、外傷、飲食習慣改變、工作壓力或環境改變、生產等情形？', type: 'single',
+    options: [
+      { label: '是', points: { acute_telogen: 2, chronic_telogen: 1 } },
+      { label: '否', points: {} }
+    ]
+  },
+  {
+    id: 'q10_family', text: '三等親內的家人是否也有落髮的問題？', type: 'single',
+    options: [
+      { label: '是', points: { male_aga: 2, female_aga: 2 } },
+      { label: '否 / 不確定', points: {} }
+    ]
   }
-};
+];
