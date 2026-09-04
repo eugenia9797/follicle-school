@@ -1,0 +1,56 @@
+---
+import ImageSlot from './ImageSlot.astro';
+
+const {
+  stages,
+  slotPrefix,
+  scaleName,
+  chipMin = 110,
+  vertexStageId = null,
+  placeholder = '分期示意圖（圖片準備中）',
+} = Astro.props;
+---
+
+<div class="stage-chips" style={`--chip-min:${chipMin}px;`}>
+  {
+    stages.map((stage) => (
+      <button
+        type="button"
+        class="stage-chip"
+        data-stage-toggle={stage.id}
+        aria-expanded="false"
+        aria-controls={`stage-${stage.id}`}
+      >
+        <span class="stage-chip__id">{stage.id}</span>
+        <span class="stage-chip__title">{stage.title}</span>
+      </button>
+    ))
+  }
+</div>
+
+{
+  stages.map((stage) => (
+    <div class="stage-panel" id={`stage-${stage.id}`} data-stage-panel={stage.id} hidden>
+      <ImageSlot
+        id={`${slotPrefix}${stage.id}`}
+        class="stage-panel__img"
+        radius={10}
+        alt={`${scaleName}${stage.title}示意圖`}
+        placeholder={placeholder}
+      />
+      <div class="stage-panel__body">
+        <p class="stage-panel__title">{stage.title}</p>
+        <p class="stage-panel__desc">{stage.desc}</p>
+      </div>
+      {vertexStageId === stage.id && (
+        <ImageSlot
+          id={`${slotPrefix}${stage.id}-vertex`}
+          class="stage-panel__img stage-panel__img--vertex"
+          radius={10}
+          alt={`${scaleName}${stage.title} vertex 型示意圖`}
+          placeholder="vertex 型示意圖（圖片準備中）"
+        />
+      )}
+    </div>
+  ))
+}

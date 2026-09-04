@@ -1,0 +1,82 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import ImageSlot from '../../components/ImageSlot.astro';
+import StageAccordion from '../../components/StageAccordion.astro';
+import TreatmentComparison from '../../components/TreatmentComparison.astro';
+import Faq from '../../components/Faq.astro';
+import Lightbox from '../../components/Lightbox.astro';
+import { MALE_FAQ, NORWOOD_STAGES } from '../../data/TreatmentData.js';
+import { buildCategories, collectLightboxes } from '../../lib/treatments.js';
+
+const categories = buildCategories('male');
+const lightboxes = collectLightboxes(categories);
+
+const description =
+  '男性雄性禿衛教：DHT 造成毛囊微小化的致病機轉、Hamilton–Norwood 分期、皮膚鏡表現，以及口服與外用藥物、LLLT、PRP、植髮等治療的證據等級、效果與費用比較。';
+
+const costBanner =
+  '下列治療效果與費用會因院所、醫師操作及個人體質而有所不同，象限圖與表格僅供衛教參考，非實際療效或收費承諾；實際治療計畫與費用請以醫師當面診察評估之結果為主。';
+---
+
+<BaseLayout title="雄性禿：男性版" description={description} current="aga">
+  <section class="wrap" style="padding-block:40px 90px;">
+    <p class="breadcrumb"><a href="/aga/">雄性禿</a> ／ 男性版</p>
+    <h1 class="page-title">雄性禿：男性版</h1>
+
+    <h2 class="section-title" style="margin-bottom:12px;">致病機轉</h2>
+    <p class="lede">
+      睪固酮（Testosterone）在毛囊中經由 5α-reductase 酵素轉化為二氫睪固酮（DHT），DHT
+      與雄性素受體結合後，會使基因體質敏感的毛囊逐漸「微小化」（miniaturization）：生長期縮短、毛髮變細變軟、最終萎縮消失。此過程與遺傳體質高度相關，屬多基因遺傳。
+    </p>
+    <ImageSlot
+      id="male-mechanism"
+      radius={14}
+      alt="毛囊微小化示意圖：睪固酮經 5α-reductase 轉化為 DHT 後造成毛囊逐漸萎縮"
+      placeholder="毛囊微小化示意圖（圖片準備中）"
+      style="width:100%;height:350px;margin:18px 0 36px;"
+      widths={[700, 1052, 1400, 2104]}
+      sizes="(min-width: 1148px) 1052px, 92vw"
+      loading="eager"
+    />
+
+    <h2 class="section-title">臨床表現與分期：Hamilton–Norwood Scale</h2>
+    <p class="hint">點選各分期卡片查看說明</p>
+    <StageAccordion
+      stages={NORWOOD_STAGES}
+      slotPrefix="norwood-stage-"
+      scaleName="Hamilton–Norwood "
+      chipMin={110}
+      vertexStageId="III"
+    />
+    <ImageSlot
+      id="norwood-overview"
+      radius={14}
+      alt="Hamilton–Norwood Scale 男性雄性禿分期總圖"
+      placeholder="Hamilton–Norwood Scale 總圖（圖片準備中）"
+      style="width:100%;height:550px;margin-bottom:36px;"
+    />
+
+    <h2 class="section-title" style="margin-top:32px;">皮膚鏡（Dermoscopy）表現</h2>
+    <ul class="bullets">
+      <li>同一區域毛髮直徑變異度 &gt; 20%（毛髮粗細不均），頭髮變細軟、汗毛化(vellus-hair like) (紅色箭頭)</li>
+      <li>黃點徵象（yellow dots）：空的毛囊開口(*)</li>
+      <li>單根毛囊單位比例增加（毛囊單位內毛髮數減少）</li>
+      <li>前額／頭頂區毛囊密度較枕部明顯降低</li>
+    </ul>
+    <div class="derm-grid">
+      <ImageSlot id="male-derm-1" radius={12} alt="男性雄性禿皮膚鏡影像" placeholder="皮膚鏡影像（圖片準備中）" />
+      <ImageSlot id="male-derm-2" radius={12} alt="皮膚鏡下的黃點徵象" placeholder="黃點徵象（圖片準備中）" />
+      <ImageSlot id="male-derm-3" radius={12} alt="皮膚鏡下的毛髮直徑變異" placeholder="毛髮直徑變異（圖片準備中）" />
+    </div>
+
+    <TreatmentComparison categories={categories} banner={costBanner} />
+
+    <Faq items={MALE_FAQ} idPrefix="faq-m" />
+  </section>
+
+  <Lightbox lightboxes={lightboxes} />
+</BaseLayout>
+
+<script>
+  import '../../scripts/aga.js';
+</script>

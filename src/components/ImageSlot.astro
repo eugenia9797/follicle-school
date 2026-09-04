@@ -1,0 +1,56 @@
+---
+import { Image } from 'astro:assets';
+import { getSlot, slotTransform } from '../lib/slots.js';
+
+const {
+  id,
+  alt = '',
+  fit = 'cover',
+  radius = 12,
+  placeholder = '',
+  class: className,
+  style = '',
+  widths,
+  sizes,
+  loading = 'lazy',
+} = Astro.props;
+
+const slot = getSlot(id);
+const transform = slotTransform(slot);
+const frameStyle = `--slot-radius:${radius}px;${style}`;
+const imgStyle = `object-fit:${fit}` + (transform ? `;transform:${transform}` : '');
+---
+
+{
+  slot ? (
+    <div class:list={['slot', className]} style={frameStyle}>
+      {slot.optimize ? (
+        <Image
+          src={slot.image}
+          alt={alt}
+          widths={widths}
+          sizes={sizes}
+          loading={loading}
+          decoding="async"
+          class="slot__img"
+          style={imgStyle}
+        />
+      ) : (
+        <img
+          src={slot.image.src}
+          width={slot.image.width}
+          height={slot.image.height}
+          alt={alt}
+          loading={loading}
+          decoding="async"
+          class="slot__img"
+          style={imgStyle}
+        />
+      )}
+    </div>
+  ) : (
+    <div class:list={['slot', 'slot--empty', className]} style={frameStyle}>
+      <span class="slot__placeholder">{placeholder}</span>
+    </div>
+  )
+}

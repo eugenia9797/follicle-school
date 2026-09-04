@@ -1,0 +1,29 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+
+const description =
+  '雄性禿（Androgenetic Alopecia, AGA）是最常見的落髮型態，成因與遺傳體質及雄性素代謝有關。認識男性與女性雄性禿的分期、皮膚鏡表現與治療選擇。';
+---
+
+<BaseLayout title="雄性禿（AGA）總覽" description={description} current="aga">
+  <section class="wrap wrap--narrow" style="padding-block:56px;">
+    <h1 class="page-title" style="margin-bottom:18px;">雄性禿（Androgenetic Alopecia, AGA）</h1>
+    <p class="lede lede--lg">
+      雄性禿是最常見的落髮型態，成因與遺傳體質及雄性素代謝有關，男女皆會發生，但表現型態與好發部位不同。盛行率隨年齡增加：男性約半數在
+      50 歲前會出現不同程度的雄性禿，女性盛行率略低，但停經後比例明顯上升。及早辨識分期並介入治療，可延緩落髮進程並改善毛髮密度。
+    </p>
+
+    <div class="split-grid">
+      <a class="split-card" href="/aga/male/">
+        <span class="split-card__title">男性版</span>
+        <span class="split-card__desc">M 字後退、頭頂稀疏，Hamilton–Norwood 分期</span>
+        <span class="split-card__more">查看內容 →</span>
+      </a>
+      <a class="split-card" href="/aga/female/">
+        <span class="split-card__title">女性版</span>
+        <span class="split-card__desc">頭頂瀰漫性稀疏，Ludwig 分期，需排除內分泌因素</span>
+        <span class="split-card__more">查看內容 →</span>
+      </a>
+    </div>
+  </section>
+</BaseLayout>

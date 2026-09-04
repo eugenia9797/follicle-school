@@ -1,0 +1,16 @@
+---
+import { MEDICAL_DISCLAIMER, SITE_NAME } from '../consts.js';
+
+const year = new Date().getFullYear();
+---
+
+<footer class="site-footer">
+  <div class="site-footer__inner">
+    <p class="site-footer__disclaimer">⚕ 醫療免責聲明：{MEDICAL_DISCLAIMER}</p>
+    <div class="site-footer__meta">
+      <span>門診資訊：請洽診所服務台或官方網站查詢門診時間</span>
+      <span>掛號方式：現場掛號／電話掛號／線上掛號（請依院所實際規定）</span>
+      <span>© {year} {SITE_NAME}</span>
+    </div>
+  </div>
+</footer>

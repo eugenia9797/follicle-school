@@ -1,0 +1,18 @@
+---
+import { EVIDENCE_INFO } from '../data/TreatmentData.js';
+
+const grades = [
+  EVIDENCE_INFO.A,
+  EVIDENCE_INFO.Bplus,
+  EVIDENCE_INFO.B,
+  EVIDENCE_INFO.C,
+  EVIDENCE_INFO.D,
+  EVIDENCE_INFO.E,
+];
+---
+
+<div class="evidence-legend" id="evidence-legend" hidden>
+  {grades.map((line) => <p>{line}</p>)}
+  <p class="is-disclaimer">{EVIDENCE_INFO.disclaimer}</p>
+  <p>效果星等（★1–5）為臨床常見療效強度之概略呈現，實際效果因人而異。</p>
+</div>

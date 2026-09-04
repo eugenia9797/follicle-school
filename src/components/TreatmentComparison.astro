@@ -1,0 +1,169 @@
+---
+import EvidenceLegend from './EvidenceLegend.astro';
+import { Y_TICKS } from '../lib/treatments.js';
+
+const { categories, banner } = Astro.props;
+---
+
+<div class="compare-head">
+  <h2 class="section-title" style="margin:0;">治療方式比較</h2>
+  <button
+    type="button"
+    class="pill-toggle"
+    data-legend-toggle
+    aria-expanded="false"
+    aria-controls="evidence-legend"
+  >ⓘ 證據等級與效果星等說明</button>
+</div>
+
+<p class="notice notice--warn" style="margin:0 0 16px;">⚠ {banner}</p>
+
+<EvidenceLegend />
+
+<p class="hint--sm">點選分類展開詳細治療項目與比較表格</p>
+
+<div class="cat-grid">
+  {
+    categories.map((cat) => (
+      <button
+        type="button"
+        class="cat-card"
+        data-cat-toggle={cat.key}
+        aria-expanded="false"
+        aria-controls={`cat-${cat.key}`}
+      >
+        <span class="cat-card__top">
+          <span class="cat-card__title">{cat.title}</span>
+          <span class="cat-card__chevron" aria-hidden="true">⌄</span>
+        </span>
+        <span class="cat-card__summary">{cat.summary}</span>
+      </button>
+    ))
+  }
+</div>
+
+{
+  categories.map((cat) => (
+    <div class="cat-panel" id={`cat-${cat.key}`} data-cat-panel={cat.key} hidden>
+      {cat.warningBanner && <p class="notice notice--warn" style="margin:0;">⚠ {cat.warningBanner}</p>}
+
+      <div class="quad">
+        <p class="quad__caption">
+          縱軸：費用級距（$～$$$$$，越上越貴）／橫軸：治療效果（越右越佳）・點選圖中項目查看詳細內容
+        </p>
+        <div class="quad__plot">
+          {Y_TICKS.map((tick) => (
+            <>
+              <span class="quad__gridline" style={`bottom:${tick.pct}%;`} aria-hidden="true" />
+              <span class="quad__ticklabel" style={`bottom:${tick.pct}%;`} aria-hidden="true">
+                {tick.label}
+              </span>
+            </>
+          ))}
+          {cat.points.map((point) => (
+            <span
+              class="quad__point"
+              data-point={point.id}
+              style={`left:${point.x}%;bottom:${point.y}%;--dot-color:${point.color};--label-dy:${point.labelDy}px;`}
+            >
+              <button
+                type="button"
+                class="quad__dot"
+                data-treatment-toggle={point.id}
+                aria-expanded="false"
+                aria-controls={`t-${cat.key}-${point.id}`}
+              >
+                <span class="visually-hidden">{point.name}</span>
+              </button>
+              <button
+                type="button"
+                class="quad__label"
+                data-treatment-toggle={point.id}
+                tabindex="-1"
+                aria-hidden="true"
+              >
+                {point.name}
+              </button>
+            </span>
+          ))}
+        </div>
+        <div class="quad__axis" aria-hidden="true">
+          <span>效果較低</span>
+          <span>效果較高 →</span>
+        </div>
+      </div>
+
+      {cat.treatments.map((t) => (
+        <div
+          class:list={['treatment', t.warning && 'is-warning']}
+          id={`t-${cat.key}-${t.id}`}
+          data-treatment-panel={t.id}
+          hidden
+        >
+          <div>
+            <p class="treatment__label">治療方式</p>
+            <p class="treatment__name">{t.name}</p>
+            <p class="treatment__price">預估自費級距：{t.priceTier}</p>
+          </div>
+
+          <div>
+            <p class="treatment__label">證據等級</p>
+            <span
+              class="treatment__evidence"
+              style={`background:${t.evidenceBg};color:${t.evidenceFg};`}
+            >
+              {t.evidenceLabel} 級
+            </span>
+          </div>
+
+          <div>
+            <p class="treatment__label">效果</p>
+            <p class="treatment__stars" aria-label={`效果 ${t.stars} 星，滿分 5 星`}>
+              <span aria-hidden="true">{t.starsText}</span>
+            </p>
+          </div>
+
+          <div>
+            <p class="treatment__label">副作用</p>
+            <ul>
+              {t.sideEffects.map((se) => (
+                <li>{se}</li>
+              ))}
+            </ul>
+          </div>
+
+          <div>
+            <p class="treatment__label">注意事項</p>
+            <ul>
+              {t.notes.map((note) => (
+                <li>{note}</li>
+              ))}
+            </ul>
+            {t.warning && (
+              <p class="notice notice--danger" style="margin:8px 0 0;">⚠ {t.warningText}</p>
+            )}
+          </div>
+
+          {t.hideProduct ? (
+            <div />
+          ) : (
+            <div>
+              <p class="treatment__label">商品樣式</p>
+              {t.notAvailableTW ? (
+                <div class="thumb thumb--unavailable">
+                  <span class="thumb__icon" aria-hidden="true">🚫</span>
+                  <span>台灣未上市</span>
+                </div>
+              ) : (
+                <button type="button" class="thumb thumb--open" data-lightbox-open={t.id}>
+                  <span class="thumb__icon" aria-hidden="true">🔍</span>
+                  <span>{t.thumbLabel}</span>
+                </button>
+              )}
+            </div>
+          )}
+        </div>
+      ))}
+    </div>
+  ))
+}

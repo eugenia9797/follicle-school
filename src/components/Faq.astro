@@ -1,0 +1,25 @@
+---
+const { items, idPrefix = 'faq' } = Astro.props;
+---
+
+<h2 class="section-title" style="margin-top:40px;">常見問題 FAQ</h2>
+
+{
+  items.map((item, i) => (
+    <div class="faq">
+      <button
+        type="button"
+        class="faq__q"
+        data-faq-toggle
+        aria-expanded="false"
+        aria-controls={`${idPrefix}-${i}`}
+      >
+        <span>{item.q}</span>
+        <span class="faq__sign" aria-hidden="true" />
+      </button>
+      <div class="faq__a" id={`${idPrefix}-${i}`} hidden>
+        {item.a}
+      </div>
+    </div>
+  ))
+}

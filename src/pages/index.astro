@@ -1,0 +1,93 @@
+---
+import { Image } from 'astro:assets';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import iconAga from '../assets/icon-aga.jpg';
+import iconTelogen from '../assets/icon-telogen.jpg';
+import iconAreata from '../assets/icon-areata.jpg';
+import iconQuiz from '../assets/icon-quiz.jpg';
+
+// The design positions each cover crop by hand. Offsets are expressed as a
+// percentage of the card so the framing survives a responsive resize — they
+// match the original pixel values at the 248px desktop card width.
+const topics = [
+  {
+    href: '/aga/',
+    image: iconAga,
+    alt: '雄性禿',
+    title: '雄性禿（AGA）',
+    desc: '最常見賀爾蒙造成的漸進式落髮',
+    imgStyle: 'object-position:center 25%;top:-2.02%',
+  },
+  {
+    href: '/coming-soon/telogen/',
+    image: iconTelogen,
+    alt: '休止期落髮',
+    title: '休止期落髮',
+    desc: '壓力、產後常見短期落髮',
+    imgStyle: '',
+  },
+  {
+    href: '/coming-soon/areata/',
+    image: iconAreata,
+    alt: '圓禿',
+    title: '圓禿',
+    desc: '圓形局部無毛，與免疫相關',
+    imgStyle: 'top:-4.03%',
+  },
+  {
+    href: '/quiz/',
+    image: iconQuiz,
+    alt: '自我落髮檢測',
+    title: '自我落髮檢測',
+    desc: '回答問題，初步了解落髮型態',
+    imgStyle: 'width:147.98%;height:133.47%;left:-24.19%;top:-20.16%',
+  },
+];
+
+const cardWidths = [250, 340, 500, 680, 1000];
+const cardSizes = '(min-width: 1148px) 250px, (min-width: 700px) 33vw, 92vw';
+---
+
+<BaseLayout current="home">
+  <section class="hero">
+    <p class="hero__eyebrow">皮膚科衛教專區</p>
+    <h1 class="hero__title">認識落髮，找到合適的治療方向</h1>
+    <p class="hero__text">
+      落髮成因多元，正確診斷是有效治療的第一步。以下依常見落髮型態整理衛教資訊，協助您與醫師討論最合適的治療計畫。
+    </p>
+  </section>
+
+  <section class="wrap" style="padding-bottom:40px;">
+    <h2 class="visually-hidden">落髮型態</h2>
+    <div class="topic-grid">
+      {
+        topics.map((topic, i) => (
+          <a class="topic-card" href={topic.href}>
+            <Image
+              src={topic.image}
+              alt={topic.alt}
+              widths={cardWidths}
+              sizes={cardSizes}
+              loading={i < 2 ? 'eager' : 'lazy'}
+              decoding="async"
+              style={topic.imgStyle}
+            />
+            <span class="topic-card__scrim" />
+            <span class="topic-card__body">
+              <span class="topic-card__title">{topic.title}</span>
+              <span class="topic-card__desc">{topic.desc}</span>
+            </span>
+          </a>
+        ))
+      }
+    </div>
+  </section>
+
+  <section class="wrap wrap--narrow" style="padding-block:16px 80px;">
+    <div class="cta">
+      <p class="cta__title">不知道自己是哪種落髮？</p>
+      <p class="cta__text">花 2 分鐘回答問題，初步判斷可能的落髮型態</p>
+      <a class="btn" href="/quiz/">開始自我檢測 →</a>
+    </div>
+  </section>
+</BaseLayout>

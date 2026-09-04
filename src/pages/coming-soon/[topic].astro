@@ -1,0 +1,36 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+
+export function getStaticPaths() {
+  return [
+    {
+      params: { topic: 'telogen' },
+      props: {
+        name: '休止期落髮',
+        description:
+          '休止期落髮（Telogen Effluvium）衛教內容建置中。常見誘因包含壓力、生產、手術、發燒、快速減重與營養不足。',
+      },
+    },
+    {
+      params: { topic: 'areata' },
+      props: {
+        name: '圓禿',
+        description: '圓禿（Alopecia Areata）衛教內容建置中。圓禿為自體免疫相關疾病，建議及早就醫評估。',
+      },
+    },
+  ];
+}
+
+const { name, description } = Astro.props;
+---
+
+<BaseLayout title={`${name}｜衛教內容建置中`} description={description} noindex>
+  <section class="simple-page">
+    <p class="simple-page__eyebrow">{name}</p>
+    <h1 class="simple-page__title">衛教內容建置中</h1>
+    <p class="simple-page__text">
+      我們正在準備「{name}」的完整衛教內容，敬請期待。若您目前有相關困擾，建議先至皮膚科門診由醫師評估。
+    </p>
+    <a class="btn btn--sm" href="/">返回首頁</a>
+  </section>
+</BaseLayout>

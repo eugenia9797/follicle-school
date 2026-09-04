@@ -1,0 +1,28 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { FIRST_STEP, questionHTML } from '../lib/quiz-view.js';
+
+const description =
+  '花 2 分鐘回答問題，初步判斷可能的落髮型態：雄性禿、休止期落髮或圓禿。結果僅供初步參考，不能取代醫師之當面診斷。';
+
+// The first question never depends on an answer, so it can be rendered at build
+// time — the page is useful the moment it paints.
+const firstQuestion = questionHTML({ stepId: FIRST_STEP, answers: {}, historyLength: 0 });
+---
+
+<BaseLayout title="自我落髮檢測" description={description} current="quiz">
+  <section class="quiz">
+    <h1 class="visually-hidden">自我落髮檢測</h1>
+    <div id="quiz-root" set:html={firstQuestion} />
+    <noscript>
+      <p class="hint" style="margin-top:24px;">
+        自我檢測需要啟用 JavaScript 才能作答。您也可以直接閱讀
+        <a href="/aga/">雄性禿衛教內容</a>，或至皮膚科門診由醫師評估。
+      </p>
+    </noscript>
+  </section>
+</BaseLayout>
+
+<script>
+  import '../scripts/quiz.js';
+</script>

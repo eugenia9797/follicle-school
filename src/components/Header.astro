@@ -1,0 +1,98 @@
+---
+import { Image } from 'astro:assets';
+import logo from '../assets/logo.png';
+import { SITE_NAME, SITE_NAME_EN } from '../consts.js';
+
+// `current` marks the active top-level section: 'home' | 'aga' | 'quiz' | ''.
+const { current = '' } = Astro.props;
+---
+
+<header class="site-header">
+  <div class="site-header__bar">
+    <a class="brand" href="/">
+      <Image src={logo} alt={`${SITE_NAME} ${SITE_NAME_EN}`} widths={[78, 156]} sizes="78px" loading="eager" />
+      <span class="brand__text">
+        <span class="brand__name">{SITE_NAME}</span>
+        <span class="brand__latin">{SITE_NAME_EN}</span>
+      </span>
+    </a>
+
+    <button
+      type="button"
+      class="nav-toggle"
+      data-nav-toggle
+      aria-expanded="false"
+      aria-controls="mobile-nav"
+      aria-label="開啟選單"
+    >☰</button>
+
+    <nav class="nav" aria-label="主選單">
+      <a class="nav__link" href="/" aria-current={current === 'home' ? 'page' : undefined}>首頁</a>
+
+      <span class="nav__group">
+        <button
+          type="button"
+          class:list={['nav__link', current === 'aga' && 'is-active']}
+          data-dropdown-toggle
+          aria-expanded="false"
+          aria-controls="aga-menu"
+        >雄性禿 ▾</button>
+        <span class="nav__menu" id="aga-menu" hidden>
+          <a href="/aga/">總覽介紹</a>
+          <a href="/aga/male/">男性版</a>
+          <a href="/aga/female/">女性版</a>
+        </span>
+      </span>
+
+      <a class="nav__link nav__link--plain" href="/coming-soon/telogen/">休止期落髮</a>
+      <a class="nav__link nav__link--plain" href="/coming-soon/areata/">圓禿</a>
+      <a class="nav__link" href="/quiz/" aria-current={current === 'quiz' ? 'page' : undefined}>自我落髮檢測</a>
+    </nav>
+  </div>
+
+  <nav class="mobile-nav" id="mobile-nav" aria-label="行動版選單" hidden>
+    <a href="/">首頁</a>
+    <a href="/aga/">雄性禿：總覽</a>
+    <a class="is-sub" href="/aga/male/">— 男性版</a>
+    <a class="is-sub" href="/aga/female/">— 女性版</a>
+    <a href="/coming-soon/telogen/">休止期落髮</a>
+    <a href="/coming-soon/areata/">圓禿</a>
+    <a class="is-accent" href="/quiz/">自我落髮檢測</a>
+  </nav>
+</header>
+
+<script>
+  const navToggle = document.querySelector('[data-nav-toggle]');
+  const mobileNav = document.getElementById('mobile-nav');
+  const dropdownToggle = document.querySelector('[data-dropdown-toggle]');
+  const dropdown = document.getElementById('aga-menu');
+
+  function setExpanded(button, panel, open) {
+    if (!button || !panel) return;
+    button.setAttribute('aria-expanded', String(open));
+    panel.hidden = !open;
+  }
+
+  navToggle?.addEventListener('click', () => {
+    setExpanded(navToggle, mobileNav, mobileNav?.hidden ?? false);
+  });
+
+  dropdownToggle?.addEventListener('click', (event) => {
+    event.stopPropagation();
+    setExpanded(dropdownToggle, dropdown, dropdown?.hidden ?? false);
+  });
+
+  document.addEventListener('click', (event) => {
+    const target = event.target;
+    const insideGroup = target instanceof Element && target.closest('.nav__group');
+    if (dropdown && !dropdown.hidden && !insideGroup) {
+      setExpanded(dropdownToggle, dropdown, false);
+    }
+  });
+
+  document.addEventListener('keydown', (event) => {
+    if (event.key !== 'Escape') return;
+    setExpanded(dropdownToggle, dropdown, false);
+    setExpanded(navToggle, mobileNav, false);
+  });
+</script>

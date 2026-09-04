@@ -1,0 +1,195 @@
+{
+  "female-mechanism": {
+    "file": "slots/female-mechanism.webp",
+    "height": 444,
+    "s": 1.0224409247744501,
+    "width": 1200,
+    "x": -0.3560368149687747
+  },
+  "female-mechanism-2": {
+    "file": "slots/female-mechanism-2.webp",
+    "height": 1036,
+    "width": 1036
+  },
+  "lllt-cap-f-photo": {
+    "file": "slots/lllt-cap-f-photo.webp",
+    "height": 538,
+    "width": 808
+  },
+  "lllt-cap-photo": {
+    "file": "slots/lllt-cap-photo.webp",
+    "height": 538,
+    "width": 808
+  },
+  "lllt-laser-f-photo": {
+    "file": "slots/lllt-laser-f-photo.webp",
+    "height": 606,
+    "width": 808
+  },
+  "lllt-laser-photo": {
+    "file": "slots/lllt-laser-photo.webp",
+    "height": 622,
+    "width": 808
+  },
+  "male-derm-1": {
+    "file": "slots/male-derm-1.webp",
+    "height": 686,
+    "width": 686
+  },
+  "male-derm-2": {
+    "file": "slots/male-derm-2.webp",
+    "height": 686,
+    "width": 686
+  },
+  "male-derm-3": {
+    "file": "slots/male-derm-3.webp",
+    "height": 386,
+    "width": 686
+  },
+  "male-mechanism": {
+    "file": "male-mechanism.png",
+    "height": null,
+    "optimize": true,
+    "width": null
+  },
+  "norwood-overview": {
+    "file": "slots/norwood-overview.webp",
+    "height": 900,
+    "width": 1200
+  },
+  "norwood-stage-I": {
+    "file": "slots/norwood-stage-I.webp",
+    "height": 410,
+    "width": 728
+  },
+  "norwood-stage-II": {
+    "file": "slots/norwood-stage-II.webp",
+    "height": 410,
+    "width": 728
+  },
+  "norwood-stage-III": {
+    "file": "slots/norwood-stage-III.webp",
+    "height": 410,
+    "width": 728
+  },
+  "norwood-stage-III-vertex": {
+    "file": "slots/norwood-stage-III-vertex.webp",
+    "height": 410,
+    "width": 728
+  },
+  "norwood-stage-IV": {
+    "file": "slots/norwood-stage-IV.webp",
+    "height": 410,
+    "width": 728
+  },
+  "norwood-stage-V": {
+    "file": "slots/norwood-stage-V.webp",
+    "height": 410,
+    "width": 728
+  },
+  "norwood-stage-VI": {
+    "file": "slots/norwood-stage-VI.webp",
+    "height": 410,
+    "width": 728
+  },
+  "norwood-stage-VII": {
+    "file": "slots/norwood-stage-VII.webp",
+    "height": 410,
+    "width": 728
+  },
+  "nutraceutical-f-photo": {
+    "file": "slots/nutraceutical-f-photo.webp",
+    "height": 606,
+    "width": 808
+  },
+  "nutraceutical-photo": {
+    "file": "slots/nutraceutical-f-photo.webp",
+    "height": 606,
+    "width": 808
+  },
+  "oral-dutasteride-0": {
+    "file": "slots/oral-dutasteride-0.webp",
+    "height": 539,
+    "width": 718
+  },
+  "oral-finasteride-0": {
+    "file": "slots/oral-finasteride-0.webp",
+    "height": 539,
+    "width": 718
+  },
+  "oral-finasteride-1": {
+    "file": "slots/oral-finasteride-1.webp",
+    "height": 539,
+    "width": 718
+  },
+  "oral-finasteride-2": {
+    "file": "slots/oral-finasteride-2.webp",
+    "height": 539,
+    "width": 718
+  },
+  "oral-finasteride-3": {
+    "file": "slots/oral-finasteride-3.webp",
+    "height": 539,
+    "width": 718
+  },
+  "oral-finasteride-4": {
+    "file": "slots/oral-finasteride-4.webp",
+    "height": 539,
+    "width": 718
+  },
+  "oral-finasteride-f-0": {
+    "file": "slots/oral-finasteride-0.webp",
+    "height": 539,
+    "width": 718
+  },
+  "oral-finasteride-f-1": {
+    "file": "slots/oral-finasteride-1.webp",
+    "height": 539,
+    "width": 718
+  },
+  "oral-finasteride-f-2": {
+    "file": "slots/oral-finasteride-2.webp",
+    "height": 539,
+    "width": 718
+  },
+  "oral-finasteride-f-3": {
+    "file": "slots/oral-finasteride-3.webp",
+    "height": 539,
+    "width": 718
+  },
+  "oral-finasteride-f-4": {
+    "file": "slots/oral-finasteride-4.webp",
+    "height": 539,
+    "width": 718
+  },
+  "oral-minoxidil-0": {
+    "file": "slots/oral-minoxidil-0.webp",
+    "height": 561,
+    "width": 748
+  },
+  "oral-minoxidil-f-0": {
+    "file": "slots/oral-minoxidil-0.webp",
+    "height": 561,
+    "width": 748
+  },
+  "topical-finasteride-f-photo": {
+    "file": "slots/topical-finasteride-f-photo.webp",
+    "height": 586,
+    "width": 808
+  },
+  "topical-finasteride-photo": {
+    "file": "slots/topical-finasteride-f-photo.webp",
+    "height": 586,
+    "width": 808
+  },
+  "topical-minoxidil-f-photo": {
+    "file": "slots/topical-minoxidil-f-photo.webp",
+    "height": 606,
+    "width": 808
+  },
+  "topical-minoxidil-photo": {
+    "file": "slots/topical-minoxidil-f-photo.webp",
+    "height": 606,
+    "width": 808
+  }
+}

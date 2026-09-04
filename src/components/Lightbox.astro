@@ -1,0 +1,70 @@
+---
+import ImageSlot from './ImageSlot.astro';
+
+const { lightboxes } = Astro.props;
+const OFF_LABEL = '非該藥物核准適應症（Off-label use），使用前請與醫師充分討論';
+---
+
+<div class="lightbox" id="lightbox" hidden>
+  <div class="lightbox__panel" role="dialog" aria-modal="true" aria-label="商品樣式" tabindex="-1">
+    <button type="button" class="lightbox__close" data-lightbox-close aria-label="關閉">✕</button>
+
+    {
+      lightboxes.map((lb) => (
+        <div class="lightbox__content" data-lightbox-content={lb.id} hidden>
+          <p class="lightbox__title">{lb.name}</p>
+
+          {lb.brands ? (
+            <>
+              <p class="lightbox__hint">市售常見廠牌（點選展開外觀說明）</p>
+              <div class="brand-tabs" role="tablist">
+                {lb.brands.map((brand, i) => (
+                  <button
+                    type="button"
+                    class:list={['brand-tab', i === 0 && 'is-active']}
+                    data-brand-tab={i}
+                    aria-pressed={i === 0 ? 'true' : 'false'}
+                  >
+                    {brand.name}
+                  </button>
+                ))}
+              </div>
+              {lb.brands.map((brand, i) => (
+                <div class="brand-box" data-brand-box={i} hidden={i !== 0}>
+                  <p class="brand-box__name">{brand.name}</p>
+                  <p class="brand-box__appearance">{brand.appearance}</p>
+                  {brand.offLabel && <p class="badge-offlabel">{OFF_LABEL}</p>}
+                  <ImageSlot
+                    id={`${lb.id}-${i}`}
+                    radius={10}
+                    alt={`${brand.name}外觀`}
+                    placeholder="外觀照片（圖片準備中）"
+                    style="width:100%;height:280px;"
+                  />
+                </div>
+              ))}
+              <div class="lightbox__divider" />
+            </>
+          ) : (
+            <ImageSlot
+              id={`${lb.id}-photo`}
+              radius={12}
+              alt={`${lb.name}商品外觀`}
+              placeholder="商品外觀照片（圖片準備中）"
+              style="width:100%;height:280px;margin-bottom:14px;"
+            />
+          )}
+
+          {lb.note && <p class="lightbox__note">{lb.note}</p>}
+          {lb.offLabelNotice && <p class="badge-offlabel">{lb.offLabelNotice}</p>}
+          {lb.typeLabel && (
+            <p class="lightbox__type">
+              <b>劑型：</b>
+              {lb.typeLabel}
+            </p>
+          )}
+        </div>
+      ))
+    }
+  </div>
+</div>
