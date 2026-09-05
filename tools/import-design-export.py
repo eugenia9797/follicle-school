@@ -14,6 +14,10 @@ What it does:
   5. Writes `src/data/slot-manifest.json` — the id -> file/size/pan-zoom map
      that `src/lib/slots.js` reads.
 
+It never touches `src/data/slot-overrides.json` or `src/assets/local/`, which
+hold artwork supplied outside Claude Design; those entries are layered over this
+manifest at build time and survive a re-import.
+
 The Design runtime files (`support.js`, `image-slot.js`) are editor-only and
 are deliberately not imported.
 """
@@ -55,6 +59,18 @@ FULL_RES_ASSETS = [
 # stores a downscaled webp copy, so prefer the original and let Astro resize.
 SLOT_FULL_RES_SOURCE = {"male-mechanism": "male-mechanism.png"}
 
+# The same treatment appears on more than one condition page under a different
+# id. Rather than ask for a duplicate photo, point the later page's slot at the
+# one already in the export. Only applied when the export has no image of its
+# own for that id, so dropping a real photo in still wins.
+SLOT_ALIASES = {
+    "topical-minoxidil-te-photo": "topical-minoxidil-photo",
+    "topical-minoxidil-aa-photo": "topical-minoxidil-photo",
+    "oral-minoxidil-te-photo": "oral-minoxidil-0",
+    "nutraceutical-te-photo": "nutraceutical-photo",
+    "lllt-cap-te-photo": "lllt-cap-photo",
+}
+
 
 def webp_size(b: bytes):
     """(width, height) for a VP8 / VP8L / VP8X webp buffer."""
@@ -84,14 +100,21 @@ import * as D from {json.dumps(str(treatment_data))};
 const used = new Set([
   'male-mechanism', 'norwood-overview', 'male-derm-1', 'male-derm-2', 'male-derm-3',
   'female-mechanism', 'female-mechanism-2', 'ludwig-overview',
-  'female-derm-1', 'female-derm-2', 'female-derm-3'
+  'female-derm-1', 'female-derm-2', 'female-derm-3',
+  'telogen-mechanism', 'telogen-derm-1', 'telogen-derm-2', 'telogen-derm-3',
+  'areata-mechanism', 'areata-derm-1', 'areata-derm-2', 'areata-derm-3'
 ]);
 for (const st of D.NORWOOD_STAGES) {{
   used.add('norwood-stage-' + st.id);
   if (st.id === 'III') used.add('norwood-stage-III-vertex');
 }}
 for (const st of D.FEMALE_STAGES) used.add('ludwig-stage-' + st.id);
-for (const cats of [D.getMaleCategories(), D.getFemaleCategories()]) {{
+for (const st of D.TELOGEN_TYPES) used.add('telogen-type-' + st.id);
+for (const st of D.AREATA_TYPES) used.add('areata-pattern-' + st.id);
+for (const cats of [
+  D.getMaleCategories(), D.getFemaleCategories(),
+  D.getTelogenCategories(), D.getAreataCategories()
+]) {{
   for (const c of cats) for (const t of c.treatments) {{
     const hidden = !!t.hideProduct || ['prp', 'prp-f', 'exosome', 'exosome-f'].includes(t.id);
     if (hidden || t.notAvailableTW) continue;
@@ -184,6 +207,12 @@ def main() -> int:
                     entry[key] = view[key]
             manifest[slot_id] = entry
 
+        aliased = []
+        for alias, target in SLOT_ALIASES.items():
+            if alias in used and alias not in manifest and target in manifest:
+                manifest[alias] = dict(manifest[target])
+                aliased.append(f"{alias} → {target}")
+
         empty = sorted(used - set(manifest))
         (SRC_DATA / "slot-manifest.json").write_text(
             json.dumps(manifest, ensure_ascii=False, indent=2, sort_keys=True) + "\n",
@@ -193,6 +222,8 @@ def main() -> int:
         total = sum(p.stat().st_size for p in SLOT_DIR.iterdir())
         print(f"slots  {len(manifest)} referenced -> {len(by_hash)} files, "
               f"{total / 1024 / 1024:.2f} MB ({skipped} unreferenced slots dropped)")
+        if aliased:
+            print(f"alias  {len(aliased)} slot(s) reuse another page's photo: {', '.join(aliased)}")
         if empty:
             print(f"empty  {len(empty)} slot(s) render as placeholders: {', '.join(empty)}")
     return 0

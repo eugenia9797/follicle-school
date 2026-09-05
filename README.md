@@ -95,11 +95,24 @@ push 完 Cloudflare 會自動重新 build，約 2–3 分鐘後線上就更新�
 補圖有兩種做法：
 
 1. 在 Claude Design 裡把圖拖進對應欄位，重新匯出後跑上面的匯入腳本；或
-2. 把圖片放進 `src/assets/slots/`，再到 `src/data/slot-manifest.json` 加一筆，例如：
+2. 把圖片放進 `src/assets/local/`，再到 `src/data/slot-overrides.json` 加一筆，例如：
 
 ```json
-"ludwig-overview": { "file": "slots/ludwig-overview.webp", "width": 1200, "height": 900 }
+"ludwig-overview": { "file": "local/ludwig-overview.webp", "optimize": true }
 ```
+
+### 自備圖片 vs Design 圖片
+
+圖片來源有兩個，各自有專屬檔案：
+
+| | 來源 | 對照表 | 圖片位置 |
+| --- | --- | --- | --- |
+| Design 匯出 | Claude Design 拖曳的圖 | `slot-manifest.json`（匯入腳本產生，**會被覆寫**） | `src/assets/slots/` |
+| 自己提供 | 直接給的檔案 | `slot-overrides.json`（手動維護，**不會被動到**） | `src/assets/local/` |
+
+**overrides 優先**。所以要覆蓋 Design 的某張圖（例如換一張更好的機轉圖），就在 overrides 加一筆；哪天 Design 那邊的圖才是你要的，把該筆刪掉即可。
+
+`optimize: true` 表示交給 Astro 依螢幕產生多種尺寸——原始檔請放夠大（顯示寬度的 2 倍以上）。
 
 ## 部署到 Cloudflare Pages
 

@@ -21,6 +21,11 @@
     "height": 538,
     "width": 808
   },
+  "lllt-cap-te-photo": {
+    "file": "slots/lllt-cap-photo.webp",
+    "height": 538,
+    "width": 808
+  },
   "lllt-laser-f-photo": {
     "file": "slots/lllt-laser-f-photo.webp",
     "height": 606,
@@ -107,6 +112,11 @@
     "height": 606,
     "width": 808
   },
+  "nutraceutical-te-photo": {
+    "file": "slots/nutraceutical-f-photo.webp",
+    "height": 606,
+    "width": 808
+  },
   "oral-dutasteride-0": {
     "file": "slots/oral-dutasteride-0.webp",
     "height": 539,
@@ -172,6 +182,11 @@
     "height": 561,
     "width": 748
   },
+  "oral-minoxidil-te-photo": {
+    "file": "slots/oral-minoxidil-0.webp",
+    "height": 561,
+    "width": 748
+  },
   "topical-finasteride-f-photo": {
     "file": "slots/topical-finasteride-f-photo.webp",
     "height": 586,
@@ -182,12 +197,22 @@
     "height": 586,
     "width": 808
   },
+  "topical-minoxidil-aa-photo": {
+    "file": "slots/topical-minoxidil-f-photo.webp",
+    "height": 606,
+    "width": 808
+  },
   "topical-minoxidil-f-photo": {
     "file": "slots/topical-minoxidil-f-photo.webp",
     "height": 606,
     "width": 808
   },
   "topical-minoxidil-photo": {
+    "file": "slots/topical-minoxidil-f-photo.webp",
+    "height": 606,
+    "width": 808
+  },
+  "topical-minoxidil-te-photo": {
     "file": "slots/topical-minoxidil-f-photo.webp",
     "height": 606,
     "width": 808

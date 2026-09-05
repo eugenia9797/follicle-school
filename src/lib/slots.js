@@ -1,4 +1,5 @@
 import manifest from '../data/slot-manifest.json';
+import overrides from '../data/slot-overrides.json';
 
 // Every image that came out of the Claude Design export. Eager-globbing them
 // lets `getSlot` resolve an id to a processed asset at build time.
@@ -7,6 +8,12 @@ const files = import.meta.glob('../assets/**/*.{webp,png,jpg,jpeg,avif}', {
   import: 'default',
 });
 
+// slot-manifest.json is regenerated wholesale by tools/import-design-export.py,
+// so artwork supplied outside Claude Design lives in slot-overrides.json and is
+// layered on top. An override always wins: it is the deliberate choice. Delete
+// its entry if the design later carries the picture you want instead.
+const slots = { ...manifest, ...overrides };
+
 /**
  * Resolve an `<image-slot>` id to its image.
  *
@@ -14,7 +21,7 @@ const files = import.meta.glob('../assets/**/*.{webp,png,jpg,jpeg,avif}', {
  * a placeholder frame in that case.
  */
 export function getSlot(id) {
-  const entry = manifest[id];
+  const entry = slots[id];
   if (!entry) return null;
   const image = files[`../assets/${entry.file}`];
   if (!image) return null;
