@@ -1,0 +1,70 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import ImageSlot from '../components/ImageSlot.astro';
+import StageAccordion from '../components/StageAccordion.astro';
+import TreatmentComparison from '../components/TreatmentComparison.astro';
+import Faq from '../components/Faq.astro';
+import Lightbox from '../components/Lightbox.astro';
+import { TELOGEN_FAQ, TELOGEN_TYPES } from '../data/TreatmentData.js';
+import { buildCategories, collectLightboxes } from '../lib/treatments.js';
+import { COST_DISCLAIMER } from '../consts.js';
+
+const categories = buildCategories('telogen');
+const lightboxes = collectLightboxes(categories);
+
+const description =
+  '休止期落髮（Telogen Effluvium）衛教：毛髮週期與誘發同步休止期的生理性壓力、急性與慢性分型、皮膚鏡表現，以及誘因處置、營養檢查、Minoxidil 等治療的證據等級與費用比較。';
+---
+
+<BaseLayout title="休止期落髮（Telogen Effluvium）" description={description} current="telogen">
+  <section class="wrap" style="padding-block:40px 90px;">
+    <h1 class="page-title">休止期落髮（Telogen Effluvium）</h1>
+
+    <h2 class="section-title" style="margin-bottom:12px;">致病機轉</h2>
+    <p class="lede">
+      正常毛髮週期分為生長期（anagen，約 85–90%）、退化期（catagen）與休止期（telogen，約
+      10–15%）。當身體受到明顯的生理性壓力（如手術、生產、高燒疾病、劇烈減重、嚴重心理壓力、藥物或內分泌變化等），會使大量原本處於生長期的毛囊提早、同步進入休止期，並在數月後大量脫落，形成瀰漫性落髮。多數為可逆性反應，找出並處置病因是治療核心。
+    </p>
+    <ImageSlot
+      id="telogen-mechanism"
+      radius={14}
+      alt="毛髮生長週期示意圖：生長期、退化期與休止期"
+      placeholder="毛髮生長週期示意圖（Anagen／Catagen／Telogen）（圖片準備中）"
+      style="width:100%;height:340px;margin:18px 0 36px;"
+    />
+
+    <h2 class="section-title">臨床分型：急性與慢性</h2>
+    <p class="hint">點選卡片查看說明</p>
+    <StageAccordion
+      stages={TELOGEN_TYPES}
+      slotPrefix="telogen-type-"
+      scaleName=""
+      chipMin={220}
+      variant="condition"
+      placeholder="分型示意圖（圖片準備中）"
+    />
+
+    <h2 class="section-title" style="margin-top:32px;">皮膚鏡（Dermoscopy）表現</h2>
+    <ul class="bullets">
+      <li>毛髮直徑變異度大致正常（&lt;20%），有別於雄性禿</li>
+      <li>短再生毛（regrowing hairs）增多</li>
+      <li>空毛囊比例增加，但毛囊密度大致正常</li>
+      <li>頭髮拉扯測試（Hair Pull Test）陽性：輕拉即可拉出多根休止期毛髮</li>
+    </ul>
+    <div class="derm-grid">
+      <ImageSlot id="telogen-derm-1" radius={12} alt="休止期落髮皮膚鏡影像" placeholder="皮膚鏡影像（圖片準備中）" />
+      <ImageSlot id="telogen-derm-2" radius={12} alt="皮膚鏡下的短再生毛" placeholder="短再生毛（圖片準備中）" />
+      <ImageSlot id="telogen-derm-3" radius={12} alt="頭髮拉扯測試示意" placeholder="拉扯測試示意（圖片準備中）" />
+    </div>
+
+    <TreatmentComparison categories={categories} banners={[COST_DISCLAIMER]} />
+
+    <Faq items={TELOGEN_FAQ} idPrefix="faq-t" />
+  </section>
+
+  <Lightbox lightboxes={lightboxes} />
+</BaseLayout>
+
+<script>
+  import '../scripts/aga.js';
+</script>

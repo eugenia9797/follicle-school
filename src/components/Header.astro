@@ -51,8 +51,8 @@ const { current = '' } = Astro.props;
         </span>
       </span>
 
-      <a class="nav__link nav__link--plain" href="/coming-soon/telogen/">休止期落髮</a>
-      <a class="nav__link nav__link--plain" href="/coming-soon/areata/">圓禿</a>
+      <a class="nav__link" href="/telogen/" aria-current={current === 'telogen' ? 'page' : undefined}>休止期落髮</a>
+      <a class="nav__link" href="/areata/" aria-current={current === 'areata' ? 'page' : undefined}>圓禿</a>
       <a class="nav__link" href="/quiz/" aria-current={current === 'quiz' ? 'page' : undefined}>自我落髮檢測</a>
     </nav>
   </div>
@@ -62,8 +62,8 @@ const { current = '' } = Astro.props;
     <a href="/aga/">雄性禿：總覽</a>
     <a class="is-sub" href="/aga/male/">— 男性版</a>
     <a class="is-sub" href="/aga/female/">— 女性版</a>
-    <a href="/coming-soon/telogen/">休止期落髮</a>
-    <a href="/coming-soon/areata/">圓禿</a>
+    <a href="/telogen/">休止期落髮</a>
+    <a href="/areata/">圓禿</a>
     <a class="is-accent" href="/quiz/">自我落髮檢測</a>
   </nav>
 </header>

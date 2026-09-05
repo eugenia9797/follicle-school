@@ -1,0 +1,70 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import ImageSlot from '../components/ImageSlot.astro';
+import StageAccordion from '../components/StageAccordion.astro';
+import TreatmentComparison from '../components/TreatmentComparison.astro';
+import Faq from '../components/Faq.astro';
+import Lightbox from '../components/Lightbox.astro';
+import { AREATA_FAQ, AREATA_TYPES } from '../data/TreatmentData.js';
+import { buildCategories, collectLightboxes } from '../lib/treatments.js';
+import { COST_DISCLAIMER } from '../consts.js';
+
+const categories = buildCategories('areata');
+const lightboxes = collectLightboxes(categories);
+
+const description =
+  '圓禿（Alopecia Areata）衛教：T 淋巴球攻擊生長期毛囊的自體免疫機轉、單一斑塊到全身禿的臨床型態、皮膚鏡表現，以及局部注射、免疫調節、JAK 抑制劑等治療的證據等級與費用比較。';
+---
+
+<BaseLayout title="圓禿（Alopecia Areata）" description={description} current="areata">
+  <section class="wrap" style="padding-block:40px 90px;">
+    <h1 class="page-title">圓禿（Alopecia Areata）</h1>
+
+    <h2 class="section-title" style="margin-bottom:12px;">致病機轉</h2>
+    <p class="lede">
+      圓禿是一種自體免疫相關疾病，免疫細胞（主要為 T
+      淋巴球）錯誤攻擊處於生長期的毛囊，使毛囊提早進入休止期並停止生長，但毛囊本身通常未被破壞，故多數情況下具可逆性。發病與遺傳體質相關，環境誘發因子（如壓力、感染）可能誘發或加重病程，患者也較常合併其他自體免疫疾病（如甲狀腺疾病、白斑）。
+    </p>
+    <ImageSlot
+      id="areata-mechanism"
+      radius={14}
+      alt="圓禿免疫機轉示意圖：T 淋巴球攻擊生長期毛囊"
+      placeholder="圓禿免疫機轉示意圖（圖片準備中）"
+      style="width:100%;height:340px;margin:18px 0 36px;"
+    />
+
+    <h2 class="section-title">臨床型態與嚴重度</h2>
+    <p class="hint">點選卡片查看說明</p>
+    <StageAccordion
+      stages={AREATA_TYPES}
+      slotPrefix="areata-pattern-"
+      scaleName=""
+      chipMin={150}
+      variant="condition"
+      placeholder="型態示意圖（圖片準備中）"
+    />
+
+    <h2 class="section-title" style="margin-top:32px;">皮膚鏡（Dermoscopy）表現</h2>
+    <ul class="bullets">
+      <li>驚嘆號髮（exclamation mark hairs）：毛幹近頭皮處變細、變淺色，狀似驚嘆號</li>
+      <li>黃點徵象（yellow dots）：擴大的空毛囊開口，內含皮脂與角質堆積</li>
+      <li>黑點徵象（black dots）：斷裂於毛囊口的毛髮殘段</li>
+      <li>病灶邊緣可見短毛（regrowing vellus hairs）新生，常為病情好轉徵象</li>
+    </ul>
+    <div class="derm-grid">
+      <ImageSlot id="areata-derm-1" radius={12} alt="皮膚鏡下的驚嘆號髮" placeholder="驚嘆號髮（圖片準備中）" />
+      <ImageSlot id="areata-derm-2" radius={12} alt="皮膚鏡下的黃點與黑點徵象" placeholder="黃點／黑點徵象（圖片準備中）" />
+      <ImageSlot id="areata-derm-3" radius={12} alt="病灶邊緣新生短毛" placeholder="病灶邊緣新生短毛（圖片準備中）" />
+    </div>
+
+    <TreatmentComparison categories={categories} banners={[COST_DISCLAIMER]} />
+
+    <Faq items={AREATA_FAQ} idPrefix="faq-a" />
+  </section>
+
+  <Lightbox lightboxes={lightboxes} />
+</BaseLayout>
+
+<script>
+  import '../scripts/aga.js';
+</script>

@@ -17,9 +17,7 @@ const site =
 export default defineConfig({
   site,
   output: 'static',
-  // The coming-soon placeholders carry no real content, so they stay out of
-  // the sitemap (they are also marked noindex).
-  integrations: [sitemap({ filter: (page) => !page.includes('/coming-soon/') })],
+  integrations: [sitemap()],
   build: { format: 'directory' },
   devToolbar: { enabled: false },
 });

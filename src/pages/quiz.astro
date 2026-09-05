@@ -21,20 +21,27 @@ const description =
 const first = questionState(0, {});
 const firstOptions = optionsHTML(first.question);
 
-const RESULT_MEDIA = {
-  male_aga: { image: iconAga, href: '/aga/male/' },
-  female_aga: { image: iconAgaFemale, href: '/aga/female/' },
-  acute_telogen: { image: iconTelogen },
-  chronic_telogen: { image: iconTelogen },
-  areata: { image: iconAreata },
-  other: { image: iconQuiz },
+const RESULT_IMAGES = {
+  male_aga: iconAga,
+  female_aga: iconAgaFemale,
+  acute_telogen: iconTelogen,
+  chronic_telogen: iconTelogen,
+  areata: iconAreata,
+  other: iconQuiz,
 };
 
-const results = CATEGORIES.map((key) => ({
-  key,
-  ...SELF_CHECK_RESULT_INFO[key],
-  ...RESULT_MEDIA[key],
-}));
+// The data says where a result leads: goGender for the two AGA pages, goPage
+// for a condition page. A result with neither (「其他」) shows no CTA.
+function resultHref(info) {
+  if (info.goGender) return `/aga/${info.goGender}/`;
+  if (info.goPage) return `/${info.goPage}/`;
+  return null;
+}
+
+const results = CATEGORIES.map((key) => {
+  const info = SELF_CHECK_RESULT_INFO[key];
+  return { key, ...info, image: RESULT_IMAGES[key], href: resultHref(info) };
+});
 
 const exams = [
   { image: examPullTest, title: '頭髮拉扯測試', subtitle: 'Hair Pull Test' },

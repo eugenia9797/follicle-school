@@ -1,4 +1,9 @@
-import { getFemaleCategories, getMaleCategories } from '../data/TreatmentData.js';
+import {
+  getAreataCategories,
+  getFemaleCategories,
+  getMaleCategories,
+  getTelogenCategories,
+} from '../data/TreatmentData.js';
 
 // Dot colours cycle per category, matching the original design.
 const PALETTE = [
@@ -95,12 +100,23 @@ function buildPoints(treatments) {
   });
 }
 
-/** Build every treatment category for one page, ready to render. */
-export function buildCategories(gender) {
-  const raw = gender === 'male' ? getMaleCategories() : getFemaleCategories();
+const CATEGORY_SOURCES = {
+  male: getMaleCategories,
+  female: getFemaleCategories,
+  telogen: getTelogenCategories,
+  areata: getAreataCategories,
+};
+
+/**
+ * Build every treatment category for one condition page, ready to render.
+ * `kind` is one of the keys of CATEGORY_SOURCES and also namespaces the
+ * per-category keys, so two pages can never collide in the DOM.
+ */
+export function buildCategories(kind) {
+  const raw = CATEGORY_SOURCES[kind]();
   return raw.map((cat) => ({
     ...cat,
-    key: `${gender}-${cat.id}`,
+    key: `${kind}-${cat.id}`,
     treatments: cat.treatments.map(buildTreatment),
     points: buildPoints(cat.treatments),
   }));

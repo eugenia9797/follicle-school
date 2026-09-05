@@ -12,8 +12,9 @@
 | `/aga/` | 雄性禿總覽 |
 | `/aga/male/` | 男性版：致病機轉、Hamilton–Norwood 分期、皮膚鏡、治療比較、FAQ |
 | `/aga/female/` | 女性版：致病機轉、Ludwig 分期、皮膚鏡、治療比較、FAQ |
+| `/telogen/` | 休止期落髮：致病機轉、急性／慢性分型、皮膚鏡、治療比較、FAQ |
+| `/areata/` | 圓禿：自體免疫機轉、五種臨床型態、皮膚鏡、治療比較、FAQ |
 | `/quiz/` | 自我落髮檢測（計分式問卷，判定六種落髮分類並建議進一步檢查） |
-| `/coming-soon/telogen/`、`/coming-soon/areata/` | 建置中頁面（`noindex`，不列入 sitemap） |
 
 ## 開發
 
@@ -57,7 +58,7 @@ tools/import-design-export.py  # 從 Claude Design 匯出檔重新匯入內容
 | FAQ 問答 | 同上 | ✅ 會 |
 | 自我檢測的題目、選項、計分權重、結果說明 | 同上 | ✅ 會 |
 | 圖片（含分期圖、皮膚鏡、藥品外觀） | Claude Design 拖曳，或直接放進 `src/assets/` | ✅ 會 |
-| 頁面標題、致病機轉段落、皮膚鏡條列 | `src/pages/aga/male.astro`、`female.astro` | ❌ 不會 |
+| 頁面標題、致病機轉段落、皮膚鏡條列 | `src/pages/` 底下對應的 `.astro` | ❌ 不會 |
 | 首頁標語與四張卡片說明 | `src/pages/index.astro` | ❌ 不會 |
 | 網站名稱、免責聲明、SEO 描述 | `src/consts.js`、各頁 `description` | ❌ 不會 |
 | 版面、配色、新頁面 | `src/styles/global.css`、`src/components/`、`src/pages/` | ❌ 不會 |
@@ -85,9 +86,11 @@ push 完 Cloudflare 會自動重新 build，約 2–3 分鐘後線上就更新�
 
 ### 補上缺圖
 
-目前有 7 個圖片欄位在 Design 裡還是空的，網站上顯示為灰色虛線佔位框：
+以下圖片欄位在 Design 裡還是空的，網站上顯示為灰色虛線佔位框：
 
-`ludwig-overview`、`ludwig-stage-I`、`ludwig-stage-II`、`ludwig-stage-III`、`female-derm-1`、`female-derm-2`、`female-derm-3`
+- 雄性禿女性版（7 個）：`ludwig-overview`、`ludwig-stage-I/II/III`、`female-derm-1/2/3`
+- 休止期落髮（10 個）：`telogen-mechanism`、`telogen-type-acute/chronic`、`telogen-derm-1/2/3`，以及 4 張商品照
+- 圓禿（12 個）：`areata-mechanism`、`areata-pattern-*`（5 種型態）、`areata-derm-1/2/3`，以及 3 張商品照
 
 補圖有兩種做法：
 

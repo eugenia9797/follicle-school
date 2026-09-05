@@ -720,6 +720,18 @@ button {
   border-color: var(--accent);
 }
 
+.stage-chip--condition {
+  padding: 18px 14px;
+}
+
+.stage-chip__name {
+  display: block;
+  font-weight: 800;
+  font-size: 16px;
+  color: var(--accent);
+  line-height: 1.4;
+}
+
 .stage-chip__id {
   display: block;
   font-weight: 800;

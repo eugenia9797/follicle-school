@@ -2,7 +2,6 @@ export function GET({ site }) {
   const body = [
     'User-agent: *',
     'Allow: /',
-    'Disallow: /coming-soon/',
     '',
     `Sitemap: ${new URL('sitemap-index.xml', site)}`,
     '',

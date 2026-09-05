@@ -8,7 +8,12 @@ const {
   chipMin = 110,
   vertexStageId = null,
   placeholder = '分期示意圖（圖片準備中）',
+  // 'stage' shows the scale's short id above the label (Norwood I, Ludwig II);
+  // 'condition' is a plain titled card, for clinical types with no scale.
+  variant = 'stage',
 } = Astro.props;
+
+const isCondition = variant === 'condition';
 ---
 
 <div class="stage-chips" style={`--chip-min:${chipMin}px;`}>
@@ -16,13 +21,15 @@ const {
     stages.map((stage) => (
       <button
         type="button"
-        class="stage-chip"
+        class:list={['stage-chip', isCondition && 'stage-chip--condition']}
         data-stage-toggle={stage.id}
         aria-expanded="false"
         aria-controls={`stage-${stage.id}`}
       >
-        <span class="stage-chip__id">{stage.id}</span>
-        <span class="stage-chip__title">{stage.title}</span>
+        {!isCondition && <span class="stage-chip__id">{stage.id}</span>}
+        <span class:list={[isCondition ? 'stage-chip__name' : 'stage-chip__title']}>
+          {stage.title}
+        </span>
       </button>
     ))
   }
