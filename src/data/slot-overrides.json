@@ -1,6 +1,58 @@
 {
+  "female-derm-1": {
+    "file": "local/female-derm-1.webp",
+    "optimize": true
+  },
+  "female-derm-2": {
+    "file": "local/female-derm-2.webp",
+    "optimize": true
+  },
+  "female-derm-3": {
+    "file": "local/female-derm-3.webp",
+    "optimize": true
+  },
+  "female-mechanism": {
+    "file": "local/female-mechanism.webp",
+    "optimize": true
+  },
+  "ludwig-overview": {
+    "file": "local/ludwig-overview.webp",
+    "optimize": true
+  },
+  "ludwig-stage-I": {
+    "file": "local/ludwig-stage-I.webp",
+    "optimize": true
+  },
+  "ludwig-stage-II": {
+    "file": "local/ludwig-stage-II.webp",
+    "optimize": true
+  },
+  "ludwig-stage-III": {
+    "file": "local/ludwig-stage-III.webp",
+    "optimize": true
+  },
   "male-mechanism": {
     "file": "local/male-mechanism.webp",
+    "optimize": true
+  },
+  "telogen-derm-1": {
+    "file": "local/telogen-derm-1.webp",
+    "optimize": true
+  },
+  "telogen-derm-2": {
+    "file": "local/telogen-derm-2.webp",
+    "optimize": true
+  },
+  "telogen-mechanism": {
+    "file": "local/telogen-mechanism.webp",
+    "optimize": true
+  },
+  "telogen-type-acute": {
+    "file": "local/telogen-type-acute.webp",
+    "optimize": true
+  },
+  "telogen-type-chronic": {
+    "file": "local/telogen-type-chronic.webp",
     "optimize": true
   }
 }

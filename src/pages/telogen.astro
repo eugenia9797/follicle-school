@@ -30,7 +30,10 @@ const description =
       radius={14}
       alt="毛髮生長週期示意圖：生長期、退化期與休止期"
       placeholder="毛髮生長週期示意圖（Anagen／Catagen／Telogen）（圖片準備中）"
-      style="width:100%;height:340px;margin:18px 0 36px;"
+      style="width:100%;aspect-ratio:16/9;margin:18px 0 36px;"
+      width={1052}
+      widths={[700, 1052, 1400, 2104]}
+      sizes="(min-width: 1148px) 1052px, 92vw"
     />
 
     <h2 class="section-title">臨床分型：急性與慢性</h2>
@@ -41,20 +44,34 @@ const description =
       scaleName=""
       chipMin={220}
       variant="condition"
+      imgAspect="1 / 1"
       placeholder="分型示意圖（圖片準備中）"
     />
 
     <h2 class="section-title" style="margin-top:32px;">皮膚鏡（Dermoscopy）表現</h2>
     <ul class="bullets">
       <li>毛髮直徑變異度大致正常（&lt;20%），有別於雄性禿</li>
-      <li>短再生毛（regrowing hairs）增多</li>
-      <li>空毛囊比例增加，但毛囊密度大致正常</li>
+      <li>短再生毛（regrowing hairs）增多（*）</li>
+      <li>黃點（yellow dots）增加，代表空毛囊比例增加，但毛囊密度大致正常（紅色箭頭）</li>
       <li>頭髮拉扯測試（Hair Pull Test）陽性：輕拉即可拉出多根休止期毛髮</li>
     </ul>
     <div class="derm-grid">
-      <ImageSlot id="telogen-derm-1" radius={12} alt="休止期落髮皮膚鏡影像" placeholder="皮膚鏡影像（圖片準備中）" />
-      <ImageSlot id="telogen-derm-2" radius={12} alt="皮膚鏡下的短再生毛" placeholder="短再生毛（圖片準備中）" />
-      <ImageSlot id="telogen-derm-3" radius={12} alt="頭髮拉扯測試示意" placeholder="拉扯測試示意（圖片準備中）" />
+      <ImageSlot
+        id="telogen-derm-1"
+        radius={12}
+        width={520}
+        densities={[1, 2]}
+        alt="皮膚鏡下的短再生毛，星號處為新生的短毛"
+        placeholder="短再生毛（圖片準備中）"
+      />
+      <ImageSlot
+        id="telogen-derm-2"
+        radius={12}
+        width={520}
+        densities={[1, 2]}
+        alt="皮膚鏡下的黃點徵象，紅色箭頭處為空的毛囊開口"
+        placeholder="黃點徵象（圖片準備中）"
+      />
     </div>
 
     <TreatmentComparison categories={categories} banners={[COST_DISCLAIMER]} />

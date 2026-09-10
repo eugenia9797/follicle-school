@@ -99,9 +99,9 @@ def referenced_slot_ids(treatment_data: Path) -> set[str]:
 import * as D from {json.dumps(str(treatment_data))};
 const used = new Set([
   'male-mechanism', 'norwood-overview', 'male-derm-1', 'male-derm-2', 'male-derm-3',
-  'female-mechanism', 'female-mechanism-2', 'ludwig-overview',
+  'female-mechanism', 'ludwig-overview',
   'female-derm-1', 'female-derm-2', 'female-derm-3',
-  'telogen-mechanism', 'telogen-derm-1', 'telogen-derm-2', 'telogen-derm-3',
+  'telogen-mechanism', 'telogen-derm-1', 'telogen-derm-2',
   'areata-mechanism', 'areata-derm-1', 'areata-derm-2', 'areata-derm-3'
 ]);
 for (const st of D.NORWOOD_STAGES) {{

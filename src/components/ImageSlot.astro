@@ -12,6 +12,7 @@ const {
   style = '',
   width,
   widths,
+  densities,
   sizes,
   loading = 'lazy',
 } = Astro.props;
@@ -31,6 +32,7 @@ const imgStyle = `object-fit:${fit}` + (transform ? `;transform:${transform}` : 
           alt={alt}
           width={width}
           widths={widths}
+          densities={densities}
           sizes={sizes}
           loading={loading}
           decoding="async"

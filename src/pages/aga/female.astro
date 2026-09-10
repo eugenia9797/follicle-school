@@ -18,33 +18,26 @@ const description =
 const warningBanner = '表格中標示紅色背景的項目，屬於育齡婦女使用之重要警示，請務必詳閱注意事項。';
 ---
 
-<BaseLayout title="雄性禿：女性版（FPHL）" description={description} current="aga">
+<BaseLayout title="雄性禿：女性版（女性形態落髮）" description={description} current="aga">
   <section class="wrap" style="padding-block:40px 90px;">
     <p class="breadcrumb"><a href="/aga/">雄性禿</a> ／ 女性版</p>
-    <h1 class="page-title">雄性禿：女性版（FPHL）</h1>
+    <h1 class="page-title">雄性禿：女性版（女性形態落髮）</h1>
 
     <h2 class="section-title" style="margin-bottom:12px;">致病機轉</h2>
     <p class="lede">
-      女性雄性禿的機轉與男性類似，皆與毛囊對雄性素的敏感度及遺傳體質有關，但女性血中雄性素濃度較低，落髮型態多為瀰漫性稀疏而非局部後退。診斷時需特別留意是否合併多囊性卵巢症候群（PCOS）或其他內分泌異常，必要時應安排抽血檢查（如甲狀腺功能、鐵蛋白、雄性素相關指標）以排除其他病因。
+      女性的雄性禿又稱為「女性形態落髮」（Female Pattern Hair Loss,
+      FPHL）。其機轉與男性類似，皆與毛囊對雄性素的敏感度及遺傳體質有關，但女性血中雄性素濃度較低，落髮型態多為瀰漫性稀疏而非局部後退。診斷時需特別留意是否合併多囊性卵巢症候群（PCOS）或其他內分泌異常，必要時應安排抽血檢查（如甲狀腺功能、鐵蛋白、雄性素相關指標）以排除其他病因。
     </p>
-    <div class="mech-row">
-      <ImageSlot
-        id="female-mechanism"
-        fit="contain"
-        radius={14}
-        alt="女性雄性禿毛囊變化示意圖"
-        placeholder="女性毛囊變化示意圖（圖片準備中）"
-        class="mech-row__wide"
-      />
-      <ImageSlot
-        id="female-mechanism-2"
-        fit="contain"
-        radius={14}
-        alt="女性雄性禿頭皮變化示意圖"
-        placeholder="示意圖（圖片準備中）"
-        class="mech-row__square"
-      />
-    </div>
+    <ImageSlot
+      id="female-mechanism"
+      radius={14}
+      alt="女性形態落髮致病機轉示意圖：遺傳、代謝與更年期等因素使雄性素轉為 DHT，加上雌激素保護力下降，毛囊逐漸微小化"
+      placeholder="女性形態落髮致病機轉示意圖（圖片準備中）"
+      style="width:100%;aspect-ratio:16/9;margin:18px 0 36px;"
+      width={1052}
+      widths={[700, 1052, 1400, 2104]}
+      sizes="(min-width: 1148px) 1052px, 92vw"
+    />
 
     <h2 class="section-title">臨床表現與分期：Ludwig Scale</h2>
     <p class="hint">
@@ -53,16 +46,18 @@ const warningBanner = '表格中標示紅色背景的項目，屬於育齡婦女
     <StageAccordion
       stages={FEMALE_STAGES}
       slotPrefix="ludwig-stage-"
-      scaleName="Ludwig "
+      scaleName=""
       chipMin={140}
       placeholder="Ludwig 分期示意圖（圖片準備中）"
     />
     <ImageSlot
       id="ludwig-overview"
       radius={14}
+      width={842}
+      densities={[1, 2]}
       alt="Ludwig Scale 女性雄性禿分期總圖"
       placeholder="Ludwig Scale 總圖（圖片準備中）"
-      style="width:80%;height:600px;margin-bottom:36px;"
+      style="width:80%;aspect-ratio:1448/1086;margin-bottom:36px;"
     />
 
     <h2 class="section-title" style="margin-top:32px;">皮膚鏡（Dermoscopy）表現</h2>
@@ -73,9 +68,9 @@ const warningBanner = '表格中標示紅色背景的項目，屬於育齡婦女
       <li>前額髮際線通常保留，與男性型落髮的鑑別重點</li>
     </ul>
     <div class="derm-grid">
-      <ImageSlot id="female-derm-1" radius={12} alt="女性雄性禿皮膚鏡影像" placeholder="皮膚鏡影像（圖片準備中）" />
-      <ImageSlot id="female-derm-2" radius={12} alt="皮膚鏡下的黃點徵象" placeholder="黃點徵象（圖片準備中）" />
-      <ImageSlot id="female-derm-3" radius={12} alt="皮膚鏡下的毛髮直徑變異" placeholder="毛髮直徑變異（圖片準備中）" />
+      <ImageSlot id="female-derm-1" radius={12} width={342} densities={[1, 2]} alt="皮膚鏡下的毛髮直徑變異與汗毛化，紅色箭頭處為變細的毛髮" placeholder="毛髮直徑變異（圖片準備中）" />
+      <ImageSlot id="female-derm-2" radius={12} width={342} densities={[1, 2]} alt="皮膚鏡下的黃點徵象" placeholder="黃點徵象（圖片準備中）" />
+      <ImageSlot id="female-derm-3" radius={12} width={342} densities={[1, 2]} alt="女性雄性禿頭皮皮膚鏡影像" placeholder="皮膚鏡影像（圖片準備中）" />
     </div>
 
     <TreatmentComparison categories={categories} banners={[COST_DISCLAIMER, warningBanner]} />

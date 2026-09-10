@@ -26,3 +26,4 @@ pnpm-debug.log*
 # local tool state (Claude Code permission prompts, not project config)
 .claude/settings.json
 .claude/settings.local.json
+.claude/launch.json

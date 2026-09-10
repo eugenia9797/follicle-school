@@ -11,6 +11,9 @@ const {
   // 'stage' shows the scale's short id above the label (Norwood I, Ludwig II);
   // 'condition' is a plain titled card, for clinical types with no scale.
   variant = 'stage',
+  // Panel artwork is not always the same shape: the staging scales are
+  // landscape, the telogen cause diagrams are square.
+  imgAspect = '364 / 214',
 } = Astro.props;
 
 const isCondition = variant === 'condition';
@@ -37,11 +40,19 @@ const isCondition = variant === 'condition';
 
 {
   stages.map((stage) => (
-    <div class="stage-panel" id={`stage-${stage.id}`} data-stage-panel={stage.id} hidden>
+    <div
+      class="stage-panel"
+      id={`stage-${stage.id}`}
+      data-stage-panel={stage.id}
+      style={`--stage-img-aspect:${imgAspect};`}
+      hidden
+    >
       <ImageSlot
         id={`${slotPrefix}${stage.id}`}
         class="stage-panel__img"
         radius={10}
+        width={364}
+        densities={[1, 2]}
         alt={`${scaleName}${stage.title}示意圖`}
         placeholder={placeholder}
       />
@@ -54,6 +65,8 @@ const isCondition = variant === 'condition';
           id={`${slotPrefix}${stage.id}-vertex`}
           class="stage-panel__img stage-panel__img--vertex"
           radius={10}
+          width={364}
+          densities={[1, 2]}
           alt={`${scaleName}${stage.title} vertex 型示意圖`}
           placeholder="vertex 型示意圖（圖片準備中）"
         />
