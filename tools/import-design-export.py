@@ -69,6 +69,7 @@ SLOT_ALIASES = {
     "oral-minoxidil-te-photo": "oral-minoxidil-0",
     "nutraceutical-te-photo": "nutraceutical-photo",
     "lllt-cap-te-photo": "lllt-cap-photo",
+    "lllt-laser-te-photo": "lllt-laser-photo",
 }
 
 
@@ -102,7 +103,7 @@ const used = new Set([
   'female-mechanism', 'ludwig-overview',
   'female-derm-1', 'female-derm-2', 'female-derm-3',
   'telogen-mechanism', 'telogen-derm-1', 'telogen-derm-2',
-  'areata-mechanism', 'areata-derm-1', 'areata-derm-2', 'areata-derm-3'
+  'areata-mechanism', 'areata-derm-1', 'areata-derm-2'
 ]);
 for (const st of D.NORWOOD_STAGES) {{
   used.add('norwood-stage-' + st.id);

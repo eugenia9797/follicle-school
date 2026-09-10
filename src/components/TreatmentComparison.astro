@@ -4,11 +4,16 @@ import { Y_TICKS } from '../lib/treatments.js';
 
 // `banners` are the warnings shown above the comparison, in order: the shared
 // cost/efficacy disclaimer first, then anything specific to the page.
-const { categories, banners = [] } = Astro.props;
+const { categories, banners = [], tableCategories = [] } = Astro.props;
+
+// Some categories are not a cost-versus-effect trade-off — working out and
+// treating the cause has no meaningful price or efficacy tier to plot. Those
+// list their treatments in a plain table instead of the quadrant chart.
+const asTable = new Set(tableCategories);
 ---
 
 <div class="compare-head">
-  <h2 class="section-title" style="margin:0;">治療方式比較</h2>
+  <h2 class="section-title" style="margin:0;" id="treatments">治療方式比較</h2>
   <button
     type="button"
     class="pill-toggle"
@@ -49,6 +54,40 @@ const { categories, banners = [] } = Astro.props;
     <div class="cat-panel" id={`cat-${cat.key}`} data-cat-panel={cat.key} hidden>
       {cat.warningBanner && <p class="notice notice--warn" style="margin:0;">⚠ {cat.warningBanner}</p>}
 
+      {asTable.has(cat.id) ? (
+        <div class="treatment-table-wrap">
+          <table class="treatment-table">
+            <thead>
+              <tr>
+                <th scope="col">治療方式</th>
+                <th scope="col">副作用</th>
+                <th scope="col">注意事項</th>
+              </tr>
+            </thead>
+            <tbody>
+              {cat.treatments.map((t) => (
+                <tr>
+                  <th scope="row" class="treatment-table__name">{t.name}</th>
+                  <td>
+                    <ul>
+                      {t.sideEffects.map((se) => (
+                        <li>{se}</li>
+                      ))}
+                    </ul>
+                  </td>
+                  <td>
+                    <ul>
+                      {t.notes.map((note) => (
+                        <li>{note}</li>
+                      ))}
+                    </ul>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      ) : (
       <div class="quad">
         <p class="quad__caption">
           縱軸：費用級距（$～$$$$$，越上越貴）／橫軸：治療效果（越右越佳）・點選圖中項目查看詳細內容
@@ -94,8 +133,9 @@ const { categories, banners = [] } = Astro.props;
           <span>效果較高 →</span>
         </div>
       </div>
+      )}
 
-      {cat.treatments.map((t) => (
+      {!asTable.has(cat.id) && cat.treatments.map((t) => (
         <div
           class:list={['treatment', t.warning && 'is-warning']}
           id={`t-${cat.key}-${t.id}`}

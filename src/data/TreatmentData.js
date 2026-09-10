@@ -369,6 +369,20 @@ export function getTelogenCategories() {
           notes: ['以低能量紅光或近紅外線刺激毛囊活性，慢性休止期落髮之輔助應用證據仍有限'],
           timeline: { onset: '約 8–12 週開始感受變化', visible: '4–6 個月可見改善', max: '需長期規律使用維持效果' },
           product: { type: '居家用穿戴儀器', dose: '依裝置說明，通常每次 15–20 分鐘、每週 3 次', appearance: '頭盔或帽狀裝置，內建紅光/近紅外線光源' }
+        }),
+        mk({
+          id: 'lllt-laser-te', name: '生髮雷射（Er:YAG）', evidence: 'C', stars: 3, priceTier: '$$', costScore: 1.15,
+          sideEffects: ['治療部位輕微刺痛、發紅', '術後短暫頭皮敏感'],
+          notes: ['以 Er:YAG 雷射於頭皮進行微創換膚，刺激局部血流與生長因子釋放', '休止期落髮之應用證據仍有限，屬輔助性療程，不能取代病因處置'],
+          timeline: { onset: '約 1–2 個月開始感受頭皮狀態改善', visible: '3–6 個月可見密度改善', max: '完整療程後評估整體效果，需搭配病因處置' },
+          product: { type: '門診雷射療程', dose: '依療程設計，通常每 4–6 週 1 次', appearance: '無外用商品，為診間執行之雷射療程' }
+        }),
+        mk({
+          id: 'prp-te', name: 'PRP 自體血小板血漿注射', evidence: 'C', stars: 3, priceTier: '$$$', costScore: 2, hideProduct: true,
+          sideEffects: ['注射部位疼痛、腫脹、瘀青', '感染風險（少見）'],
+          notes: ['需抽取自體血液離心製備，療程通常需 3–4 次', '休止期落髮之證據多來自小規模研究，屬輔助性療程，仍須同時處置誘因'],
+          timeline: { onset: '約 1 個月開始感受頭皮狀態改善', visible: '3 個月可見毛髮變粗、密度增加', max: '完整療程後 6 個月評估整體效果' },
+          product: { type: '注射治療（門診執行）', dose: '療程制，通常每 4–6 週 1 次，共 3–4 次', appearance: '無外用商品，為診間執行之注射療程' }
         })
       ]
     }
@@ -482,11 +496,24 @@ export const TELOGEN_TYPES = [
 ];
 
 export const AREATA_TYPES = [
-  { id: 'single', title: '單一斑塊型', desc: '頭皮上出現單一邊界清楚的圓形或橢圓形無毛區塊，為最常見的初發型態。' },
-  { id: 'multi', title: '多發斑塊型', desc: '頭皮上同時或先後出現多處無毛區塊，範圍與數量因人而異，部分可能融合擴大。' },
-  { id: 'ophiasis', title: 'Ophiasis 型（髮際線型）', desc: '落髮沿著後枕部與兩側髮際線呈帶狀分布，治療反應相對較差。' },
-  { id: 'totalis', title: '全頭禿（Alopecia Totalis）', desc: '頭皮頭髮全部脫落，為重度圓禿表現，常合併眉毛、睫毛脫落。' },
+  { id: 'patchy', title: '單一／多發斑塊型', desc: '頭皮上出現單一或多處邊界清楚的圓形、橢圓形無毛區塊，為最常見的表現型態。多發者的範圍與數量因人而異，部分區塊可能融合擴大。' },
+  { id: 'ophiasis', title: '蛇行禿（Ophiasis）', desc: '落髮沿著後枕部與兩側髮際線呈帶狀分布，狀似蛇行，治療反應相對較差。' },
+  { id: 'totalis', title: '全頭禿（Alopecia Totalis）', desc: '頭皮頭髮全部脫落，為重度圓禿表現。' },
   { id: 'universalis', title: '全身禿（Alopecia Universalis）', desc: '全身（頭髮、眉毛、睫毛、體毛）皆脫落，為圓禿最嚴重之表現型態。' }
+];
+
+// 依頭皮禿髮面積分級，對照台灣皮膚科醫學會圓禿診斷及治療共識。
+export const AREATA_SEVERITY = [
+  { id: 'mild', level: '輕度圓禿', range: '< 20%', pct: 20, salt: 'SALT score ≦ 20%', desc: '頭髮脫落小於 20%' },
+  { id: 'moderate', level: '中度圓禿', range: '20–50%', pct: 50, salt: 'SALT score > 20% 且 ≦ 50%', desc: '頭髮脫落超過 20% 但小於 50%' },
+  { id: 'severe', level: '重度圓禿', range: '> 50%', pct: 100, salt: 'SALT score > 50%', desc: '頭髮脫落大於 50%' }
+];
+
+export const AREATA_SEVERITY_ESCALATION = [
+  '圓禿對心理社交功能產生負面影響',
+  '眉毛或睫毛受圓禿影響而脫落',
+  '經過至少 6 個月治療後仍未達適當反應',
+  '進展快速且範圍廣泛的禿髮，拉髮試驗（hair pull test）呈現陽性'
 ];
 
 export const MALE_FAQ = [

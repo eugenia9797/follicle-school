@@ -1,26 +1,41 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+import ConditionHero from '../components/ConditionHero.astro';
 import ImageSlot from '../components/ImageSlot.astro';
 import StageAccordion from '../components/StageAccordion.astro';
-import TreatmentComparison from '../components/TreatmentComparison.astro';
+import SeverityScale from '../components/SeverityScale.astro';
 import Faq from '../components/Faq.astro';
-import Lightbox from '../components/Lightbox.astro';
+import PageNotes from '../components/PageNotes.astro';
 import { AREATA_FAQ, AREATA_TYPES } from '../data/TreatmentData.js';
-import { buildCategories, collectLightboxes } from '../lib/treatments.js';
 import { COST_DISCLAIMER } from '../consts.js';
 
-const categories = buildCategories('areata');
-const lightboxes = collectLightboxes(categories);
+const SYSTEMIC_WARNING =
+  '全身性治療副作用相對明顯，需由醫師評估疾病嚴重度、範圍與整體健康狀況後審慎使用，並定期監測。';
+import heroAreata from '../assets/local/hero-areata.webp';
 
 const description =
   '圓禿（Alopecia Areata）衛教：T 淋巴球攻擊生長期毛囊的自體免疫機轉、單一斑塊到全身禿的臨床型態、皮膚鏡表現，以及局部注射、免疫調節、JAK 抑制劑等治療的證據等級與費用比較。';
 ---
 
 <BaseLayout title="圓禿（Alopecia Areata）" description={description} current="areata">
-  <section class="wrap" style="padding-block:40px 90px;">
-    <h1 class="page-title">圓禿（Alopecia Areata）</h1>
+  <ConditionHero
+    eyebrow="自體免疫疾病"
+    hook="自己人攻擊自己人！鬼剃頭找上門！"
+    promise="圓禿治療日新月異，毛囊有救了！"
+    lead="圓禿是自體免疫疾病，而且容易復發，透過專業評估與適當治療，有助控制病情、促進毛髮再生！"
+    image={heroAreata}
+    imageAlt="圓禿示意插圖：女性對鏡發現頭皮上有圓形光滑的落髮區塊"
+    sections={[
+        { id: 'mechanism', label: '致病機轉' },
+        { id: 'stages', label: '臨床型態' },
+        { id: 'dermoscopy', label: '皮膚鏡表現' },
+        { id: 'treatments', label: '治療比較' },
+        { id: 'faq', label: '常見問題' },
+      ]}
+  />
 
-    <h2 class="section-title" style="margin-bottom:12px;">致病機轉</h2>
+  <section class="wrap" style="padding-block:40px 90px;">
+    <h2 class="section-title" style="margin-bottom:12px;" id="mechanism">致病機轉</h2>
     <p class="lede">
       圓禿是一種自體免疫相關疾病，免疫細胞（主要為 T
       淋巴球）錯誤攻擊處於生長期的毛囊，使毛囊提早進入休止期並停止生長，但毛囊本身通常未被破壞，故多數情況下具可逆性。發病與遺傳體質相關，環境誘發因子（如壓力、感染）可能誘發或加重病程，患者也較常合併其他自體免疫疾病（如甲狀腺疾病、白斑）。
@@ -30,39 +45,86 @@ const description =
       radius={14}
       alt="圓禿免疫機轉示意圖：T 淋巴球攻擊生長期毛囊"
       placeholder="圓禿免疫機轉示意圖（圖片準備中）"
-      style="width:100%;height:340px;margin:18px 0 36px;"
+      style="width:100%;aspect-ratio:16/9;margin:18px 0 36px;"
+      width={1052}
+      widths={[700, 1052, 1400, 2104]}
+      sizes="(min-width: 1148px) 1052px, 92vw"
+      loading="eager"
     />
 
-    <h2 class="section-title">臨床型態與嚴重度</h2>
+    <h2 class="section-title" id="stages">臨床型態與嚴重度</h2>
     <p class="hint">點選卡片查看說明</p>
     <StageAccordion
       stages={AREATA_TYPES}
       slotPrefix="areata-pattern-"
       scaleName=""
-      chipMin={150}
+      chipMin={190}
       variant="condition"
+      imgAspect="4 / 3"
       placeholder="型態示意圖（圖片準備中）"
     />
 
-    <h2 class="section-title" style="margin-top:32px;">皮膚鏡（Dermoscopy）表現</h2>
+    <SeverityScale />
+
+    <h2 class="section-title" style="margin-top:32px;" id="dermoscopy">皮膚鏡（Dermoscopy）表現</h2>
     <ul class="bullets">
-      <li>驚嘆號髮（exclamation mark hairs）：毛幹近頭皮處變細、變淺色，狀似驚嘆號</li>
-      <li>黃點徵象（yellow dots）：擴大的空毛囊開口，內含皮脂與角質堆積</li>
-      <li>黑點徵象（black dots）：斷裂於毛囊口的毛髮殘段</li>
+      <li>驚嘆號髮（exclamation mark hairs）：毛幹近頭皮處變細、變淺色，狀似驚嘆號（黃色圈圈）</li>
+      <li>黃點徵象（yellow dots）：擴大的空毛囊開口，內含皮脂與角質堆積（紅色箭頭）</li>
+      <li>黑點徵象（black dots）：斷裂於毛囊口的毛髮殘段（藍色箭頭）</li>
       <li>病灶邊緣可見短毛（regrowing vellus hairs）新生，常為病情好轉徵象</li>
     </ul>
     <div class="derm-grid">
-      <ImageSlot id="areata-derm-1" radius={12} width={342} densities={[1, 2]} alt="皮膚鏡下的驚嘆號髮" placeholder="驚嘆號髮（圖片準備中）" />
-      <ImageSlot id="areata-derm-2" radius={12} width={342} densities={[1, 2]} alt="皮膚鏡下的黃點與黑點徵象" placeholder="黃點／黑點徵象（圖片準備中）" />
-      <ImageSlot id="areata-derm-3" radius={12} width={342} densities={[1, 2]} alt="病灶邊緣新生短毛" placeholder="病灶邊緣新生短毛（圖片準備中）" />
+      <ImageSlot
+        id="areata-derm-1"
+        radius={12}
+        width={520}
+        densities={[1, 2]}
+        alt="圓禿皮膚鏡影像：黃色圈圈為驚嘆號髮，紅色箭頭為黃點徵象，藍色箭頭為黑點徵象"
+        placeholder="驚嘆號髮、黃點與黑點徵象（圖片準備中）"
+      />
+      <ImageSlot
+        id="areata-derm-2"
+        radius={12}
+        width={520}
+        densities={[1, 2]}
+        alt="圓禿皮膚鏡影像：紅色箭頭為黃點徵象，藍色箭頭為黑點徵象"
+        placeholder="黃點與黑點徵象（圖片準備中）"
+      />
     </div>
 
-    <TreatmentComparison categories={categories} banners={[COST_DISCLAIMER]} />
+    <h2 class="section-title" style="margin-top:40px;" id="treatments">治療方式比較</h2>
+    <p class="hint">治療策略依年齡與嚴重度分流，實際用藥由醫師評估後決定</p>
+
+    <p class="notice notice--warn" style="margin:0 0 12px;">⚠ {COST_DISCLAIMER}</p>
+    <p class="notice notice--warn" style="margin:0 0 20px;">⚠ {SYSTEMIC_WARNING}</p>
+
+    <div class="algorithm">
+      <ImageSlot
+        id="areata-treatment-adult"
+        radius={14}
+        alt="12–18 歲青少年與成人圓禿治療流程圖：輕度（禿髮小於 20%）以外用皮質類固醇或病灶內注射皮質類固醇為主，可加上外用 5% Minoxidil；重度（大於 50%）以口服 JAK 抑制劑為第一選擇，其次為系統性類固醇或免疫抑制劑，並可搭配接觸性免疫療法（DPCP）或外用 5% Minoxidil；中度（20–50%）視疾病進展速度、嚴重度與個人狀況決定採取輕度或重度的治療策略。"
+        placeholder="青少年與成人治療流程圖（圖片準備中）"
+        style="width:100%;aspect-ratio:16/9;"
+        width={1052}
+        widths={[700, 1052, 1400, 2104]}
+        sizes="(min-width: 1148px) 1052px, 92vw"
+      />
+      <ImageSlot
+        id="areata-treatment-child"
+        radius={14}
+        alt="未滿 12 歲孩童圓禿治療流程圖：輕度（禿髮小於 20%）以外用皮質類固醇或病灶內注射皮質類固醇為主，可加上外用 5% Minoxidil；重度（大於 50%）需謹慎使用系統性類固醇或免疫抑制劑；中度（20–50%）視疾病進展速度、嚴重度與個人狀況決定治療策略。"
+        placeholder="孩童治療流程圖（圖片準備中）"
+        style="width:100%;aspect-ratio:16/9;"
+        width={1052}
+        widths={[700, 1052, 1400, 2104]}
+        sizes="(min-width: 1148px) 1052px, 92vw"
+      />
+    </div>
 
     <Faq items={AREATA_FAQ} idPrefix="faq-a" />
-  </section>
 
-  <Lightbox lightboxes={lightboxes} />
+    <PageNotes sources={['臺灣皮膚科醫學會｜圓禿診斷及治療共識']} />
+  </section>
 </BaseLayout>
 
 <script>

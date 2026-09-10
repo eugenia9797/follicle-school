@@ -1,0 +1,49 @@
+---
+import { Image } from 'astro:assets';
+
+/**
+ * Opening band for a condition page: the question a reader arrives with, a
+ * short reassuring lead, and jump links into the detail below. Everything
+ * after this section is the existing long-form content, unchanged.
+ */
+const { eyebrow, hook, promise, lead, image, imageAlt, sections = [], crumb } = Astro.props;
+---
+
+<section class="hero-band">
+  <div class="hero-band__inner">
+    <div class="hero-band__text">
+      {crumb && (
+        <p class="breadcrumb">
+          <a href={crumb.href}>{crumb.label}</a> ／ {crumb.current}
+        </p>
+      )}
+      <p class="hero-band__eyebrow">{eyebrow}</p>
+      <h1 class="hero-band__title">
+        <span class="hero-band__hook">{hook}</span>
+        <span class="hero-band__promise">{promise}</span>
+      </h1>
+      <p class="hero-band__lead">{lead}</p>
+    </div>
+
+    <div class="hero-band__media">
+      <Image
+        src={image}
+        alt={imageAlt}
+        width={420}
+        widths={[420, 840]}
+        sizes="(min-width: 900px) 420px, 60vw"
+        loading="eager"
+      />
+    </div>
+  </div>
+
+  {
+    sections.length > 0 && (
+      <nav class="hero-band__nav" aria-label="本頁章節">
+        {sections.map((s) => (
+          <a href={`#${s.id}`}>{s.label}</a>
+        ))}
+      </nav>
+    )
+  }
+</section>

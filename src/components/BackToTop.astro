@@ -1,0 +1,29 @@
+---
+import { Image } from 'astro:assets';
+import mascot from '../assets/mascot-walk.png';
+---
+
+<button type="button" class="to-top" data-to-top aria-label="回到頁面頂端" hidden>
+  <Image src={mascot} alt="" width={52} densities={[1, 2, 3]} />
+  <span class="to-top__caption">TOP</span>
+</button>
+
+<script>
+  const button = document.querySelector('[data-to-top]');
+
+  if (button) {
+    // Only worth offering once there is something to scroll back from.
+    const SHOW_AFTER = 400;
+    const sync = () => {
+      button.hidden = window.scrollY < SHOW_AFTER;
+    };
+
+    sync();
+    window.addEventListener('scroll', sync, { passive: true });
+
+    button.addEventListener('click', () => {
+      const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      window.scrollTo({ top: 0, behavior: reduced ? 'auto' : 'smooth' });
+    });
+  }
+</script>

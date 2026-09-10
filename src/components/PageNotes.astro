@@ -1,0 +1,22 @@
+---
+/**
+ * Footnotes closing a condition page: where the clinical content came from,
+ * and how the photographs on it were produced.
+ */
+const { sources = [] } = Astro.props;
+---
+
+<div class="page-notes">
+  {
+    sources.length > 0 && (
+      <p class="page-notes__item">
+        <span class="page-notes__label">資料來源</span>
+        {sources.join('；')}
+      </p>
+    )
+  }
+  <p class="page-notes__item">
+    <span class="page-notes__label">影像說明</span>
+    部分實體照片為 AI 合成之示意圖，非真實患者影像，無侵犯患者隱私之虞。
+  </p>
+</div>

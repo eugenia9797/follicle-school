@@ -346,6 +346,51 @@ button {
   margin: 0 0 20px;
 }
 
+.site-footer__links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 22px;
+}
+
+.site-footer__links a {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid var(--footer-border);
+  border-radius: 100px;
+  padding: 9px 18px;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--footer-fg);
+  text-decoration: none;
+}
+
+.site-footer__links a:hover {
+  background: rgba(255, 255, 255, 0.16);
+  border-color: var(--footer-muted);
+  color: #fff;
+}
+
+.site-footer__links svg {
+  width: 17px;
+  height: 17px;
+  flex-shrink: 0;
+}
+
+.site-footer__links a.is-icon-only {
+  padding: 9px;
+  width: 40px;
+  height: 40px;
+  justify-content: center;
+}
+
+.site-footer__links a.is-icon-only svg {
+  width: 19px;
+  height: 19px;
+}
+
 .site-footer__meta {
   display: flex;
   flex-wrap: wrap;
@@ -363,6 +408,13 @@ button {
   font-weight: 900;
   color: var(--heading);
   margin: 0 0 28px;
+}
+
+.section-subtitle {
+  font-size: 16.5px;
+  font-weight: 700;
+  color: var(--heading);
+  margin: 34px 0 10px;
 }
 
 .section-title {
@@ -537,6 +589,183 @@ button {
   line-height: 1.5;
   color: var(--muted);
   text-align: center;
+}
+
+/* ------------------------------------------------------ back to top --- */
+
+/* The mascot is a tall standing figure, so it stands on the page rather than
+   sitting in a round button — a circle would crop its legs off. */
+.to-top {
+  position: fixed;
+  right: 22px;
+  bottom: 22px;
+  z-index: 60;
+  padding: 0;
+  border: 0;
+  background: none;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 5px;
+}
+
+.to-top img {
+  width: 52px;
+  height: auto;
+  display: block;
+  pointer-events: none;
+  filter: drop-shadow(0 6px 12px rgba(58, 47, 38, 0.3));
+  transition: transform 0.18s ease;
+}
+
+.to-top:hover img {
+  transform: translateY(-4px);
+}
+
+.to-top__caption {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  color: var(--accent);
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 100px;
+  padding: 2px 10px;
+  box-shadow: 0 2px 8px rgba(58, 47, 38, 0.12);
+}
+
+@media (max-width: 600px) {
+  .to-top {
+    right: 14px;
+    bottom: 14px;
+  }
+  .to-top img {
+    width: 44px;
+  }
+}
+
+/* ------------------------------------------------- condition hero --- */
+
+.hero-band {
+  background: linear-gradient(180deg, #ece4dc 0%, #f3eee9 62%, var(--bg) 100%);
+  border-bottom: 1px solid var(--border);
+  padding: 48px 24px 0;
+}
+
+.hero-band__inner {
+  max-width: 1100px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 420px;
+  gap: 40px;
+  align-items: center;
+}
+
+.hero-band__eyebrow {
+  display: inline-block;
+  background: var(--surface);
+  color: var(--accent);
+  font-weight: 600;
+  font-size: 13px;
+  padding: 6px 14px;
+  border-radius: 100px;
+  margin: 0 0 18px;
+}
+
+.hero-band__title {
+  font-size: 38px;
+  line-height: 1.4;
+  font-weight: 900;
+  margin: 0 0 22px;
+  letter-spacing: -0.5px;
+}
+
+/* The hook asks what the reader came to ask; the promise answers it. */
+.hero-band__hook {
+  display: block;
+  color: var(--heading);
+}
+
+.hero-band__promise {
+  display: block;
+  color: var(--accent);
+}
+
+.hero-band__lead {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 18px 22px;
+  font-size: 16px;
+  line-height: 1.9;
+  color: var(--body);
+  margin: 0;
+  max-width: 36em;
+  box-shadow: 0 6px 18px rgba(58, 47, 38, 0.06);
+}
+
+/* The artwork is a cut-out illustration, so it floats rather than sitting in
+   a card — a frame would draw a box around transparent pixels. */
+.hero-band__media img {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+.hero-band__nav {
+  max-width: 1100px;
+  margin: 40px auto 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  padding-bottom: 28px;
+}
+
+.hero-band__nav a {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 100px;
+  padding: 9px 18px;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--muted-4);
+  text-decoration: none;
+}
+
+.hero-band__nav a:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+/* The header is sticky, so an anchored heading must clear it. */
+[id] {
+  scroll-margin-top: 100px;
+}
+
+@media (max-width: 900px) {
+  .hero-band {
+    padding-top: 32px;
+  }
+  .hero-band__inner {
+    grid-template-columns: 1fr;
+    gap: 28px;
+  }
+  .hero-band__title {
+    font-size: 27px;
+    line-height: 1.45;
+  }
+  .hero-band__lead {
+    font-size: 15px;
+    line-height: 1.85;
+    padding: 16px 18px;
+  }
+  .hero-band__media {
+    max-width: 340px;
+  }
+  .hero-band__nav {
+    margin-top: 28px;
+  }
 }
 
 /* --------------------------------------------------------------- home --- */
@@ -806,6 +1035,118 @@ button {
   }
 }
 
+/* --------------------------------------------- treatment algorithm --- */
+
+.algorithm {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  margin-bottom: 8px;
+}
+
+.algorithm .slot {
+  border: 1px solid var(--border);
+}
+
+/* ------------------------------------------------- severity grading --- */
+
+.severity {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+  gap: 14px;
+  margin-bottom: 16px;
+}
+
+.severity__card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 18px 20px;
+}
+
+.severity__level {
+  font-weight: 800;
+  font-size: 16px;
+  color: var(--heading);
+  margin: 0 0 12px;
+}
+
+/* Reads as a scalp filling up: how much of the head is affected. */
+.severity__gauge {
+  height: 8px;
+  border-radius: 100px;
+  background: var(--border);
+  overflow: hidden;
+  margin-bottom: 12px;
+}
+
+.severity__fill {
+  display: block;
+  height: 100%;
+  border-radius: 100px;
+  background: var(--severity-color, var(--accent));
+}
+
+.severity__card[data-severity='mild'] {
+  --severity-color: #b9a58c;
+}
+
+.severity__card[data-severity='moderate'] {
+  --severity-color: #c08a4a;
+}
+
+.severity__card[data-severity='severe'] {
+  --severity-color: #a8503a;
+}
+
+.severity__range {
+  font-size: 22px;
+  font-weight: 900;
+  color: var(--severity-color, var(--accent));
+  margin: 0 0 6px;
+  letter-spacing: -0.5px;
+}
+
+.severity__desc {
+  font-size: 13.5px;
+  color: var(--body);
+  margin: 0 0 8px;
+}
+
+.severity__salt {
+  font-size: 12.5px;
+  color: var(--muted);
+  margin: 0;
+  padding-top: 8px;
+  border-top: 1px solid var(--border);
+}
+
+.severity__note {
+  background: var(--warn-bg);
+  border: 1px solid var(--warn-border);
+  border-radius: 12px;
+  padding: 16px 20px;
+  margin-bottom: 36px;
+}
+
+.severity__note-title {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--warn-fg);
+  margin: 0 0 8px;
+}
+
+.severity__note ul {
+  margin: 0;
+  padding-left: 18px;
+  font-size: 13.5px;
+  color: var(--warn-fg);
+}
+
+.severity__note li + li {
+  margin-top: 3px;
+}
+
 /* --------------------------------------------------- dermoscopy grids --- */
 
 .derm-grid {
@@ -1046,6 +1387,53 @@ button {
   min-width: 420px;
 }
 
+/* ------------------------------------------- plain treatment table --- */
+
+.treatment-table-wrap {
+  overflow-x: auto;
+}
+
+.treatment-table {
+  width: 100%;
+  min-width: 560px;
+  border-collapse: collapse;
+  text-align: left;
+}
+
+.treatment-table th[scope='col'] {
+  font-size: 11px;
+  color: var(--muted);
+  font-weight: 600;
+  padding: 0 14px 8px;
+  border-bottom: 1px solid var(--border);
+}
+
+.treatment-table th[scope='row'],
+.treatment-table td {
+  padding: 14px;
+  border-bottom: 1px solid var(--border);
+  vertical-align: top;
+}
+
+.treatment-table tbody tr:last-child th,
+.treatment-table tbody tr:last-child td {
+  border-bottom: 0;
+}
+
+.treatment-table__name {
+  font-weight: 700;
+  font-size: 14.5px;
+  color: var(--heading);
+  white-space: nowrap;
+}
+
+.treatment-table ul {
+  margin: 0;
+  padding-left: 16px;
+  font-size: 13px;
+  color: var(--body);
+}
+
 /* -------------------------------------------------- treatment detail --- */
 
 .treatment {
@@ -1138,6 +1526,36 @@ button {
 
 .thumb__icon {
   font-size: 18px;
+}
+
+/* ------------------------------------------------------- page notes --- */
+
+.page-notes {
+  margin-top: 40px;
+  padding-top: 18px;
+  border-top: 1px solid var(--border);
+}
+
+.page-notes__item {
+  font-size: 12.5px;
+  line-height: 1.8;
+  color: var(--muted);
+  margin: 0 0 4px;
+}
+
+.page-notes__item:last-child {
+  margin-bottom: 0;
+}
+
+.page-notes__label {
+  display: inline-block;
+  font-weight: 600;
+  color: var(--muted-2);
+  margin-right: 8px;
+}
+
+.page-notes__label::after {
+  content: '：';
 }
 
 /* ----------------------------------------------------------------- faq --- */

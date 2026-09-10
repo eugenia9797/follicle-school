@@ -1,0 +1,31 @@
+---
+import { AREATA_SEVERITY, AREATA_SEVERITY_ESCALATION } from '../data/TreatmentData.js';
+---
+
+<h3 class="section-subtitle" id="severity">嚴重度分級</h3>
+<p class="hint">
+  臨床上以頭皮禿髮面積佔比評估嚴重度，常用 SALT score（Severity of Alopecia Tool）量化。
+</p>
+
+<div class="severity">
+  {
+    AREATA_SEVERITY.map((s) => (
+      <div class="severity__card" data-severity={s.id}>
+        <p class="severity__level">{s.level}</p>
+        <div class="severity__gauge" aria-hidden="true">
+          <span class="severity__fill" style={`width:${s.pct}%;`} />
+        </div>
+        <p class="severity__range">{s.range}</p>
+        <p class="severity__desc">{s.desc}</p>
+        <p class="severity__salt">{s.salt}</p>
+      </div>
+    ))
+  }
+</div>
+
+<div class="severity__note">
+  <p class="severity__note-title">若出現以下任一情況，嚴重程度提高一級</p>
+  <ul>
+    {AREATA_SEVERITY_ESCALATION.map((item) => <li>{item}</li>)}
+  </ul>
+</div>

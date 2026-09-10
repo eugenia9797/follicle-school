@@ -1,4 +1,40 @@
 {
+  "areata-derm-1": {
+    "file": "local/areata-derm-1.webp",
+    "optimize": true
+  },
+  "areata-derm-2": {
+    "file": "local/areata-derm-2.webp",
+    "optimize": true
+  },
+  "areata-mechanism": {
+    "file": "local/areata-mechanism.webp",
+    "optimize": true
+  },
+  "areata-pattern-ophiasis": {
+    "file": "local/areata-pattern-ophiasis.webp",
+    "optimize": true
+  },
+  "areata-pattern-patchy": {
+    "file": "local/areata-pattern-patchy.webp",
+    "optimize": true
+  },
+  "areata-pattern-totalis": {
+    "file": "local/areata-pattern-totalis.webp",
+    "optimize": true
+  },
+  "areata-pattern-universalis": {
+    "file": "local/areata-pattern-universalis.webp",
+    "optimize": true
+  },
+  "areata-treatment-adult": {
+    "file": "local/areata-treatment-adult.webp",
+    "optimize": true
+  },
+  "areata-treatment-child": {
+    "file": "local/areata-treatment-child.webp",
+    "optimize": true
+  },
   "female-derm-1": {
     "file": "local/female-derm-1.webp",
     "optimize": true
