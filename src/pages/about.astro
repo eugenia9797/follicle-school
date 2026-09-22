@@ -30,11 +30,10 @@ const description = `${DOCTOR_NAME}${DOCTOR_TITLE}：長庚體系皮膚科主治
             loading="eager"
           />
         </div>
-        <p class="profile__sign">{DOCTOR_NAME}　{DOCTOR_TITLE}</p>
       </div>
 
       <div class="profile__main">
-        <h1 class="profile__name">{DOCTOR_NAME}</h1>
+        <h1 class="profile__name">{DOCTOR_NAME}　{DOCTOR_TITLE}</h1>
 
         <h2 class="profile__heading">專長</h2>
         <ul class="pill-list">{SPECIALTIES.map((item) => <li>{item}</li>)}</ul>

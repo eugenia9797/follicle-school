@@ -1,10 +1,13 @@
 ---
+import { Image } from 'astro:assets';
+import logo from '../assets/brand/logo-esheen-light.png';
 import {
   CONTACT_LINKS,
   HAIR_SECTION_BASE,
   HAIR_SECTION_NAME,
   MEDICAL_DISCLAIMER,
   SITE_NAME,
+  SITE_TAGLINE,
 } from '../consts.js';
 
 // Follicle School has its own shell, so its footer points back at the main
@@ -28,6 +31,14 @@ const META_LINKS =
 
 const year = new Date().getFullYear();
 
+// Booking first: it is the one action every page is working towards.
+const CONTACT_ORDER = ['booking', 'line', 'instagram', 'facebook'];
+const CONTACT_LABELS = { booking: '線上預約掛號', line: 'LINE 官方帳號' };
+const contacts = CONTACT_ORDER.map((id) => {
+  const link = CONTACT_LINKS.find((l) => l.id === id);
+  return { ...link, text: CONTACT_LABELS[id] ?? link.label };
+});
+
 const ICONS = {
   instagram:
     'M12 2.2c3.2 0 3.6 0 4.9.07 1.2.05 1.8.25 2.2.42.6.22 1 .48 1.4.9.44.43.7.83.92 1.4.17.42.37 1.06.42 2.24.06 1.28.07 1.66.07 4.88s-.01 3.6-.07 4.88c-.05 1.18-.25 1.82-.42 2.24-.22.57-.48.97-.92 1.4-.42.42-.82.68-1.4.9-.42.17-1.06.37-2.24.42-1.28.06-1.66.07-4.88.07s-3.6-.01-4.88-.07c-1.18-.05-1.82-.25-2.24-.42a3.9 3.9 0 0 1-1.4-.9 3.9 3.9 0 0 1-.9-1.4c-.17-.42-.37-1.06-.42-2.24C2.21 15.6 2.2 15.22 2.2 12s.01-3.6.07-4.88c.05-1.18.25-1.82.42-2.24.22-.57.48-.97.9-1.4a3.9 3.9 0 0 1 1.4-.9c.42-.17 1.06-.37 2.24-.42C8.4 2.21 8.8 2.2 12 2.2Zm0 3.06A6.74 6.74 0 1 0 18.74 12 6.74 6.74 0 0 0 12 5.26Zm0 11.12A4.38 4.38 0 1 1 16.38 12 4.38 4.38 0 0 1 12 16.38Zm6.98-11.4a1.58 1.58 0 1 1-1.57-1.57 1.58 1.58 0 0 1 1.57 1.57Z',
@@ -41,30 +52,46 @@ const ICONS = {
 
 <footer class="site-footer">
   <div class="site-footer__inner">
-    <p class="site-footer__disclaimer">⚕ 醫療免責聲明：{MEDICAL_DISCLAIMER}</p>
+    <div class="site-footer__top">
+      <div class="site-footer__brand">
+        <a href="/" aria-label={SITE_NAME}>
+          <Image src={logo} alt={SITE_NAME} height={120} densities={[1, 2]} class="site-footer__logo" />
+        </a>
+        <p class="site-footer__tagline">
+          {SITE_TAGLINE}<br />
+          讓我陪您重欣出發，找回喜歡自己的樣子。
+        </p>
+      </div>
 
-    <nav class="site-footer__links" aria-label="聯絡與掛號">
-      {
-        CONTACT_LINKS.map((link) => (
-          <a
-            href={link.href}
-            target="_blank"
-            rel="noopener noreferrer"
-            class:list={[link.iconOnly && 'is-icon-only']}
-            aria-label={link.iconOnly ? link.label : undefined}
-          >
-            <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
-              <path fill="currentColor" d={ICONS[link.id]} />
-            </svg>
-            {!link.iconOnly && link.label}
-          </a>
-        ))
-      }
-    </nav>
+      <div class="site-footer__col">
+        <h2 class="site-footer__heading">聯絡預約</h2>
+        <ul class="site-footer__list">
+          {
+            contacts.map((link) => (
+              <li>
+                <a href={link.href} target="_blank" rel="noopener noreferrer">
+                  <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                    <path fill="currentColor" d={ICONS[link.id]} />
+                  </svg>
+                  {link.text}
+                </a>
+              </li>
+            ))
+          }
+        </ul>
+      </div>
 
-    <div class="site-footer__meta">
-      {META_LINKS.map((link) => <a href={link.href}>{link.label}</a>)}
-      <span class="site-footer__copy">© {year} {SITE_NAME}</span>
+      <div class="site-footer__col">
+        <h2 class="site-footer__heading">網站導覽</h2>
+        <ul class="site-footer__list">
+          {META_LINKS.map((link) => <li><a href={link.href}>{link.label}</a></li>)}
+        </ul>
+      </div>
+    </div>
+
+    <div class="site-footer__bottom">
+      <p class="site-footer__disclaimer">⚕ 醫療免責聲明：{MEDICAL_DISCLAIMER}</p>
+      <p class="site-footer__copy">© {year} {SITE_NAME}. All rights reserved.</p>
     </div>
   </div>
 </footer>

@@ -28,8 +28,8 @@ export const MEDICAL_DISCLAIMER =
 // click produced it; that token is not ours to re-publish and can expire, so
 // the site links to the plain appointment URL.
 export const CONTACT_LINKS = [
-  { id: 'instagram', label: 'Instagram', iconOnly: true, href: 'https://www.instagram.com/e.sheen_derma/' },
-  { id: 'facebook', label: 'Facebook', iconOnly: true, href: 'https://www.facebook.com/profile.php?id=61586028155642' },
-  { id: 'line', label: 'LINE', iconOnly: true, href: 'https://lin.ee/N2hiCQl' },
+  { id: 'instagram', label: 'Instagram', href: 'https://www.instagram.com/e.sheen_derma/' },
+  { id: 'facebook', label: 'Facebook', href: 'https://www.facebook.com/profile.php?id=61586028155642' },
+  { id: 'line', label: 'LINE', href: 'https://lin.ee/N2hiCQl' },
   { id: 'booking', label: '線上掛號', href: 'https://pinmed.co/clinic/df31ioxp?openAppointment=true' },
 ];
