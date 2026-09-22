@@ -164,42 +164,19 @@ button {
 .brand {
   display: flex;
   align-items: center;
-  gap: 10px;
   text-decoration: none;
 }
 
 .brand img {
-  height: 52px;
-  width: auto;
-  object-fit: contain;
-}
-
-.brand__text {
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-}
-
-.brand__name {
-  font-weight: 700;
-  font-size: 18px;
-  color: var(--heading);
-  letter-spacing: 0.5px;
-  line-height: 1;
-}
-
-.brand__latin {
-  font-size: 10.5px;
-  color: var(--muted);
-  letter-spacing: 2px;
-  text-transform: uppercase;
-  line-height: 1;
+  width: 84px;
+  height: auto;
+  display: block;
 }
 
 .nav {
   display: flex;
   align-items: center;
-  gap: 28px;
+  gap: 26px;
   font-size: 15px;
 }
 
@@ -207,68 +184,134 @@ button {
   color: var(--muted-4);
   font-weight: 500;
   text-decoration: none;
-  background: none;
-  border: 0;
   padding: 0;
-  cursor: pointer;
 }
 
 .nav__link:hover {
   color: var(--accent);
 }
 
-.nav__link[aria-current='page'],
-.nav__link.is-active {
+.nav__link[aria-current='page'] {
   color: var(--accent);
   font-weight: 700;
 }
 
-.nav__link--plain {
-  color: var(--slate);
-  font-weight: 400;
+.nav__book {
+  background: var(--accent);
+  color: #fff;
+  border-radius: 100px;
+  padding: 9px 20px;
+  font-size: 14.5px;
+  font-weight: 700;
+  text-decoration: none;
 }
 
-.nav__group {
-  position: relative;
-  display: flex;
+.nav__book:hover {
+  background: var(--accent-dark);
+  color: #fff;
 }
 
-.nav__menu {
-  position: absolute;
-  top: 32px;
-  left: 0;
+/* ------------------------------------------------- section sub-nav --- */
+
+/* ------------------------------------------- follicle school shell --- */
+/* Follicle School is its own site behind the same domain: readers who click
+   in from E.sheen get this header in place of the main one. */
+
+.fs-header {
+  position: sticky;
+  top: 0;
+  z-index: 40;
   background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: 10px;
-  box-shadow: var(--shadow-pop);
-  min-width: 160px;
-  overflow: hidden;
-  animation: fadeIn 0.15s ease;
+  border-bottom: 1px solid var(--border);
+}
+
+.fs-header__bar {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 14px 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.fs-brand {
   display: flex;
   flex-direction: column;
-}
-
-.nav__menu[hidden] {
-  display: none;
-}
-
-.nav__menu a {
-  padding: 12px 16px;
+  gap: 3px;
   text-decoration: none;
-  color: var(--ink);
+}
+
+.fs-brand__name {
+  font-size: 19px;
+  font-weight: 900;
+  color: var(--heading);
+  line-height: 1.2;
+}
+
+.fs-brand__latin {
+  font-size: 10px;
+  letter-spacing: 2.2px;
+  text-transform: uppercase;
+  color: var(--muted);
+  line-height: 1;
+}
+
+.fs-nav {
+  display: flex;
+  align-items: center;
+  gap: 22px;
   font-size: 15px;
 }
 
-.nav__menu a:first-child {
+.fs-nav__link {
+  color: var(--muted-4);
   font-weight: 500;
+  text-decoration: none;
 }
 
-.nav__menu a + a {
-  border-top: 1px solid var(--border);
+.fs-nav__link:hover {
+  color: var(--accent);
 }
 
-.nav__menu a:hover {
-  background: var(--surface-alt);
+.fs-nav__link[aria-current='page'] {
+  color: var(--accent);
+  font-weight: 700;
+}
+
+/* The way back to the main site. Set apart so it never reads as a section. */
+.fs-nav__home {
+  margin-left: 4px;
+  padding-left: 22px;
+  border-left: 1px solid var(--border);
+  color: var(--muted);
+  font-size: 13.5px;
+  font-weight: 500;
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.fs-nav__home:hover {
+  color: var(--accent);
+}
+
+@media (max-width: 1040px) {
+  .fs-nav {
+    gap: 16px;
+    font-size: 14px;
+  }
+  .fs-nav__home {
+    padding-left: 16px;
+  }
+}
+
+@media (max-width: 779px) {
+  .fs-nav {
+    display: none;
+  }
+  .fs-brand__name {
+    font-size: 17px;
+  }
 }
 
 .nav-toggle {
@@ -283,23 +326,72 @@ button {
   display: none;
 }
 
+/* Slide-in drawer for phones and tablets: it sits over the page from the
+   right rather than pushing the content down. */
+
+.nav-scrim {
+  position: fixed;
+  inset: 0;
+  z-index: 55;
+  background: rgba(35, 28, 22, 0.42);
+  opacity: 0;
+  transition: opacity 0.26s ease;
+}
+
+.nav-scrim.is-open {
+  opacity: 1;
+}
+
 .mobile-nav {
-  border-top: 1px solid var(--border);
-  padding: 8px 20px 16px;
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 60;
+  width: min(320px, 82vw);
+  padding: 68px 26px 32px;
+  background: var(--surface);
+  border-left: 1px solid var(--border);
+  box-shadow: -18px 0 44px rgba(28, 22, 16, 0.18);
   display: flex;
   flex-direction: column;
   gap: 2px;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  transform: translateX(100%);
+  transition: transform 0.26s ease;
 }
 
-.mobile-nav[hidden] {
-  display: none;
+.mobile-nav.is-open {
+  transform: translateX(0);
+}
+
+.mobile-nav__close {
+  position: absolute;
+  top: 16px;
+  right: 18px;
+  width: 38px;
+  height: 38px;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  background: var(--surface);
+  color: var(--heading);
+  font-size: 15px;
+  line-height: 1;
+  cursor: pointer;
 }
 
 .mobile-nav a {
-  padding: 12px 4px;
+  padding: 14px 4px;
   font-weight: 600;
+  font-size: 16px;
   color: var(--ink);
   text-decoration: none;
+  border-bottom: 1px solid var(--border);
+}
+
+.mobile-nav a:last-child {
+  border-bottom: 0;
 }
 
 .mobile-nav a.is-sub {
@@ -310,6 +402,18 @@ button {
 
 .mobile-nav a.is-accent {
   color: var(--accent);
+}
+
+/* Stop the page behind the drawer from scrolling with it. */
+body.has-drawer {
+  overflow: hidden;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .mobile-nav,
+  .nav-scrim {
+    transition: none;
+  }
 }
 
 @media (max-width: 779px) {
@@ -394,11 +498,33 @@ button {
 .site-footer__meta {
   display: flex;
   flex-wrap: wrap;
-  gap: 24px;
+  align-items: center;
+  gap: 22px;
   font-size: 13px;
   color: var(--footer-muted);
   border-top: 1px solid var(--footer-border);
   padding-top: 18px;
+}
+
+.site-footer__meta a {
+  color: var(--footer-fg);
+  text-decoration: none;
+}
+
+.site-footer__meta a:hover {
+  color: #fff;
+  text-decoration: underline;
+}
+
+.site-footer__copy {
+  margin-left: auto;
+}
+
+@media (max-width: 600px) {
+  .site-footer__copy {
+    margin-left: 0;
+    width: 100%;
+  }
 }
 
 /* --------------------------------------------------------- typography --- */
@@ -469,7 +595,8 @@ button {
   display: inline-block;
   background: var(--accent);
   color: #fff;
-  border: none;
+  /* Transparent border so a bordered variant keeps the identical box size. */
+  border: 1px solid transparent;
   border-radius: 100px;
   padding: 14px 32px;
   font-size: 15px;
@@ -490,17 +617,17 @@ button {
   font-weight: 600;
 }
 
+/* Same metrics as .btn — only the colours differ. */
 .btn--ghost {
-  background: #f3f6f5;
+  background: var(--surface);
+  border-color: var(--border);
   color: var(--body);
-  padding: 11px 22px;
-  font-size: 13.5px;
-  font-weight: 600;
 }
 
 .btn--ghost:hover {
-  background: var(--border);
-  color: var(--body);
+  background: var(--surface-alt);
+  border-color: var(--muted);
+  color: var(--heading);
 }
 
 .btn--block {
@@ -642,6 +769,1147 @@ button {
   }
   .to-top img {
     width: 44px;
+  }
+}
+
+/* ------------------------------------------------------- article --- */
+
+.article {
+  max-width: 760px;
+  margin: 0 auto;
+  padding: 48px 24px 80px;
+}
+
+.article__tag {
+  font-size: 12.5px;
+  font-weight: 600;
+  color: var(--accent);
+  letter-spacing: 0.5px;
+  margin: 0 0 10px;
+}
+
+.article__title {
+  font-size: 30px;
+  font-weight: 900;
+  line-height: 1.5;
+  color: var(--heading);
+  margin: 0 0 12px;
+}
+
+.article__meta {
+  font-size: 12.5px;
+  color: var(--muted);
+  margin: 0;
+}
+
+.article__head {
+  padding-bottom: 24px;
+  border-bottom: 1px solid var(--border);
+  margin-bottom: 32px;
+}
+
+.article__body {
+  font-size: 16px;
+  line-height: 2;
+  color: var(--body);
+}
+
+.article__body h3 {
+  font-size: 19px;
+  font-weight: 800;
+  color: var(--heading);
+  margin: 40px 0 14px;
+  line-height: 1.6;
+}
+
+.article__body p {
+  margin: 0 0 18px;
+}
+
+.article__body ul,
+.article__body ol {
+  margin: 0 0 20px;
+  padding-left: 22px;
+}
+
+.article__body li {
+  margin-bottom: 10px;
+}
+
+.article__body strong {
+  color: var(--heading);
+}
+
+.article__body hr {
+  border: 0;
+  border-top: 1px solid var(--border);
+  margin: 34px 0;
+}
+
+.article-image {
+  margin: 24px 0 28px;
+}
+
+.article-image img {
+  width: 100%;
+  height: auto;
+  display: block;
+  border-radius: 14px;
+  border: 1px solid var(--border);
+}
+
+.article__body .figure-note {
+  font-size: 12.5px;
+  color: var(--muted);
+  text-align: center;
+  margin: -18px 0 26px;
+}
+
+.article__body .references li {
+  font-size: 13px;
+  line-height: 1.8;
+  color: var(--muted-2);
+  word-break: break-word;
+}
+
+.article__foot {
+  margin-top: 48px;
+  padding-top: 24px;
+  border-top: 1px solid var(--border);
+}
+
+@media (max-width: 600px) {
+  .article__title {
+    font-size: 24px;
+  }
+  .article__body {
+    font-size: 15.5px;
+  }
+}
+
+/* Headings, tables and callouts inside a migrated article body. The markup
+   comes from the old esheen.skin pages, so these selectors match plain
+   elements rather than components. */
+
+.article__body h2 {
+  font-size: 23px;
+  font-weight: 900;
+  color: var(--heading);
+  line-height: 1.55;
+  margin: 46px 0 16px;
+  padding-bottom: 12px;
+  border-bottom: 2px solid var(--accent);
+}
+
+.article__body h2:first-child {
+  margin-top: 0;
+}
+
+/* Tables scroll sideways instead of squeezing on a phone. */
+.article__body table {
+  display: block;
+  overflow-x: auto;
+  width: 100%;
+  border-collapse: collapse;
+  margin: 0 0 26px;
+  font-size: 14.5px;
+  line-height: 1.85;
+}
+
+.article__body th,
+.article__body td {
+  border: 1px solid var(--border);
+  padding: 12px 14px;
+  text-align: left;
+  vertical-align: top;
+  min-width: 120px;
+}
+
+.article__body th {
+  background: #ede6df;
+  color: var(--heading);
+  font-weight: 800;
+  white-space: nowrap;
+}
+
+.article__body tbody tr:nth-child(even) td {
+  background: var(--surface-alt);
+}
+
+.article__body tbody tr:nth-child(odd) td {
+  background: var(--surface);
+}
+
+.article__body blockquote {
+  margin: 26px 0;
+  padding: 18px 22px;
+  border-left: 4px solid var(--accent);
+  background: var(--surface);
+  border-radius: 0 12px 12px 0;
+  color: var(--muted-4);
+}
+
+.article__body blockquote p:last-child {
+  margin-bottom: 0;
+}
+
+.article__body .source-note {
+  font-size: 13px;
+  color: var(--muted);
+  text-align: center;
+}
+
+.case-grid {
+  display: grid;
+  gap: 22px;
+  margin: 26px 0 30px;
+}
+
+.case-figure {
+  margin: 0;
+}
+
+.case-figure img {
+  width: 100%;
+  height: auto;
+  display: block;
+  border-radius: 12px;
+  border: 1px solid var(--border);
+}
+
+.case-figure figcaption {
+  font-size: 13px;
+  line-height: 1.75;
+  color: var(--muted-2);
+  margin-top: 10px;
+}
+
+/* Closing call to action — the conversion point of every article. */
+.cta-box {
+  margin: 48px 0 8px;
+  padding: 32px 30px;
+  border-radius: 18px;
+  background: linear-gradient(180deg, #ece4dc 0%, #f3eee9 100%);
+  border: 1px solid var(--border);
+  text-align: center;
+}
+
+.cta-title {
+  font-size: 20px;
+  font-weight: 900;
+  color: var(--heading);
+  margin: 0 0 10px;
+  border: 0;
+  padding: 0;
+}
+
+.cta-box p {
+  font-size: 15px;
+  line-height: 1.9;
+  color: var(--muted-4);
+  margin: 0 0 22px;
+  text-align: left;
+}
+
+.btn-consult {
+  display: inline-block;
+  padding: 13px 30px;
+  border-radius: 999px;
+  background: var(--accent);
+  color: #fff;
+  font-size: 15px;
+  font-weight: 700;
+  text-decoration: none;
+  transition: background 0.18s ease;
+}
+
+.btn-consult:hover {
+  background: var(--accent-dark);
+}
+
+@media (min-width: 720px) {
+  .case-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 600px) {
+  .article__body h2 {
+    font-size: 20px;
+  }
+  .cta-box {
+    padding: 26px 20px;
+  }
+}
+
+/* --------------------------------------------------- doctor site --- */
+
+/* Homepage rhythm: a full-bleed image plate, then a narrow block of text,
+   alternating. Plates bleed past the page gutter; text stays centred and
+   narrow so it reads as a pause between the images. */
+
+.plate {
+  width: 100%;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-bottom: 1px solid var(--border);
+}
+
+/* Cover plate for a wide photograph. */
+.plate--photo {
+  height: clamp(320px, 62vh, 620px);
+  background: var(--surface-alt);
+}
+
+/* On a phone the plate would be far taller than the picture's 16:9, so it
+   gets cropped to a narrow slice. Track the aspect ratio instead. */
+@media (max-width: 700px) {
+  .plate--photo {
+    height: clamp(190px, 58vw, 320px);
+  }
+}
+
+.plate--photo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* Photo band with the copy sitting in the empty half of the picture. */
+
+.showcase {
+  position: relative;
+  width: 100%;
+  min-height: clamp(420px, 56vw, 660px);
+  overflow: hidden;
+  border-block: 1px solid var(--border);
+  background: #efe8e1;
+}
+
+.showcase__img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  max-width: none;
+  object-fit: cover;
+  object-position: right center;
+  display: block;
+}
+
+.showcase__inner {
+  position: relative;
+  max-width: 1220px;
+  margin: 0 auto;
+  min-height: inherit;
+  display: flex;
+  align-items: center;
+  padding: 56px 24px;
+}
+
+.showcase__panel {
+  width: min(46%, 520px);
+}
+
+.showcase__eyebrow {
+  font-size: 12px;
+  letter-spacing: 3px;
+  color: var(--muted-3);
+  margin: 0 0 14px;
+}
+
+.showcase__title {
+  font-size: clamp(21px, 2.6vw, 29px);
+  font-weight: 900;
+  color: var(--heading);
+  line-height: 1.5;
+  margin: 0 0 20px;
+}
+
+.showcase__text {
+  font-size: 15px;
+  line-height: 2;
+  color: var(--muted-4);
+  margin: 0 0 14px;
+}
+
+.showcase__text--slogan {
+  color: var(--accent);
+  font-weight: 700;
+  margin-top: 20px;
+}
+
+.showcase__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 28px;
+}
+
+/* Paired call-to-actions read as a set, so they share a width. */
+.showcase__actions .btn,
+.band__actions .btn {
+  min-width: 156px;
+  text-align: center;
+}
+
+/* Mid widths: keep the copy beside her, just give it more of the frame. */
+@media (max-width: 1040px) {
+  .showcase__panel {
+    width: min(52%, 460px);
+  }
+  .showcase__text {
+    font-size: 14.5px;
+    line-height: 1.95;
+  }
+}
+
+@media (max-width: 820px) {
+  .showcase__img {
+    object-position: 82% center;
+  }
+  .showcase__panel {
+    width: min(58%, 420px);
+  }
+}
+
+/* Phones can't fit a column beside her, so the copy sits on a soft card over
+   the picture instead — still on the image, just stacked rather than beside. */
+@media (max-width: 680px) {
+  .showcase {
+    min-height: clamp(640px, 158vw, 820px);
+  }
+  .showcase__img {
+    object-position: 76% top;
+  }
+  .showcase__inner {
+    align-items: flex-end;
+    padding: 24px 18px 26px;
+  }
+  .showcase__panel {
+    width: 100%;
+    padding: 24px 22px 26px;
+    border-radius: 18px;
+    background: rgba(253, 251, 249, 0.9);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    box-shadow: 0 10px 30px rgba(40, 30, 22, 0.1);
+  }
+  .showcase__title {
+    margin-bottom: 14px;
+  }
+  .showcase__actions {
+    margin-top: 22px;
+  }
+}
+
+/* --------------------------------------------------- section head --- */
+
+.section-head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 20px;
+}
+
+.carousel-nav {
+  display: flex;
+  gap: 8px;
+  flex-shrink: 0;
+  padding-top: 4px;
+}
+
+.carousel-nav[hidden] {
+  display: none;
+}
+
+.carousel-nav button {
+  width: 38px;
+  height: 38px;
+  border: 1px solid var(--border);
+  border-radius: 50%;
+  background: var(--surface);
+  color: var(--heading);
+  font-size: 18px;
+  line-height: 1;
+  cursor: pointer;
+  transition: background 0.18s ease, border-color 0.18s ease;
+}
+
+.carousel-nav button:hover:not(:disabled) {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: #fff;
+}
+
+.carousel-nav button:disabled {
+  opacity: 0.35;
+  cursor: default;
+}
+
+/* ------------------------------------------------- tinted section --- */
+
+.band {
+  background: linear-gradient(180deg, #ece4dc 0%, #e4dbd1 100%);
+  border-block: 1px solid var(--border);
+  padding-block: 60px;
+  margin-top: 56px;
+}
+
+.band__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 30px;
+}
+
+.statement {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: clamp(56px, 9vw, 104px) 24px;
+  text-align: center;
+}
+
+.statement__eyebrow {
+  font-size: 12px;
+  letter-spacing: 3px;
+  color: var(--muted);
+  margin: 0 0 18px;
+}
+
+.statement__title {
+  font-size: clamp(26px, 4.2vw, 38px);
+  font-weight: 900;
+  line-height: 1.5;
+  color: var(--heading);
+  letter-spacing: -0.5px;
+  margin: 0 0 26px;
+}
+
+.statement__title--sm {
+  font-size: clamp(21px, 2.8vw, 27px);
+}
+
+.statement__text {
+  font-size: 16px;
+  line-height: 2.1;
+  color: var(--muted-4);
+  margin: 0 0 16px;
+}
+
+.statement__text--strong {
+  color: var(--accent);
+  font-weight: 600;
+  margin-top: 26px;
+}
+
+.statement__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  justify-content: center;
+  margin-top: 34px;
+}
+
+@media (max-width: 600px) {
+  .statement__text {
+    font-size: 15.5px;
+    line-height: 2;
+  }
+  /* The line breaks in the quote are tuned for desktop measure. */
+  .statement__text br {
+    display: none;
+  }
+}
+
+.home-section-title {
+  font-size: 22px;
+  font-weight: 800;
+  color: var(--heading);
+  margin: 0 0 8px;
+}
+
+/* Homepage education cards: a photo plate with the label sitting over it.
+   Hovering grows the card downward and reveals the description. The grid
+   rows are already the tall size, so nothing below shifts when it opens. */
+
+/* Horizontal track so more topics can be added without redesigning: the
+   arrows appear only once the cards actually outrun the width. The track is
+   already the tall size, so a card growing on hover shifts nothing. */
+.feature-track {
+  display: flex;
+  align-items: flex-start;
+  gap: 18px;
+  height: 400px;
+  margin-top: 22px;
+  overflow-x: auto;
+  overflow-y: hidden;
+  scroll-snap-type: x mandatory;
+  scroll-behavior: smooth;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.feature-track::-webkit-scrollbar {
+  display: none;
+}
+
+.feature-track:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 4px;
+}
+
+.feature-card {
+  position: relative;
+  display: block;
+  flex: 0 0 calc((100% - 36px) / 3);
+  height: 320px;
+  border-radius: 16px;
+  overflow: hidden;
+  text-decoration: none;
+  background: var(--surface-alt);
+  scroll-snap-align: start;
+  transition: height 0.34s ease, box-shadow 0.34s ease;
+}
+
+@media (max-width: 900px) {
+  .feature-card {
+    flex-basis: calc((100% - 18px) / 2);
+  }
+}
+
+@media (max-width: 620px) {
+  .feature-card {
+    flex-basis: 86%;
+  }
+}
+
+.feature-card__img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  max-width: none;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.6s ease;
+}
+
+.feature-card__scrim {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(32, 24, 18, 0) 34%, rgba(32, 24, 18, 0.78) 100%);
+}
+
+.feature-card__body {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  padding: 22px 22px 20px;
+  color: #fff;
+}
+
+.feature-card__title {
+  display: block;
+  font-size: 18px;
+  font-weight: 800;
+  letter-spacing: 0.6px;
+  line-height: 1.4;
+}
+
+.feature-card__latin {
+  display: block;
+  font-size: 11.5px;
+  letter-spacing: 1.4px;
+  color: rgba(255, 255, 255, 0.72);
+  margin-top: 4px;
+}
+
+.feature-card__desc {
+  display: block;
+  font-size: 13px;
+  line-height: 1.8;
+  color: rgba(255, 255, 255, 0.88);
+  margin-top: 8px;
+}
+
+.feature-card__more {
+  display: block;
+  font-size: 13px;
+  font-weight: 700;
+  color: #fff;
+  margin-top: 10px;
+}
+
+/* No photograph yet: a quiet woven plate with dark type instead of a scrim. */
+.feature-card--soon {
+  background: repeating-linear-gradient(135deg, #f1ebe4 0 11px, #e9e1d8 11px 22px);
+  border: 1px dashed var(--border);
+  cursor: default;
+}
+
+.feature-card--soon .feature-card__body {
+  color: var(--heading);
+}
+
+.feature-card--soon .feature-card__desc {
+  color: var(--muted-3);
+}
+
+.feature-card--soon .feature-card__more {
+  color: var(--muted);
+  font-weight: 500;
+}
+
+/* Hovering (or tabbing to) a card lengthens it, showing more of the photo.
+   Nothing is hidden behind the hover, so touch devices lose nothing. */
+@media (hover: hover) and (pointer: fine) {
+  .feature-card:hover,
+  .feature-card:focus-visible {
+    height: 100%;
+    box-shadow: var(--shadow-pop);
+  }
+
+  .feature-card:hover .feature-card__img {
+    transform: scale(1.04);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .feature-card,
+  .feature-card__img {
+    transition: none;
+  }
+}
+
+.area-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 18px;
+  margin-top: 20px;
+}
+
+.area-card {
+  display: flex;
+  flex-direction: column;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 24px;
+  text-decoration: none;
+  overflow: hidden;
+}
+
+.area-card:not(.is-soon):hover {
+  border-color: var(--accent);
+}
+
+.area-card.is-soon {
+  background: transparent;
+  border-style: dashed;
+  cursor: default;
+}
+
+.area-card__placeholder {
+  width: calc(100% + 48px);
+  max-width: none;
+  margin: -24px -24px 18px;
+  height: 150px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: repeating-linear-gradient(
+    135deg,
+    var(--surface-alt) 0 10px,
+    #efe9e3 10px 20px
+  );
+  color: var(--muted);
+  font-size: 13px;
+}
+
+.area-card__img {
+  width: calc(100% + 48px);
+  max-width: none;
+  margin: -24px -24px 18px;
+  height: 150px;
+  object-fit: cover;
+  display: block;
+}
+
+.area-card__title {
+  font-size: 19px;
+  font-weight: 800;
+  color: var(--heading);
+}
+
+.area-card__latin {
+  font-size: 11.5px;
+  letter-spacing: 1.2px;
+  color: var(--muted);
+  margin-top: 3px;
+}
+
+.area-card__desc {
+  font-size: 14px;
+  color: var(--muted-2);
+  margin-top: 10px;
+  flex: 1;
+}
+
+.area-card__more {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--accent);
+  margin-top: 16px;
+}
+
+.area-card.is-soon .area-card__more {
+  color: var(--muted);
+}
+
+/* ----------------------------------------------- doctor profile --- */
+/* Portrait on a shaped plate at the left, credentials in columns beside it. */
+
+.profile {
+  display: grid;
+  grid-template-columns: minmax(0, 330px) minmax(0, 1fr);
+  gap: 52px;
+  align-items: start;
+}
+
+.profile__media {
+  position: relative;
+}
+
+/* Arched plate: rounded across the top, flat along the bottom edge. */
+.profile__frame {
+  border-radius: 180px 180px 0 0;
+  background: linear-gradient(170deg, #eee7de 0%, #e3d8cb 100%);
+  overflow: hidden;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+}
+
+.profile__frame img {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+.profile__sign {
+  margin: 16px 0 0;
+  text-align: center;
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--muted-4);
+  letter-spacing: 1px;
+}
+
+.profile__name {
+  font-size: 32px;
+  font-weight: 900;
+  color: var(--heading);
+  margin: 0 0 26px;
+  letter-spacing: -0.5px;
+}
+
+.profile__heading {
+  font-size: 17px;
+  font-weight: 800;
+  color: var(--accent);
+  margin: 0 0 16px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid var(--border);
+}
+
+.pill-list {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 38px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.pill-list li {
+  border: 1px solid #ddc9b8;
+  border-radius: 100px;
+  padding: 9px 18px;
+  font-size: 13.5px;
+  color: var(--muted-4);
+  background: var(--surface);
+}
+
+.profile__cols {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 40px;
+}
+
+.cv-list--tight li {
+  font-size: 14px;
+  line-height: 1.8;
+  margin-bottom: 8px;
+}
+
+@media (max-width: 900px) {
+  .profile {
+    grid-template-columns: 1fr;
+    gap: 36px;
+  }
+  .profile__media {
+    max-width: 300px;
+    margin: 0 auto;
+  }
+  .profile__cols {
+    grid-template-columns: 1fr;
+    gap: 32px;
+  }
+  .profile__name {
+    text-align: center;
+  }
+}
+
+.section-title__count {
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--muted);
+  margin-left: 6px;
+}
+
+/* CV blocks on the doctor page: publications, interviews, conferences. */
+
+.cv-list {
+  margin: 0;
+  padding-left: 20px;
+  color: var(--body);
+}
+
+.cv-list li {
+  font-size: 14.5px;
+  line-height: 1.9;
+  margin-bottom: 12px;
+}
+
+.cv-list--refs li {
+  font-size: 13.5px;
+  line-height: 1.85;
+  color: var(--muted-3);
+  padding-left: 4px;
+  word-break: break-word;
+}
+
+.cv-list--links {
+  list-style: none;
+  padding-left: 0;
+}
+
+.cv-list--links li {
+  padding: 14px 0;
+  border-bottom: 1px solid var(--border);
+  margin-bottom: 0;
+}
+
+.cv-list--links li:first-child {
+  padding-top: 0;
+}
+
+.cv-list--links a {
+  display: block;
+  color: var(--accent);
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.cv-list--links a:hover {
+  text-decoration: underline;
+}
+
+.cv-source {
+  display: block;
+  font-size: 13px;
+  color: var(--muted);
+  margin-top: 4px;
+}
+
+.cv-group + .cv-group {
+  margin-top: 26px;
+}
+
+.cv-group__title {
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--muted-4);
+  margin: 0 0 12px;
+}
+
+.specialty-list {
+  list-style: none;
+  padding: 0;
+  margin: 18px 0 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+  gap: 10px;
+}
+
+.specialty-list li {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 100px;
+  padding: 11px 20px;
+  font-size: 14.5px;
+  color: var(--body);
+}
+
+/* ------------------------------------------------------ doctor page --- */
+
+.doctor {
+  display: grid;
+  grid-template-columns: 300px minmax(0, 1fr);
+  gap: 44px;
+  align-items: start;
+}
+
+.doctor__media img {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+.doctor__title {
+  font-size: 15px;
+  color: var(--accent);
+  font-weight: 600;
+  margin: 0 0 28px;
+}
+
+.doctor__heading {
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  color: var(--muted);
+  margin: 26px 0 10px;
+}
+
+.doctor__list {
+  margin: 0;
+  padding-left: 18px;
+  font-size: 15px;
+  line-height: 2;
+  color: var(--body);
+}
+
+.article-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 18px;
+}
+
+.article-card {
+  display: flex;
+  flex-direction: column;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 24px;
+  text-decoration: none;
+}
+
+.article-card:hover {
+  border-color: var(--accent);
+}
+
+.article-card__tag {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--accent);
+  letter-spacing: 0.5px;
+}
+
+.article-card__title {
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--heading);
+  margin-top: 8px;
+  line-height: 1.6;
+}
+
+.article-card__excerpt {
+  font-size: 14px;
+  color: var(--muted-2);
+  margin-top: 10px;
+  line-height: 1.85;
+  flex: 1;
+}
+
+.article-card__more {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--accent);
+  margin-top: 16px;
+}
+
+/* --------------------------------------------------------- contact --- */
+
+.contact-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+  gap: 14px;
+}
+
+.contact-card {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 22px 24px;
+  text-decoration: none;
+}
+
+.contact-card:hover {
+  border-color: var(--accent);
+}
+
+.contact-card--primary {
+  background: var(--accent);
+  border-color: var(--accent);
+}
+
+.contact-card--primary:hover {
+  background: var(--accent-dark);
+  border-color: var(--accent-dark);
+}
+
+.contact-card__label {
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--heading);
+}
+
+.contact-card__desc {
+  font-size: 13.5px;
+  color: var(--muted-2);
+}
+
+.contact-card--primary .contact-card__label,
+.contact-card--primary .contact-card__desc {
+  color: #fff;
+}
+
+@media (max-width: 860px) {
+  .doctor {
+    grid-template-columns: 1fr;
+    gap: 28px;
+  }
+  .doctor__media {
+    max-width: 260px;
   }
 }
 
@@ -1375,7 +2643,6 @@ button {
   color: var(--heading);
   background: var(--border);
 }
-
 
 .quad__axis {
   display: flex;

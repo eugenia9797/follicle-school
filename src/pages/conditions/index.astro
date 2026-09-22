@@ -1,0 +1,54 @@
+---
+import { Image } from 'astro:assets';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import iconAga from '../../assets/icon-aga.jpg';
+
+const description =
+  '常見皮膚疾病衛教：落髮（雄性禿、休止期落髮、圓禿）的完整專區，以及酒糟、青春痘等內容。由皮膚專科醫師黃易欣整理。';
+
+const sections = [
+  {
+    href: '/follicle-school/',
+    title: '落髮',
+    latin: '毛囊研究所 Follicle School',
+    desc: '雄性禿、休止期落髮與圓禿的成因、分期、皮膚鏡表現與治療比較，並提供自我落髮檢測。',
+    image: iconAga,
+    ready: true,
+  },
+  { title: '酒糟', desc: '泛紅、灼熱、丘疹膿皰的成因與長期控制策略。', ready: false },
+  { title: '青春痘與痘疤', desc: '從粉刺、發炎到痘疤，不同階段的治療選擇。', ready: false },
+];
+
+---
+
+<BaseLayout title="常見皮膚疾病" description={description} current="conditions">
+  <section class="wrap" style="padding-block:56px 24px;">
+    <h1 class="page-title" style="margin-bottom:10px;">常見皮膚疾病</h1>
+    <p class="lede lede--lg">專業醫師觀點，守護您的肌膚健康。</p>
+  </section>
+
+  <section class="wrap" style="padding-bottom:80px;">
+    <div class="area-grid area-grid--rich">
+      {
+        sections.map((s) =>
+          s.ready ? (
+            <a class="area-card area-card--img" href={s.href}>
+              <Image src={s.image} alt={s.title} width={420} densities={[1, 2]} class="area-card__img" />
+              <span class="area-card__title">{s.title}</span>
+              {s.latin && <span class="area-card__latin">{s.latin}</span>}
+              <span class="area-card__desc">{s.desc}</span>
+              <span class="area-card__more">進入專區 →</span>
+            </a>
+          ) : (
+            <div class="area-card area-card--img is-soon">
+              <span class="area-card__placeholder">內容建置中</span>
+              <span class="area-card__title">{s.title}</span>
+              <span class="area-card__desc">{s.desc}</span>
+              <span class="area-card__more">內容建置中</span>
+            </div>
+          ),
+        )
+      }
+    </div>
+  </section>
+</BaseLayout>

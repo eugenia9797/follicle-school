@@ -1,3 +1,20 @@
-# The two conditions had placeholder pages before they were written.
-/coming-soon/telogen  /telogen  301
-/coming-soon/areata   /areata   301
+# 舊 esheen.skin（GitHub Pages 手寫 HTML）的網址
+/index.html                      /                                   301
+/main.html                       /about/                             301
+/skin-diseases.html              /conditions/                        301
+/aesthetics.html                 /aesthetics/                        301
+/contact.html                    /contact/                           301
+/article-hormone-hair-loss.html  /follicle-school/breast-cancer/     301
+/article-intimate-care.html      /aesthetics/intimate-care/          301
+
+# 落髮專區併入 /follicle-school/ 之前的網址
+/aga                             /follicle-school/aga/               301
+/aga/male                        /follicle-school/aga/male/          301
+/aga/female                      /follicle-school/aga/female/        301
+/telogen                         /follicle-school/telogen/           301
+/areata                          /follicle-school/areata/            301
+/quiz                            /follicle-school/quiz/              301
+
+# 落髮專區更早之前的「建置中」頁面
+/coming-soon/telogen             /follicle-school/telogen/           301
+/coming-soon/areata              /follicle-school/areata/            301

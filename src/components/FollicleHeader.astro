@@ -1,0 +1,63 @@
+---
+import MobileNav from './MobileNav.astro';
+import { CONTACT_LINKS, HAIR_SECTION_BASE as BASE, HAIR_SECTION_NAME, HAIR_SECTION_NAME_EN } from '../consts.js';
+
+/**
+ * Follicle School runs on its own shell: readers who click in from the main
+ * site get this header instead of E.sheen's, plus a way back to it.
+ */
+const { current = '' } = Astro.props;
+
+const NAV = [
+  { id: 'aga', label: '雄性禿', href: `${BASE}/aga/` },
+  { id: 'telogen', label: '休止期落髮', href: `${BASE}/telogen/` },
+  { id: 'areata', label: '圓禿', href: `${BASE}/areata/` },
+  { id: 'quiz', label: '自我落髮檢測', href: `${BASE}/quiz/` },
+];
+
+const booking = CONTACT_LINKS.find((l) => l.id === 'booking');
+
+const drawerItems = [
+  ...NAV,
+  { label: '預約掛號 →', href: booking.href, external: true, accent: true },
+  { label: '← 回 E.sheen 主站', href: '/' },
+];
+---
+
+<header class="fs-header">
+  <div class="fs-header__bar">
+    <a class="fs-brand" href={`${BASE}/`}>
+      <span class="fs-brand__name">{HAIR_SECTION_NAME}</span>
+      <span class="fs-brand__latin">{HAIR_SECTION_NAME_EN}</span>
+    </a>
+
+    <button
+      type="button"
+      class="nav-toggle"
+      data-nav-toggle
+      aria-expanded="false"
+      aria-controls="mobile-nav"
+      aria-label="開啟選單"
+    >☰</button>
+
+    <nav class="fs-nav" aria-label="毛囊研究所選單">
+      {
+        NAV.map((item) => (
+          <a
+            class="fs-nav__link"
+            href={item.href}
+            aria-current={current === item.id ? 'page' : undefined}
+          >
+            {item.label}
+          </a>
+        ))
+      }
+      <a class="fs-nav__home" href="/">← 回 E.sheen 主站</a>
+      <a class="nav__book" href={booking.href} target="_blank" rel="noopener noreferrer">
+        預約掛號
+      </a>
+    </nav>
+  </div>
+
+  <MobileNav items={drawerItems} label="毛囊研究所行動版選單" />
+</header>

@@ -1,5 +1,30 @@
 ---
-import { CONTACT_LINKS, MEDICAL_DISCLAIMER, SITE_NAME } from '../consts.js';
+import {
+  CONTACT_LINKS,
+  HAIR_SECTION_BASE,
+  HAIR_SECTION_NAME,
+  MEDICAL_DISCLAIMER,
+  SITE_NAME,
+} from '../consts.js';
+
+// Follicle School has its own shell, so its footer points back at the main
+// site rather than around it.
+const { shell = 'main' } = Astro.props;
+
+const META_LINKS =
+  shell === 'hair'
+    ? [
+        { label: `${HAIR_SECTION_NAME}首頁`, href: `${HAIR_SECTION_BASE}/` },
+        { label: '自我落髮檢測', href: `${HAIR_SECTION_BASE}/quiz/` },
+        { label: '醫師介紹', href: '/about/' },
+        { label: '← 回 E.sheen 主站', href: '/' },
+      ]
+    : [
+        { label: '醫師介紹', href: '/about/' },
+        { label: '皮膚疾病', href: '/conditions/' },
+        { label: '醫學美容', href: '/aesthetics/' },
+        { label: '聯絡我', href: '/contact/' },
+      ];
 
 const year = new Date().getFullYear();
 
@@ -38,9 +63,8 @@ const ICONS = {
     </nav>
 
     <div class="site-footer__meta">
-      <span>門診資訊：請洽診所服務台或官方網站查詢門診時間</span>
-      <span>掛號方式：現場掛號／電話掛號／線上掛號（請依院所實際規定）</span>
-      <span>© {year} {SITE_NAME}</span>
+      {META_LINKS.map((link) => <a href={link.href}>{link.label}</a>)}
+      <span class="site-footer__copy">© {year} {SITE_NAME}</span>
     </div>
   </div>
 </footer>

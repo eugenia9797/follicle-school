@@ -1,0 +1,24 @@
+---
+import BaseLayout from './BaseLayout.astro';
+
+const { title, description, tag, backHref, backLabel, current, shell, updated } = Astro.props;
+---
+
+<BaseLayout title={title} description={description} current={current} shell={shell}>
+  <article class="article">
+    <header class="article__head">
+      <p class="breadcrumb"><a href={backHref}>{backLabel}</a> ／ 專欄文章</p>
+      <p class="article__tag">{tag}</p>
+      <h1 class="article__title">{title}</h1>
+      {updated && <p class="article__meta">最後更新：{updated}</p>}
+    </header>
+
+    <div class="article__body">
+      <slot />
+    </div>
+
+    <footer class="article__foot">
+      <a class="btn btn--sm" href={backHref}>← 回到{backLabel}</a>
+    </footer>
+  </article>
+</BaseLayout>

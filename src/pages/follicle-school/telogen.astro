@@ -1,16 +1,16 @@
 ---
-import BaseLayout from '../layouts/BaseLayout.astro';
-import ConditionHero from '../components/ConditionHero.astro';
-import ImageSlot from '../components/ImageSlot.astro';
-import StageAccordion from '../components/StageAccordion.astro';
-import TreatmentComparison from '../components/TreatmentComparison.astro';
-import Faq from '../components/Faq.astro';
-import PageNotes from '../components/PageNotes.astro';
-import Lightbox from '../components/Lightbox.astro';
-import { TELOGEN_FAQ, TELOGEN_TYPES } from '../data/TreatmentData.js';
-import { buildCategories, collectLightboxes } from '../lib/treatments.js';
-import { COST_DISCLAIMER } from '../consts.js';
-import heroTelogen from '../assets/local/hero-telogen.webp';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import ConditionHero from '../../components/ConditionHero.astro';
+import ImageSlot from '../../components/ImageSlot.astro';
+import StageAccordion from '../../components/StageAccordion.astro';
+import TreatmentComparison from '../../components/TreatmentComparison.astro';
+import Faq from '../../components/Faq.astro';
+import PageNotes from '../../components/PageNotes.astro';
+import Lightbox from '../../components/Lightbox.astro';
+import { TELOGEN_FAQ, TELOGEN_TYPES } from '../../data/TreatmentData.js';
+import { buildCategories, collectLightboxes } from '../../lib/treatments.js';
+import { COST_DISCLAIMER } from '../../consts.js';
+import heroTelogen from '../../assets/local/hero-telogen.webp';
 
 const categories = buildCategories('telogen');
 const lightboxes = collectLightboxes(categories);
@@ -19,7 +19,8 @@ const description =
   '休止期落髮（Telogen Effluvium）衛教：毛髮週期與誘發同步休止期的生理性壓力、急性與慢性分型、皮膚鏡表現，以及誘因處置、營養檢查、Minoxidil 等治療的證據等級與費用比較。';
 ---
 
-<BaseLayout title="休止期落髮（Telogen Effluvium）" description={description} current="telogen">
+<BaseLayout title="休止期落髮（Telogen Effluvium）" description={description} current="telogen" shell="hair">
+
   <ConditionHero
     eyebrow="多數可逆"
     hook="毛囊提早放假，頭髮大把落下！"
@@ -107,5 +108,5 @@ const description =
 </BaseLayout>
 
 <script>
-  import '../scripts/aga.js';
+  import '../../scripts/aga.js';
 </script>

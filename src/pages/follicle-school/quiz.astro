@@ -1,17 +1,17 @@
 ---
 import { Image } from 'astro:assets';
-import BaseLayout from '../layouts/BaseLayout.astro';
-import { CATEGORIES, optionsHTML, questionState } from '../lib/quiz.js';
-import { SELF_CHECK_RESULT_INFO } from '../data/TreatmentData.js';
-import mascot from '../assets/mascot-walk.png';
-import iconAga from '../assets/icon-aga.jpg';
-import iconAgaFemale from '../assets/icon-aga-female-result.jpg';
-import iconTelogen from '../assets/icon-telogen.jpg';
-import iconAreata from '../assets/icon-areata.jpg';
-import iconQuiz from '../assets/icon-quiz.jpg';
-import examPullTest from '../assets/exam-pulltest.jpeg';
-import examDermoscopy from '../assets/exam-dermoscopy.jpeg';
-import examBloodTest from '../assets/exam-bloodtest.jpeg';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { CATEGORIES, optionsHTML, questionState } from '../../lib/quiz.js';
+import { SELF_CHECK_RESULT_INFO } from '../../data/TreatmentData.js';
+import mascot from '../../assets/mascot-walk.png';
+import iconAga from '../../assets/icon-aga.jpg';
+import iconAgaFemale from '../../assets/icon-aga-female-result.jpg';
+import iconTelogen from '../../assets/icon-telogen.jpg';
+import iconAreata from '../../assets/icon-areata.jpg';
+import iconQuiz from '../../assets/icon-quiz.jpg';
+import examPullTest from '../../assets/exam-pulltest.jpeg';
+import examDermoscopy from '../../assets/exam-dermoscopy.jpeg';
+import examBloodTest from '../../assets/exam-bloodtest.jpeg';
 
 const description =
   '回答 10 題左右的問題，依落髮型態、分佈部位、持續時間與家族史計分，初步判斷可能的落髮分類。結果僅為衛教參考，不能取代醫師之當面診斷。';
@@ -33,8 +33,8 @@ const RESULT_IMAGES = {
 // The data says where a result leads: goGender for the two AGA pages, goPage
 // for a condition page. A result with neither (「其他」) shows no CTA.
 function resultHref(info) {
-  if (info.goGender) return `/aga/${info.goGender}/`;
-  if (info.goPage) return `/${info.goPage}/`;
+  if (info.goGender) return `/follicle-school/aga/${info.goGender}/`;
+  if (info.goPage) return `/follicle-school/${info.goPage}/`;
   return null;
 }
 
@@ -53,7 +53,8 @@ const examWidths = [170, 340, 510];
 const examSizes = '(min-width: 700px) 170px, 30vw';
 ---
 
-<BaseLayout title="自我落髮檢測" description={description} current="quiz">
+<BaseLayout title="自我落髮檢測" description={description} current="quiz" shell="hair">
+
   <section class="quiz">
     <h1 class="visually-hidden">自我落髮檢測</h1>
 
@@ -126,7 +127,7 @@ const examSizes = '(min-width: 700px) 170px, 30vw';
 
       <div class="quiz__result-actions">
         <button type="button" class="btn btn--ghost" data-quiz-restart>重新測驗</button>
-        <a class="btn btn--ghost" href="/">返回首頁</a>
+        <a class="btn btn--ghost" href="/follicle-school/">回落髮專區</a>
       </div>
 
       <div class="exams">
@@ -160,12 +161,12 @@ const examSizes = '(min-width: 700px) 170px, 30vw';
     <noscript>
       <p class="hint" style="margin-top:24px;">
         自我檢測需要啟用 JavaScript 才能作答。您也可以直接閱讀
-        <a href="/aga/">雄性禿衛教內容</a>，或至皮膚科門診由醫師評估。
+        <a href="/follicle-school/aga/">雄性禿衛教內容</a>，或至皮膚科門診由醫師評估。
       </p>
     </noscript>
   </section>
 </BaseLayout>
 
 <script>
-  import '../scripts/quiz.js';
+  import '../../scripts/quiz.js';
 </script>

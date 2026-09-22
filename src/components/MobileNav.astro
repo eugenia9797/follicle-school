@@ -1,0 +1,127 @@
+---
+/**
+ * Slide-in drawer used by both site headers on phones and tablets.
+ *
+ * Opens from the right over the page; closes on the scrim, the ✕, Escape, or
+ * a rightward swipe. `items` is [{ label, href, external, accent }].
+ */
+const { items = [], label = '行動版選單' } = Astro.props;
+---
+
+<div class="nav-scrim" data-nav-scrim hidden></div>
+
+<nav class="mobile-nav" id="mobile-nav" data-mobile-nav aria-label={label} hidden>
+  <button type="button" class="mobile-nav__close" data-nav-close aria-label="關閉選單">✕</button>
+
+  {
+    items.map((item) => (
+      <a
+        href={item.href}
+        class:list={[item.accent && 'is-accent']}
+        target={item.external ? '_blank' : undefined}
+        rel={item.external ? 'noopener noreferrer' : undefined}
+      >
+        {item.label}
+      </a>
+    ))
+  }
+</nav>
+
+<script>
+  const toggle = document.querySelector('[data-nav-toggle]');
+  const drawer = document.querySelector('[data-mobile-nav]');
+  const scrim = document.querySelector('[data-nav-scrim]');
+  const closeBtn = document.querySelector('[data-nav-close]');
+
+  if (toggle && drawer && scrim) {
+    // The drawer transitions, so it has to be displayed before it can slide;
+    // `hidden` goes on only once the closing transition has finished.
+    let closeTimer;
+
+    const open = () => {
+      clearTimeout(closeTimer);
+      drawer.hidden = false;
+      scrim.hidden = false;
+      // Force a layout so the browser has a start value to animate from.
+      // A rAF would do too, but it never fires in a backgrounded tab.
+      void drawer.offsetWidth;
+      drawer.classList.add('is-open');
+      scrim.classList.add('is-open');
+      toggle.setAttribute('aria-expanded', 'true');
+      document.body.classList.add('has-drawer');
+      closeBtn?.focus();
+    };
+
+    const close = () => {
+      drawer.classList.remove('is-open');
+      scrim.classList.remove('is-open');
+      drawer.style.transform = '';
+      toggle.setAttribute('aria-expanded', 'false');
+      document.body.classList.remove('has-drawer');
+      closeTimer = setTimeout(() => {
+        drawer.hidden = true;
+        scrim.hidden = true;
+      }, 260);
+    };
+
+    const isOpen = () => drawer.classList.contains('is-open');
+
+    toggle.addEventListener('click', () => (isOpen() ? close() : open()));
+    scrim.addEventListener('click', close);
+    closeBtn?.addEventListener('click', close);
+    drawer.querySelectorAll('a').forEach((a) => a.addEventListener('click', close));
+
+    document.addEventListener('keydown', (event) => {
+      if (event.key === 'Escape' && isOpen()) {
+        close();
+        toggle.focus();
+      }
+    });
+
+    // Swipe right to dismiss. The drawer follows the finger, then either
+    // snaps back or closes depending on how far it travelled.
+    let startX = null;
+    let startY = null;
+    let dragging = false;
+
+    drawer.addEventListener(
+      'touchstart',
+      (event) => {
+        if (!isOpen() || event.touches.length !== 1) return;
+        startX = event.touches[0].clientX;
+        startY = event.touches[0].clientY;
+        dragging = false;
+      },
+      { passive: true },
+    );
+
+    drawer.addEventListener(
+      'touchmove',
+      (event) => {
+        if (startX === null) return;
+        const dx = event.touches[0].clientX - startX;
+        const dy = event.touches[0].clientY - startY;
+        // Leave vertical scrolling alone until the gesture is clearly sideways.
+        if (!dragging && (Math.abs(dx) < 10 || Math.abs(dx) < Math.abs(dy))) return;
+        dragging = true;
+        drawer.style.transition = 'none';
+        drawer.style.transform = `translateX(${Math.max(0, dx)}px)`;
+      },
+      { passive: true },
+    );
+
+    const endDrag = (event) => {
+      if (startX === null) return;
+      const dx = (event.changedTouches?.[0]?.clientX ?? startX) - startX;
+      drawer.style.transition = '';
+      if (dragging && dx > 60) close();
+      else drawer.style.transform = '';
+      startX = null;
+      startY = null;
+      dragging = false;
+    };
+
+    drawer.addEventListener('touchend', endDrag, { passive: true });
+    drawer.addEventListener('touchcancel', endDrag, { passive: true });
+  }
+</script>

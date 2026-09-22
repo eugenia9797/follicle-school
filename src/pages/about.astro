@@ -1,0 +1,105 @@
+---
+import { Image } from 'astro:assets';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import portrait from '../assets/brand/doctor-cutout.webp';
+import { CONTACT_LINKS, DOCTOR_NAME, DOCTOR_TITLE } from '../consts.js';
+import {
+  CONFERENCES,
+  CREDENTIALS,
+  HONOURS,
+  INTERVIEWS,
+  PUBLICATIONS,
+  SOCIETIES,
+  SPECIALTIES,
+} from '../data/doctor.js';
+
+const booking = CONTACT_LINKS.find((l) => l.id === 'booking');
+const description = `${DOCTOR_NAME}${DOCTOR_TITLE}：長庚體系皮膚科主治醫師，專長涵蓋落髮治療、青春痘與痘疤、酒糟、色素斑雷射與醫學美容，並於國內外期刊發表多篇皮膚科實證研究。`;
+---
+
+<BaseLayout title="醫師介紹" description={description} current="about">
+  <section class="wrap" style="padding-block:56px 32px;">
+    <div class="profile">
+      <div class="profile__media">
+        <div class="profile__frame">
+          <Image
+            src={portrait}
+            alt={`${DOCTOR_NAME} ${DOCTOR_TITLE}`}
+            width={520}
+            densities={[1, 2]}
+            loading="eager"
+          />
+        </div>
+        <p class="profile__sign">{DOCTOR_NAME}　{DOCTOR_TITLE}</p>
+      </div>
+
+      <div class="profile__main">
+        <h1 class="profile__name">{DOCTOR_NAME}</h1>
+
+        <h2 class="profile__heading">專長</h2>
+        <ul class="pill-list">{SPECIALTIES.map((item) => <li>{item}</li>)}</ul>
+
+        <div class="profile__cols">
+          <div>
+            <h2 class="profile__heading">學經歷</h2>
+            <ul class="cv-list cv-list--tight">{CREDENTIALS.map((c) => <li>{c}</li>)}</ul>
+          </div>
+          <div>
+            <h2 class="profile__heading">學會</h2>
+            <ul class="cv-list cv-list--tight">{SOCIETIES.map((c) => <li>{c}</li>)}</ul>
+
+            <h2 class="profile__heading" style="margin-top:32px;">特殊榮譽</h2>
+            <ul class="cv-list cv-list--tight">{HONOURS.map((c) => <li>{c}</li>)}</ul>
+          </div>
+        </div>
+
+        <a
+          class="btn"
+          href={booking.href}
+          target="_blank"
+          rel="noopener noreferrer"
+          style="margin-top:30px;"
+        >預約掛號 →</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="band">
+    <div class="wrap">
+      <h2 class="profile__heading" id="interviews">媒體採訪</h2>
+      <ul class="cv-list--links">
+        {
+          INTERVIEWS.map((item) => (
+            <li>
+              <a href={item.href} target="_blank" rel="noopener noreferrer">
+                {item.title}
+              </a>
+              <span class="cv-source">{item.source}</span>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+  </section>
+
+  <section class="wrap" style="padding-block:52px 24px;">
+    <h2 class="profile__heading" id="conferences">研討會發表</h2>
+    <div class="profile__cols">
+      {
+        CONFERENCES.map((group) => (
+          <div class="cv-group">
+            <h3 class="cv-group__title">{group.scope}</h3>
+            <ul class="cv-list cv-list--tight">{group.items.map((item) => <li>{item}</li>)}</ul>
+          </div>
+        ))
+      }
+    </div>
+  </section>
+
+  <section class="wrap" style="padding-block:36px 80px;">
+    <h2 class="profile__heading" id="publications">
+      期刊論文 <span class="section-title__count">{PUBLICATIONS.length} 篇</span>
+    </h2>
+    <ol class="cv-list cv-list--refs">{PUBLICATIONS.map((p) => <li>{p}</li>)}</ol>
+  </section>
+</BaseLayout>

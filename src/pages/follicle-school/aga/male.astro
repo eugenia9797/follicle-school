@@ -1,16 +1,16 @@
 ---
-import BaseLayout from '../../layouts/BaseLayout.astro';
-import ConditionHero from '../../components/ConditionHero.astro';
-import ImageSlot from '../../components/ImageSlot.astro';
-import StageAccordion from '../../components/StageAccordion.astro';
-import TreatmentComparison from '../../components/TreatmentComparison.astro';
-import Faq from '../../components/Faq.astro';
-import PageNotes from '../../components/PageNotes.astro';
-import Lightbox from '../../components/Lightbox.astro';
-import { MALE_FAQ, NORWOOD_STAGES } from '../../data/TreatmentData.js';
-import { buildCategories, collectLightboxes } from '../../lib/treatments.js';
-import { COST_DISCLAIMER } from '../../consts.js';
-import heroMale from '../../assets/local/hero-male.webp';
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import ConditionHero from '../../../components/ConditionHero.astro';
+import ImageSlot from '../../../components/ImageSlot.astro';
+import StageAccordion from '../../../components/StageAccordion.astro';
+import TreatmentComparison from '../../../components/TreatmentComparison.astro';
+import Faq from '../../../components/Faq.astro';
+import PageNotes from '../../../components/PageNotes.astro';
+import Lightbox from '../../../components/Lightbox.astro';
+import { MALE_FAQ, NORWOOD_STAGES } from '../../../data/TreatmentData.js';
+import { buildCategories, collectLightboxes } from '../../../lib/treatments.js';
+import { COST_DISCLAIMER } from '../../../consts.js';
+import heroMale from '../../../assets/local/hero-male.webp';
 
 const categories = buildCategories('male');
 const lightboxes = collectLightboxes(categories);
@@ -19,9 +19,10 @@ const description =
   '男性雄性禿衛教：DHT 造成毛囊微小化的致病機轉、Hamilton–Norwood 分期、皮膚鏡表現，以及口服與外用藥物、LLLT、PRP、植髮等治療的證據等級、效果與費用比較。';
 ---
 
-<BaseLayout title="雄性禿：男性版" description={description} current="aga">
+<BaseLayout title="雄性禿：男性版" description={description} current="aga" shell="hair">
+
   <ConditionHero
-    crumb={{ href: '/aga/', label: '雄性禿', current: '男性版' }}
+    crumb={{ href: '/follicle-school/aga/', label: '雄性禿', current: '男性版' }}
     eyebrow="雄性禿・男性"
     hook="都是雄性素惹的禍？"
     promise="雄性禿及早治療，重新出髮！"
@@ -96,5 +97,5 @@ const description =
 </BaseLayout>
 
 <script>
-  import '../../scripts/aga.js';
+  import '../../../scripts/aga.js';
 </script>

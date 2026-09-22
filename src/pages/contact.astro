@@ -1,0 +1,38 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { CONTACT_LINKS } from '../consts.js';
+
+const booking = CONTACT_LINKS.find((l) => l.id === 'booking');
+const social = CONTACT_LINKS.filter((l) => l.id !== 'booking');
+const description = '與黃易欣皮膚專科醫師聯繫：線上預約掛號、Instagram、Facebook 與 LINE 官方帳號。';
+---
+
+<BaseLayout title="聯絡我" description={description} current="contact">
+  <section class="wrap wrap--narrow" style="padding-block:56px 80px;">
+    <h1 class="page-title">聯絡我</h1>
+    <p class="lede lede--lg" style="margin-bottom:32px;">
+      門診相關問題、預約與衛教內容回饋，都歡迎透過以下方式聯繫。若為急性或嚴重症狀，請直接至門診或急診就醫。
+    </p>
+
+    <div class="contact-grid">
+      <a class="contact-card contact-card--primary" href={booking.href} target="_blank" rel="noopener noreferrer">
+        <span class="contact-card__label">線上預約掛號</span>
+        <span class="contact-card__desc">查看可預約時段並直接掛號</span>
+      </a>
+      {
+        social.map((link) => (
+          <a class="contact-card" href={link.href} target="_blank" rel="noopener noreferrer">
+            <span class="contact-card__label">{link.label}</span>
+            <span class="contact-card__desc">
+              {link.id === 'line' ? '加入官方帳號接收衛教資訊' : '追蹤最新衛教與門診消息'}
+            </span>
+          </a>
+        ))
+      }
+    </div>
+
+    <p class="hint--sm" style="margin-top:32px;">
+      本網站不提供線上診療或個別病情諮詢。任何診斷與治療建議，都需要經醫師當面檢查後才能給予。
+    </p>
+  </section>
+</BaseLayout>

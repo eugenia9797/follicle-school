@@ -1,0 +1,37 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+
+const description = '醫學美容衛教：私密處保養、色素斑雷射、電音波拉提與微整注射等療程的專業觀點。由皮膚專科醫師黃易欣整理。';
+
+const articles = [
+  {
+    href: '/aesthetics/intimate-care/',
+    tag: '私密處保養 ｜ 美容',
+    title: '女人最柔軟的秘密 —— 私密處保養新觀點',
+    excerpt:
+      '「真正的自信，從細節開始。」有「女人的第二張臉」稱號的私密處，相比於身體其他肌膚來得更薄、更敏感，也更需要被好好理解與照顧。',
+  },
+];
+---
+
+<BaseLayout title="醫學美容" description={description} current="aesthetics">
+  <section class="wrap" style="padding-block:56px 24px;">
+    <h1 class="page-title" style="margin-bottom:10px;">醫學美容</h1>
+    <p class="lede lede--lg">細緻呵護，重拾自信光采。</p>
+  </section>
+
+  <section class="wrap" style="padding-block:16px 80px;">
+    <div class="article-list">
+      {
+        articles.map((a) => (
+          <a class="article-card" href={a.href}>
+            <span class="article-card__tag">{a.tag}</span>
+            <span class="article-card__title">{a.title}</span>
+            <span class="article-card__excerpt">{a.excerpt}</span>
+            <span class="article-card__more">閱讀更多 →</span>
+          </a>
+        ))
+      }
+    </div>
+  </section>
+</BaseLayout>

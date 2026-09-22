@@ -1,94 +1,153 @@
 ---
 import { Image } from 'astro:assets';
 import BaseLayout from '../layouts/BaseLayout.astro';
+import homeHero from '../assets/brand/home-hero.webp';
+import doctorBand from '../assets/brand/doctor-band.webp';
 import iconAga from '../assets/icon-aga.jpg';
-import iconTelogen from '../assets/icon-telogen.jpg';
-import iconAreata from '../assets/icon-areata.jpg';
-import iconQuiz from '../assets/icon-quiz.jpg';
+import { CONTACT_LINKS, DOCTOR_NAME, DOCTOR_TITLE, SITE_DESCRIPTION } from '../consts.js';
 
-// The design positions each cover crop by hand. Offsets are expressed as a
-// percentage of the card so the framing survives a responsive resize — they
-// match the original pixel values at the 248px desktop card width.
-const topics = [
+const booking = CONTACT_LINKS.find((l) => l.id === 'booking');
+
+const areas = [
   {
-    href: '/aga/',
+    href: '/follicle-school/',
+    title: '落髮專區',
+    latin: '毛囊研究所 Follicle School',
+    desc: '雄性禿、休止期落髮、圓禿的成因、分期與治療比較，並提供自我落髮檢測。',
     image: iconAga,
-    alt: '雄性禿',
-    title: '雄性禿（AGA）',
-    desc: '最常見賀爾蒙造成的漸進式落髮',
-    imgStyle: 'object-position:center 25%;top:-2.02%',
+    ready: true,
   },
-  {
-    href: '/telogen/',
-    image: iconTelogen,
-    alt: '休止期落髮',
-    title: '休止期落髮',
-    desc: '壓力、產後常見短期落髮',
-    imgStyle: '',
-  },
-  {
-    href: '/areata/',
-    image: iconAreata,
-    alt: '圓禿',
-    title: '圓禿',
-    desc: '圓形局部無毛，與免疫相關',
-    imgStyle: 'top:-4.03%',
-  },
-  {
-    href: '/quiz/',
-    image: iconQuiz,
-    alt: '自我落髮檢測',
-    title: '自我落髮檢測',
-    desc: '回答問題，初步了解落髮型態',
-    imgStyle: 'width:147.98%;height:133.47%;left:-24.19%;top:-20.16%',
-  },
+  { title: '酒糟', desc: '泛紅、灼熱、丘疹膿皰的成因與長期控制。', ready: false },
+  { title: '青春痘與痘疤', desc: '從粉刺到痘疤，不同階段的治療選擇。', ready: false },
 ];
-
-const cardWidths = [250, 340, 500, 680, 1000];
-const cardSizes = '(min-width: 1148px) 250px, (min-width: 700px) 33vw, 92vw';
 ---
 
-<BaseLayout current="home">
-  <section class="hero">
-    <p class="hero__eyebrow">皮膚科衛教專區</p>
-    <h1 class="hero__title">認識落髮，找到合適的治療方向</h1>
-    <p class="hero__text">
-      落髮成因多元，正確診斷是有效治療的第一步。以下依常見落髮型態整理衛教資訊，協助您與醫師討論最合適的治療計畫。
+<BaseLayout description={SITE_DESCRIPTION}>
+  {/* 圖片塊一 */}
+  <section class="plate plate--photo">
+    <Image src={homeHero} alt="" width={2048} widths={[900, 1440, 2048]} sizes="100vw" loading="eager" />
+  </section>
+
+  {/* 文字塊一：原網站的入口引言 */}
+  <section class="statement">
+    <p class="statement__eyebrow">關於皮膚 ・ About the skin</p>
+    <h1 class="statement__title">皮膚是人類最溫柔的器官</h1>
+    <p class="statement__text">
+      她不會說話，但卻承載著一個人的情緒、個性，與一路走來的故事。<br />
+      當皮膚生病了，影響的不只是外表，也會悄悄改變你看待自己的方式。
+    </p>
+    <p class="statement__text statement__text--strong">
+      讓我用皮膚科的專業，陪你重拾健康的皮膚，找回自信。
     </p>
   </section>
 
-  <section class="wrap" style="padding-bottom:40px;">
-    <h2 class="visually-hidden">落髮型態</h2>
-    <div class="topic-grid">
+  {/* 圖片塊二：醫師照片，文字疊在左半邊的留白上 */}
+  <section class="showcase">
+    <Image
+      class="showcase__img"
+      src={doctorBand}
+      alt={`${DOCTOR_NAME} ${DOCTOR_TITLE}`}
+      width={2400}
+      widths={[900, 1440, 2400]}
+      sizes="100vw"
+      loading="lazy"
+    />
+    <div class="showcase__inner">
+      <div class="showcase__panel">
+        <p class="showcase__eyebrow">醫師介紹 ・ The doctor</p>
+        <h2 class="showcase__title">{DOCTOR_NAME}　{DOCTOR_TITLE}</h2>
+        <p class="showcase__text">
+          落髮治療（女性落髮、雄性禿、圓禿等）、青春痘與痘疤、女性私密處相關問題，亦專精於色素斑點雷射、非侵入式電音波與臉部精雕微整等。
+        </p>
+        <p class="showcase__text showcase__text--slogan">
+          讓我陪您重欣出發，找回喜歡自己的樣子。
+        </p>
+        <div class="showcase__actions">
+          <a class="btn" href={booking.href} target="_blank" rel="noopener noreferrer">預約掛號 →</a>
+          <a class="btn btn--ghost" href="/about/">認識醫師</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  {/* 衛教專區：卡片橫向滑動，右上角箭頭控制 */}
+  <section class="wrap" style="padding-block:64px 88px;">
+    <div class="section-head">
+      <div>
+        <h2 class="home-section-title">衛教專區</h2>
+        <p class="hint">依疾病整理的完整衛教內容，從成因、分期到治療選擇</p>
+      </div>
+      <div class="carousel-nav" data-carousel-nav>
+        <button type="button" data-carousel-prev aria-label="上一組" aria-controls="feature-track">‹</button>
+        <button type="button" data-carousel-next aria-label="下一組" aria-controls="feature-track">›</button>
+      </div>
+    </div>
+
+    <div class="feature-track" id="feature-track" data-carousel tabindex="0" aria-label="衛教主題">
       {
-        topics.map((topic, i) => (
-          <a class="topic-card" href={topic.href}>
-            <Image
-              src={topic.image}
-              alt={topic.alt}
-              width={500}
-              widths={cardWidths}
-              sizes={cardSizes}
-              loading={i < 2 ? 'eager' : 'lazy'}
-              decoding="async"
-              style={topic.imgStyle}
-            />
-            <span class="topic-card__scrim" />
-            <span class="topic-card__body">
-              <span class="topic-card__title">{topic.title}</span>
-              <span class="topic-card__desc">{topic.desc}</span>
-            </span>
-          </a>
-        ))
+        areas.map((area) =>
+          area.ready ? (
+            <a class="feature-card" href={area.href}>
+              <Image
+                src={area.image}
+                alt=""
+                width={520}
+                widths={[280, 520, 780]}
+                sizes="(min-width: 1148px) 350px, (min-width: 700px) 45vw, 88vw"
+                class="feature-card__img"
+                loading="lazy"
+              />
+              <span class="feature-card__scrim" />
+              <span class="feature-card__body">
+                <span class="feature-card__title">{area.title}</span>
+                {area.latin && <span class="feature-card__latin">{area.latin}</span>}
+                <span class="feature-card__desc">{area.desc}</span>
+                <span class="feature-card__more">進入專區 →</span>
+              </span>
+            </a>
+          ) : (
+            <div class="feature-card feature-card--soon">
+              <span class="feature-card__body">
+                <span class="feature-card__title">{area.title}</span>
+                <span class="feature-card__desc">{area.desc}</span>
+                <span class="feature-card__more">內容建置中</span>
+              </span>
+            </div>
+          ),
+        )
       }
     </div>
   </section>
 
-  <section class="wrap wrap--narrow" style="padding-block:16px 80px;">
-    <div class="cta">
-      <p class="cta__title">不知道自己是哪種落髮？</p>
-      <p class="cta__text">花 2 分鐘回答問題，初步判斷可能的落髮型態</p>
-      <a class="btn" href="/quiz/">開始自我檢測 →</a>
-    </div>
-  </section>
 </BaseLayout>
+
+<script>
+  const track = document.querySelector('[data-carousel]');
+  const nav = document.querySelector('[data-carousel-nav]');
+
+  if (track && nav) {
+    const prev = nav.querySelector('[data-carousel-prev]');
+    const next = nav.querySelector('[data-carousel-next]');
+
+    const step = () => {
+      const card = track.querySelector('.feature-card');
+      if (!card) return track.clientWidth;
+      const gap = parseFloat(getComputedStyle(track).columnGap) || 0;
+      return card.getBoundingClientRect().width + gap;
+    };
+
+    // The arrows stay in place as the section's affordance; they simply grey
+    // out until there are enough topics to scroll through.
+    const sync = () => {
+      const max = track.scrollWidth - track.clientWidth;
+      prev.disabled = track.scrollLeft <= 4;
+      next.disabled = track.scrollLeft >= max - 4;
+    };
+
+    prev.addEventListener('click', () => track.scrollBy({ left: -step(), behavior: 'smooth' }));
+    next.addEventListener('click', () => track.scrollBy({ left: step(), behavior: 'smooth' }));
+    track.addEventListener('scroll', sync, { passive: true });
+    window.addEventListener('resize', sync);
+    sync();
+  }
+</script>

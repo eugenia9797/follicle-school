@@ -1,11 +1,12 @@
 ---
-import BaseLayout from '../../layouts/BaseLayout.astro';
+import BaseLayout from '../../../layouts/BaseLayout.astro';
 
 const description =
   '雄性禿（Androgenetic Alopecia, AGA）是最常見的落髮型態，成因與遺傳體質及雄性素代謝有關。認識男性與女性雄性禿的分期、皮膚鏡表現與治療選擇。';
 ---
 
-<BaseLayout title="雄性禿（AGA）總覽" description={description} current="aga">
+<BaseLayout title="雄性禿（AGA）總覽" description={description} current="aga" shell="hair">
+
   <section class="wrap wrap--narrow" style="padding-block:56px;">
     <h1 class="page-title" style="margin-bottom:18px;">雄性禿（Androgenetic Alopecia, AGA）</h1>
     <p class="lede lede--lg">
@@ -14,12 +15,12 @@ const description =
     </p>
 
     <div class="split-grid">
-      <a class="split-card" href="/aga/male/">
+      <a class="split-card" href="/follicle-school/aga/male/">
         <span class="split-card__title">男性版</span>
         <span class="split-card__desc">M 字後退、頭頂稀疏，Hamilton–Norwood 分期</span>
         <span class="split-card__more">查看內容 →</span>
       </a>
-      <a class="split-card" href="/aga/female/">
+      <a class="split-card" href="/follicle-school/aga/female/">
         <span class="split-card__title">女性版</span>
         <span class="split-card__desc">頭頂瀰漫性稀疏，Ludwig 分期，需排除內分泌因素</span>
         <span class="split-card__more">查看內容 →</span>

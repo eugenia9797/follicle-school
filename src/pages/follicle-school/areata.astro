@@ -1,23 +1,24 @@
 ---
-import BaseLayout from '../layouts/BaseLayout.astro';
-import ConditionHero from '../components/ConditionHero.astro';
-import ImageSlot from '../components/ImageSlot.astro';
-import StageAccordion from '../components/StageAccordion.astro';
-import SeverityScale from '../components/SeverityScale.astro';
-import Faq from '../components/Faq.astro';
-import PageNotes from '../components/PageNotes.astro';
-import { AREATA_FAQ, AREATA_TYPES } from '../data/TreatmentData.js';
-import { COST_DISCLAIMER } from '../consts.js';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import ConditionHero from '../../components/ConditionHero.astro';
+import ImageSlot from '../../components/ImageSlot.astro';
+import StageAccordion from '../../components/StageAccordion.astro';
+import SeverityScale from '../../components/SeverityScale.astro';
+import Faq from '../../components/Faq.astro';
+import PageNotes from '../../components/PageNotes.astro';
+import { AREATA_FAQ, AREATA_TYPES } from '../../data/TreatmentData.js';
+import { COST_DISCLAIMER } from '../../consts.js';
 
 const SYSTEMIC_WARNING =
   '全身性治療副作用相對明顯，需由醫師評估疾病嚴重度、範圍與整體健康狀況後審慎使用，並定期監測。';
-import heroAreata from '../assets/local/hero-areata.webp';
+import heroAreata from '../../assets/local/hero-areata.webp';
 
 const description =
   '圓禿（Alopecia Areata）衛教：T 淋巴球攻擊生長期毛囊的自體免疫機轉、單一斑塊到全身禿的臨床型態、皮膚鏡表現，以及局部注射、免疫調節、JAK 抑制劑等治療的證據等級與費用比較。';
 ---
 
-<BaseLayout title="圓禿（Alopecia Areata）" description={description} current="areata">
+<BaseLayout title="圓禿（Alopecia Areata）" description={description} current="areata" shell="hair">
+
   <ConditionHero
     eyebrow="自體免疫疾病"
     hook="自己人攻擊自己人！鬼剃頭找上門！"
@@ -128,5 +129,5 @@ const description =
 </BaseLayout>
 
 <script>
-  import '../scripts/aga.js';
+  import '../../scripts/aga.js';
 </script>

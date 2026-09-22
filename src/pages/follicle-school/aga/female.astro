@@ -1,16 +1,16 @@
 ---
-import BaseLayout from '../../layouts/BaseLayout.astro';
-import ConditionHero from '../../components/ConditionHero.astro';
-import ImageSlot from '../../components/ImageSlot.astro';
-import StageAccordion from '../../components/StageAccordion.astro';
-import TreatmentComparison from '../../components/TreatmentComparison.astro';
-import Faq from '../../components/Faq.astro';
-import PageNotes from '../../components/PageNotes.astro';
-import Lightbox from '../../components/Lightbox.astro';
-import { FEMALE_FAQ, FEMALE_STAGES } from '../../data/TreatmentData.js';
-import { buildCategories, collectLightboxes } from '../../lib/treatments.js';
-import { COST_DISCLAIMER } from '../../consts.js';
-import heroFemale from '../../assets/local/hero-female.webp';
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import ConditionHero from '../../../components/ConditionHero.astro';
+import ImageSlot from '../../../components/ImageSlot.astro';
+import StageAccordion from '../../../components/StageAccordion.astro';
+import TreatmentComparison from '../../../components/TreatmentComparison.astro';
+import Faq from '../../../components/Faq.astro';
+import PageNotes from '../../../components/PageNotes.astro';
+import Lightbox from '../../../components/Lightbox.astro';
+import { FEMALE_FAQ, FEMALE_STAGES } from '../../../data/TreatmentData.js';
+import { buildCategories, collectLightboxes } from '../../../lib/treatments.js';
+import { COST_DISCLAIMER } from '../../../consts.js';
+import heroFemale from '../../../assets/local/hero-female.webp';
 
 const categories = buildCategories('female');
 const lightboxes = collectLightboxes(categories);
@@ -21,9 +21,10 @@ const description =
 const warningBanner = '表格中標示紅色背景的項目，屬於育齡婦女使用之重要警示，請務必詳閱注意事項。';
 ---
 
-<BaseLayout title="雄性禿：女性版（女性形態落髮）" description={description} current="aga">
+<BaseLayout title="雄性禿：女性版（女性形態落髮）" description={description} current="aga" shell="hair">
+
   <ConditionHero
-    crumb={{ href: '/aga/', label: '雄性禿', current: '女性版' }}
+    crumb={{ href: '/follicle-school/aga/', label: '雄性禿', current: '女性版' }}
     eyebrow="雄性禿・女性"
     hook="女生也有雄性禿？"
     promise="正確診斷，重新散髮自信！"
@@ -102,5 +103,5 @@ const warningBanner = '表格中標示紅色背景的項目，屬於育齡婦女
 </BaseLayout>
 
 <script>
-  import '../../scripts/aga.js';
+  import '../../../scripts/aga.js';
 </script>
