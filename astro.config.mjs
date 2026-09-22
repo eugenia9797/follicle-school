@@ -2,13 +2,12 @@
 import { defineConfig } from 'astro/config';
 import sitemap from '@astrojs/sitemap';
 
-const PRODUCTION_URL = 'https://follicle-school.pages.dev';
+const PRODUCTION_URL = 'https://esheen.skin';
 const PRODUCTION_BRANCH = 'main';
 
 // CF_PAGES_URL is the per-deployment hostname (https://<hash>.<project>.pages.dev)
 // on production builds too, so it can only stand in for preview branches —
 // using it in production would move the canonical URL on every deploy.
-// Set SITE_URL in the Cloudflare dashboard once a custom domain is attached.
 const branch = process.env.CF_PAGES_BRANCH;
 const site =
   process.env.SITE_URL ||

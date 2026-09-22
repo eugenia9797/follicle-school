@@ -7,14 +7,54 @@ import { CONTACT_LINKS, SITE_NAME } from '../consts.js';
 // `current` marks the active top-level section.
 const { current = '' } = Astro.props;
 
-const NAV = [
-  { id: 'about', label: '醫師介紹', href: '/about/' },
-  { id: 'conditions', label: '皮膚疾病', href: '/conditions/' },
-  { id: 'aesthetics', label: '醫學美容', href: '/aesthetics/' },
-  { id: 'contact', label: '聯絡我', href: '/contact/' },
-];
-
 const booking = CONTACT_LINKS.find((l) => l.id === 'booking');
+const contact = (id) => CONTACT_LINKS.find((l) => l.id === id).href;
+
+// Each top-level item still links to its own page; `children` is the hover
+// menu. Only pages that exist are listed, so there are no dead ends.
+const NAV = [
+  {
+    id: 'about',
+    label: '醫師介紹',
+    href: '/about/',
+    children: [
+      { label: '專長與學經歷', href: '/about/#profile' },
+      { label: '媒體採訪', href: '/about/#interviews' },
+      { label: '研討會發表', href: '/about/#conferences' },
+      { label: '期刊論文', href: '/about/#publications' },
+    ],
+  },
+  {
+    id: 'conditions',
+    label: '皮膚疾病',
+    href: '/conditions/',
+    children: [
+      { label: '毛囊研究所｜落髮專區', href: '/follicle-school/', lead: true },
+      { label: '雄性禿', href: '/follicle-school/aga/' },
+      { label: '休止期落髮', href: '/follicle-school/telogen/' },
+      { label: '圓禿', href: '/follicle-school/areata/' },
+      { label: '自我落髮檢測', href: '/follicle-school/quiz/' },
+      { label: '乳癌賀爾蒙治療掉髮', href: '/follicle-school/breast-cancer/' },
+    ],
+  },
+  {
+    id: 'aesthetics',
+    label: '醫學美容',
+    href: '/aesthetics/',
+    children: [{ label: '私密處保養', href: '/aesthetics/intimate-care/' }],
+  },
+  {
+    id: 'contact',
+    label: '聯絡我',
+    href: '/contact/',
+    children: [
+      { label: '線上預約掛號', href: booking.href, external: true },
+      { label: 'LINE 官方帳號', href: contact('line'), external: true },
+      { label: 'Instagram', href: contact('instagram'), external: true },
+      { label: 'Facebook', href: contact('facebook'), external: true },
+    ],
+  },
+];
 
 const drawerItems = [
   ...NAV,
@@ -25,7 +65,7 @@ const drawerItems = [
 <header class="site-header">
   <div class="site-header__bar">
     <a class="brand" href="/" aria-label={SITE_NAME}>
-      <Image src={logo} alt={SITE_NAME} width={84} densities={[1, 2, 3]} loading="eager" />
+      <Image src={logo} alt={SITE_NAME} height={64} densities={[1, 2, 3]} loading="eager" />
     </a>
 
     <button
@@ -40,13 +80,28 @@ const drawerItems = [
     <nav class="nav" aria-label="主選單">
       {
         NAV.map((item) => (
-          <a
-            class="nav__link"
-            href={item.href}
-            aria-current={current === item.id ? 'page' : undefined}
-          >
-            {item.label}
-          </a>
+          <div class="nav__item">
+            <a
+              class="nav__link"
+              href={item.href}
+              aria-current={current === item.id ? 'page' : undefined}
+            >
+              {item.label}
+              <span class="nav__caret" aria-hidden="true">▾</span>
+            </a>
+            <div class="nav__menu">
+              {item.children.map((child) => (
+                <a
+                  href={child.href}
+                  class:list={[child.lead && 'is-lead']}
+                  target={child.external ? '_blank' : undefined}
+                  rel={child.external ? 'noopener noreferrer' : undefined}
+                >
+                  {child.label}
+                </a>
+              ))}
+            </div>
+          </div>
         ))
       }
       <a class="nav__book" href={booking.href} target="_blank" rel="noopener noreferrer">

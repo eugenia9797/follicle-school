@@ -1,15 +1,18 @@
 ---
+import { Image } from 'astro:assets';
 import BaseLayout from '../../layouts/BaseLayout.astro';
+import logo from '../../assets/brand/logo-esheen.png';
 
 const description = '醫學美容衛教：私密處保養、色素斑雷射、電音波拉提與微整注射等療程的專業觀點。由皮膚專科醫師黃易欣整理。';
 
+// Same card grid as 皮膚疾病. An entry without `image` gets the brand plate
+// until an illustration is supplied for it.
 const articles = [
   {
     href: '/aesthetics/intimate-care/',
-    tag: '私密處保養 ｜ 美容',
-    title: '女人最柔軟的秘密 —— 私密處保養新觀點',
-    excerpt:
-      '「真正的自信，從細節開始。」有「女人的第二張臉」稱號的私密處，相比於身體其他肌膚來得更薄、更敏感，也更需要被好好理解與照顧。',
+    title: '私密處保養',
+    subtitle: '女人最柔軟的秘密',
+    desc: '私密處肌膚比身體其他部位更薄、更敏感。從除毛方式的比較、常見困擾的成因，到改善與治療的專業建議。',
   },
 ];
 ---
@@ -20,15 +23,22 @@ const articles = [
     <p class="lede lede--lg">細緻呵護，重拾自信光采。</p>
   </section>
 
-  <section class="wrap" style="padding-block:16px 80px;">
-    <div class="article-list">
+  <section class="wrap" style="padding-bottom:80px;">
+    <div class="area-grid area-grid--rich">
       {
         articles.map((a) => (
-          <a class="article-card" href={a.href}>
-            <span class="article-card__tag">{a.tag}</span>
-            <span class="article-card__title">{a.title}</span>
-            <span class="article-card__excerpt">{a.excerpt}</span>
-            <span class="article-card__more">閱讀更多 →</span>
+          <a class="area-card area-card--img" href={a.href}>
+            {a.image ? (
+              <Image src={a.image} alt={a.title} width={420} densities={[1, 2]} class="area-card__img" />
+            ) : (
+              <span class="area-card__plate">
+                <Image src={logo} alt="" height={70} densities={[1, 2]} />
+              </span>
+            )}
+            <span class="area-card__title">{a.title}</span>
+            <span class="area-card__latin">{a.subtitle}</span>
+            <span class="area-card__desc">{a.desc}</span>
+            <span class="area-card__more">閱讀文章 →</span>
           </a>
         ))
       }

@@ -167,17 +167,108 @@ button {
   text-decoration: none;
 }
 
+/* The mark is roughly square, so it is sized by height to keep the bar slim. */
 .brand img {
-  width: 84px;
-  height: auto;
+  height: 64px;
+  width: auto;
   display: block;
 }
 
+/* The nav stretches to the full bar height so each dropdown can hang from
+   the header's bottom edge rather than from the middle of the link text. */
 .nav {
   display: flex;
-  align-items: center;
+  align-self: stretch;
+  align-items: stretch;
   gap: 26px;
   font-size: 15px;
+}
+
+.nav__item {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.nav__caret {
+  display: inline-block;
+  margin-left: 4px;
+  font-size: 10px;
+  color: var(--muted);
+  transition: transform 0.2s ease;
+}
+
+.nav__item:hover .nav__caret,
+.nav__item:focus-within .nav__caret {
+  transform: rotate(180deg);
+}
+
+.nav__menu {
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  z-index: 50;
+  min-width: 190px;
+  /* 14px bar padding + 1px border: the panel starts at the header's edge. */
+  margin-top: 15px;
+  padding: 8px 0;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  box-shadow: var(--shadow-pop);
+  opacity: 0;
+  visibility: hidden;
+  transform: translate(-50%, 6px);
+  /* Visibility waits for the fade so a pointer drifting off doesn't snap it shut. */
+  transition: opacity 0.18s ease, transform 0.18s ease, visibility 0s linear 0.18s;
+}
+
+/* Invisible bridge across the gap, so moving down from the link keeps it open. */
+.nav__menu::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: -16px;
+  height: 16px;
+}
+
+.nav__item:hover .nav__menu,
+.nav__item:focus-within .nav__menu {
+  opacity: 1;
+  visibility: visible;
+  transform: translate(-50%, 0);
+  transition-delay: 0s;
+}
+
+.nav__menu a {
+  display: block;
+  padding: 9px 20px;
+  font-size: 14px;
+  color: var(--body);
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.nav__menu a:hover,
+.nav__menu a:focus-visible {
+  background: var(--surface-alt);
+  color: var(--accent);
+}
+
+.nav__menu a.is-lead {
+  font-weight: 700;
+  color: var(--heading);
+  border-bottom: 1px solid var(--border);
+  margin-bottom: 4px;
+  padding-bottom: 11px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .nav__menu,
+  .nav__caret {
+    transition: none;
+  }
 }
 
 .nav__link {
@@ -197,6 +288,7 @@ button {
 }
 
 .nav__book {
+  align-self: center;
   background: var(--accent);
   color: #fff;
   border-radius: 100px;
@@ -1486,9 +1578,11 @@ body.has-drawer {
   }
 }
 
+/* auto-fill (not auto-fit) keeps the empty columns, so a section with a
+   single card shows it at the same size as a full row of three. */
 .area-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
   gap: 18px;
   margin-top: 20px;
 }
@@ -1529,6 +1623,24 @@ body.has-drawer {
   );
   color: var(--muted);
   font-size: 13px;
+}
+
+/* Stands in for a cover illustration: same footprint as .area-card__img. */
+.area-card__plate {
+  width: calc(100% + 48px);
+  max-width: none;
+  margin: -24px -24px 18px;
+  height: 150px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(160deg, #efe7de 0%, #e2d6c8 100%);
+}
+
+.area-card__plate img {
+  height: 70px;
+  width: auto;
+  opacity: 0.55;
 }
 
 .area-card__img {

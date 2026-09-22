@@ -4,6 +4,8 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import homeHero from '../assets/brand/home-hero.webp';
 import doctorBand from '../assets/brand/doctor-band.webp';
 import iconAga from '../assets/icon-aga.jpg';
+import iconRosacea from '../assets/icon-rosacea.jpg';
+import iconAcne from '../assets/icon-acne.jpg';
 import { CONTACT_LINKS, DOCTOR_NAME, DOCTOR_TITLE, SITE_DESCRIPTION } from '../consts.js';
 
 const booking = CONTACT_LINKS.find((l) => l.id === 'booking');
@@ -17,8 +19,8 @@ const areas = [
     image: iconAga,
     ready: true,
   },
-  { title: '酒糟', desc: '泛紅、灼熱、丘疹膿皰的成因與長期控制。', ready: false },
-  { title: '青春痘與痘疤', desc: '從粉刺到痘疤，不同階段的治療選擇。', ready: false },
+  { title: '酒糟', desc: '泛紅、灼熱、丘疹膿皰的成因與長期控制。', image: iconRosacea, ready: false },
+  { title: '青春痘與痘疤', desc: '從粉刺到痘疤，不同階段的治療選擇。', image: iconAcne, ready: false },
 ];
 ---
 
@@ -106,7 +108,19 @@ const areas = [
               </span>
             </a>
           ) : (
-            <div class="feature-card feature-card--soon">
+            <div class:list={['feature-card', 'is-soon', !area.image && 'feature-card--soon']}>
+              {area.image && (
+                <Image
+                  src={area.image}
+                  alt=""
+                  width={520}
+                  widths={[280, 520, 780]}
+                  sizes="(min-width: 1148px) 350px, (min-width: 700px) 45vw, 88vw"
+                  class="feature-card__img"
+                  loading="lazy"
+                />
+              )}
+              {area.image && <span class="feature-card__scrim" />}
               <span class="feature-card__body">
                 <span class="feature-card__title">{area.title}</span>
                 <span class="feature-card__desc">{area.desc}</span>

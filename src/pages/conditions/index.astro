@@ -2,6 +2,8 @@
 import { Image } from 'astro:assets';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import iconAga from '../../assets/icon-aga.jpg';
+import iconRosacea from '../../assets/icon-rosacea.jpg';
+import iconAcne from '../../assets/icon-acne.jpg';
 
 const description =
   '常見皮膚疾病衛教：落髮（雄性禿、休止期落髮、圓禿）的完整專區，以及酒糟、青春痘等內容。由皮膚專科醫師黃易欣整理。';
@@ -15,8 +17,8 @@ const sections = [
     image: iconAga,
     ready: true,
   },
-  { title: '酒糟', desc: '泛紅、灼熱、丘疹膿皰的成因與長期控制策略。', ready: false },
-  { title: '青春痘與痘疤', desc: '從粉刺、發炎到痘疤，不同階段的治療選擇。', ready: false },
+  { title: '酒糟', desc: '泛紅、灼熱、丘疹膿皰的成因與長期控制策略。', image: iconRosacea, ready: false },
+  { title: '青春痘與痘疤', desc: '從粉刺、發炎到痘疤，不同階段的治療選擇。', image: iconAcne, ready: false },
 ];
 
 ---
@@ -41,7 +43,11 @@ const sections = [
             </a>
           ) : (
             <div class="area-card area-card--img is-soon">
-              <span class="area-card__placeholder">內容建置中</span>
+              {s.image ? (
+                <Image src={s.image} alt={s.title} width={420} densities={[1, 2]} class="area-card__img" />
+              ) : (
+                <span class="area-card__placeholder">內容建置中</span>
+              )}
               <span class="area-card__title">{s.title}</span>
               <span class="area-card__desc">{s.desc}</span>
               <span class="area-card__more">內容建置中</span>
