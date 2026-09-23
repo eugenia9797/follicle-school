@@ -26,6 +26,8 @@ const hair = shell === 'hair';
 const brand = hair ? HAIR_SITE_NAME : SITE_NAME;
 const pageTitle = title ? `${title}｜${brand}` : hair ? `${brand}｜${SITE_TAGLINE}` : SITE_TITLE_HOME;
 const canonical = new URL(Astro.url.pathname, Astro.site);
+// 分享到 LINE、Facebook 等地方時顯示的縮圖
+const ogImage = new URL('/og-image.png', Astro.site);
 ---
 
 <!doctype html>
@@ -44,7 +46,12 @@ const canonical = new URL(Astro.url.pathname, Astro.site);
     <meta property="og:description" content={description} />
     <meta property="og:url" content={canonical} />
     <meta property="og:locale" content="zh_TW" />
-    <meta name="twitter:card" content="summary" />
+    <meta property="og:image" content={ogImage} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content={brand} />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:image" content={ogImage} />
 
     <link rel="icon" href="/favicon.ico" sizes="48x48" />
     <link rel="icon" href="/favicon-32.png" type="image/png" sizes="32x32" />
