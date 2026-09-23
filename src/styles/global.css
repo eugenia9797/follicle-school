@@ -957,6 +957,18 @@ body.has-drawer {
   margin: 34px 0;
 }
 
+/* The opening questions double as a table of contents. */
+.article__body .jump-list a {
+  color: var(--accent);
+  text-decoration: none;
+  border-bottom: 1px solid transparent;
+}
+
+.article__body .jump-list a:hover,
+.article__body .jump-list a:focus-visible {
+  border-bottom-color: currentColor;
+}
+
 .article-image {
   margin: 24px 0 28px;
 }
@@ -1118,8 +1130,9 @@ body.has-drawer {
   font-size: 15px;
   line-height: 1.9;
   color: var(--muted-4);
-  margin: 0 0 22px;
-  text-align: left;
+  margin: 0 auto 22px;
+  max-width: 46ch;
+  text-align: center;
 }
 
 .btn-consult {
