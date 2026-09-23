@@ -9,6 +9,7 @@ import {
   SITE_DESCRIPTION,
   SITE_NAME,
   SITE_TAGLINE,
+  SITE_TITLE_HOME,
 } from '../consts.js';
 
 // `shell` picks which site the page belongs to: 'main' is E.sheen, 'hair' is
@@ -23,7 +24,7 @@ const {
 
 const hair = shell === 'hair';
 const brand = hair ? HAIR_SITE_NAME : SITE_NAME;
-const pageTitle = title ? `${title}｜${brand}` : `${brand}｜${SITE_TAGLINE}`;
+const pageTitle = title ? `${title}｜${brand}` : hair ? `${brand}｜${SITE_TAGLINE}` : SITE_TITLE_HOME;
 const canonical = new URL(Astro.url.pathname, Astro.site);
 ---
 
@@ -45,7 +46,9 @@ const canonical = new URL(Astro.url.pathname, Astro.site);
     <meta property="og:locale" content="zh_TW" />
     <meta name="twitter:card" content="summary" />
 
-    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="icon" href="/favicon.ico" sizes="48x48" />
+    <link rel="icon" href="/favicon-32.png" type="image/png" sizes="32x32" />
+    <link rel="icon" href="/icon-192.png" type="image/png" sizes="192x192" />
     <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
     <meta name="theme-color" content="#8a5a3f" />
 

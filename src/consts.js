@@ -1,6 +1,8 @@
 export const SITE_NAME = 'E.sheen 黃易欣皮膚專科';
 export const SITE_NAME_EN = 'E.sheen Dermatology';
 export const SITE_TAGLINE = '皮膚專科醫師・黃易欣';
+// 首頁 <title>：搜尋結果顯示的就是這一行
+export const SITE_TITLE_HOME = 'E.sheen 黃易欣 皮膚專科醫師・陪您重欣開始';
 export const SITE_DESCRIPTION =
   '皮膚專科醫師黃易欣的衛教與門診資訊：落髮（雄性禿、休止期落髮、圓禿）、酒糟、青春痘等常見皮膚疾病的成因與治療選擇，以及醫學美容與門診預約。';
 
