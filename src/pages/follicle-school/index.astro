@@ -5,6 +5,7 @@ import iconAga from '../../assets/icon-aga.jpg';
 import iconTelogen from '../../assets/icon-telogen.jpg';
 import iconAreata from '../../assets/icon-areata.jpg';
 import iconQuiz from '../../assets/icon-quiz.jpg';
+import { lqipStyle } from '../../lib/lqip.js';
 
 // The design positions each cover crop by hand. Offsets are expressed as a
 // percentage of the card so the framing survives a responsive resize — they
@@ -79,6 +80,7 @@ const description =
         topics.map((topic, i) => (
           <a class="topic-card" href={topic.href}>
             <Image
+              style={lqipStyle(topic.image)}
               src={topic.image}
               alt={topic.alt}
               width={500}

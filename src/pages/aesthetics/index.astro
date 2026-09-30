@@ -2,6 +2,7 @@
 import { Image } from 'astro:assets';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import logo from '../../assets/brand/logo-esheen.png';
+import { lqipStyle } from '../../lib/lqip.js';
 
 const description = '醫學美容衛教：私密處保養、色素斑雷射、電音波拉提與微整注射等療程的專業觀點。由皮膚專科醫師黃易欣整理。';
 
@@ -29,7 +30,7 @@ const articles = [
         articles.map((a) => (
           <a class="area-card area-card--img" href={a.href}>
             {a.image ? (
-              <Image src={a.image} alt={a.title} width={420} densities={[1, 2]} class="area-card__img" />
+              <Image src={a.image} alt={a.title} width={420} densities={[1, 2]} class="area-card__img" style={lqipStyle(a.image)} />
             ) : (
               <span class="area-card__plate">
                 <Image src={logo} alt="" height={70} densities={[1, 2]} />

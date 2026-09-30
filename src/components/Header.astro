@@ -29,12 +29,20 @@ const NAV = [
     label: '皮膚疾病',
     href: '/conditions/',
     children: [
-      { label: '毛囊研究所｜落髮專區', href: '/follicle-school/', lead: true },
-      { label: '雄性禿', href: '/follicle-school/aga/' },
-      { label: '休止期落髮', href: '/follicle-school/telogen/' },
-      { label: '圓禿', href: '/follicle-school/areata/' },
-      { label: '自我落髮檢測', href: '/follicle-school/quiz/' },
-      { label: '乳癌賀爾蒙治療掉髮', href: '/follicle-school/breast-cancer/' },
+      { label: '玫瑰斑（酒糟）', href: '/conditions/rosacea/' },
+      {
+        label: '毛囊研究所｜落髮專區',
+        href: '/follicle-school/',
+        lead: true,
+        // 再展開一層，往右側顯示
+        children: [
+          { label: '雄性禿', href: '/follicle-school/aga/' },
+          { label: '休止期落髮', href: '/follicle-school/telogen/' },
+          { label: '圓禿', href: '/follicle-school/areata/' },
+          { label: '自我落髮檢測', href: '/follicle-school/quiz/' },
+          { label: '乳癌賀爾蒙治療掉髮', href: '/follicle-school/breast-cancer/' },
+        ],
+      },
     ],
   },
   {
@@ -90,16 +98,30 @@ const drawerItems = [
               <span class="nav__caret" aria-hidden="true">▾</span>
             </a>
             <div class="nav__menu">
-              {item.children.map((child) => (
-                <a
-                  href={child.href}
-                  class:list={[child.lead && 'is-lead']}
-                  target={child.external ? '_blank' : undefined}
-                  rel={child.external ? 'noopener noreferrer' : undefined}
-                >
-                  {child.label}
-                </a>
-              ))}
+              {item.children.map((child) =>
+                child.children ? (
+                  <div class="nav__branch">
+                    <a href={child.href} class="is-branch">
+                      {child.label}
+                      <span class="nav__branch-caret" aria-hidden="true">›</span>
+                    </a>
+                    <div class="nav__sub">
+                      {child.children.map((leaf) => (
+                        <a href={leaf.href}>{leaf.label}</a>
+                      ))}
+                    </div>
+                  </div>
+                ) : (
+                  <a
+                    href={child.href}
+                    class:list={[child.lead && 'is-lead']}
+                    target={child.external ? '_blank' : undefined}
+                    rel={child.external ? 'noopener noreferrer' : undefined}
+                  >
+                    {child.label}
+                  </a>
+                ),
+              )}
             </div>
           </div>
         ))

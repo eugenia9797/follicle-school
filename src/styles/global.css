@@ -65,7 +65,11 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 
+/* 模糊預覽（LQIP）畫在 <img> 元素本身的背景上；真正的圖片載完後會直接覆蓋，
+   所以載入過程看到的是模糊的縮圖，而不是一片空白。 */
 img {
+  background-repeat: no-repeat;
+  background-position: center;
   max-width: 100%;
 }
 
@@ -254,6 +258,90 @@ button {
 .nav__menu a:focus-visible {
   background: var(--surface-alt);
   color: var(--accent);
+}
+
+/* 第二層：滑到「毛囊研究所」時往右側展開 */
+.nav__branch {
+  position: relative;
+}
+
+.nav__menu .nav__branch > a.is-branch {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  font-weight: 700;
+  color: var(--heading);
+}
+
+.nav__branch-caret {
+  font-size: 15px;
+  color: var(--muted);
+  transition: transform 0.18s ease;
+}
+
+.nav__branch:hover .nav__branch-caret,
+.nav__branch:focus-within .nav__branch-caret {
+  transform: translateX(2px);
+  color: var(--accent);
+}
+
+.nav__sub {
+  position: absolute;
+  top: -8px;
+  left: 100%;
+  z-index: 1;
+  min-width: 190px;
+  padding: 8px 0;
+  margin-left: 2px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  box-shadow: var(--shadow-pop);
+  opacity: 0;
+  visibility: hidden;
+  transform: translateX(6px);
+  transition: opacity 0.18s ease, transform 0.18s ease, visibility 0s linear 0.18s;
+}
+
+/* 讓滑鼠從第一層移到第二層的途中不會斷開 */
+.nav__sub::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: -8px;
+  width: 8px;
+}
+
+.nav__branch:hover .nav__sub,
+.nav__branch:focus-within .nav__sub {
+  opacity: 1;
+  visibility: visible;
+  transform: translateX(0);
+  transition-delay: 0s;
+}
+
+/* 視窗不夠寬時改往左側展開，避免被切掉 */
+@media (max-width: 1120px) {
+  .nav__sub {
+    left: auto;
+    right: 100%;
+    margin-left: 0;
+    margin-right: 2px;
+    transform: translateX(-6px);
+  }
+  .nav__sub::before {
+    left: auto;
+    right: -8px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .nav__sub,
+  .nav__branch-caret {
+    transition: none;
+  }
 }
 
 .nav__menu a.is-lead {
@@ -1163,6 +1251,116 @@ body.has-drawer {
   }
   .cta-box {
     padding: 26px 20px;
+  }
+}
+
+/* ------------------------------------------------------- rosacea --- */
+
+/* The four things that set玫瑰斑 off, shown as a row of small cards. */
+.trigger-grid {
+  list-style: none;
+  margin: 22px 0 6px;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+  gap: 14px;
+}
+
+.trigger-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 16px 18px;
+}
+
+.trigger-card__label {
+  display: block;
+  font-size: 15px;
+  font-weight: 800;
+  color: var(--accent);
+  margin-bottom: 6px;
+}
+
+.trigger-card__desc {
+  display: block;
+  font-size: 13.5px;
+  line-height: 1.8;
+  color: var(--muted-3);
+}
+
+.demodex-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 20px;
+  margin: 22px 0 8px;
+}
+
+.demodex-figure {
+  margin: 0;
+}
+
+.demodex-figure figcaption {
+  font-size: 13px;
+  line-height: 1.7;
+  color: var(--muted-2);
+  margin-top: 10px;
+  text-align: center;
+}
+
+.tx-group {
+  margin-top: 26px;
+}
+
+.tx-group__title {
+  font-size: 16px;
+  font-weight: 800;
+  color: var(--heading);
+  margin: 0 0 12px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid var(--border);
+}
+
+.tx-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 12px;
+}
+
+.tx-list li {
+  display: grid;
+  grid-template-columns: minmax(0, 210px) minmax(0, 1fr);
+  gap: 6px 18px;
+  align-items: baseline;
+}
+
+.tx-list__name {
+  font-size: 14.5px;
+  font-weight: 700;
+  color: var(--heading);
+}
+
+.tx-list__use {
+  font-size: 14px;
+  line-height: 1.85;
+  color: var(--muted-3);
+}
+
+.warn-note {
+  background: var(--warn-bg);
+  border: 1px solid var(--warn-border);
+  border-radius: 12px;
+  padding: 14px 18px;
+  font-size: 14px;
+  line-height: 1.85;
+  color: var(--warn-fg);
+}
+
+@media (max-width: 620px) {
+  .tx-list li {
+    grid-template-columns: 1fr;
+    gap: 2px;
   }
 }
 
@@ -2405,7 +2603,8 @@ body.has-drawer {
   aspect-ratio: var(--stage-img-aspect, 364 / 214);
 }
 
-.stage-panel__img--vertex {
+.stage-panel__img--vertex,
+.stage-panel__img--photo {
   grid-column: 1;
   grid-row: 2;
 }
@@ -2413,6 +2612,37 @@ body.has-drawer {
 .stage-panel__body {
   grid-column: 2;
   grid-row: 1;
+}
+
+/* 雙圖模式：說明放最上面整排，兩張圖並排在下面 */
+.stage-panel--stacked {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.stage-panel--stacked .stage-panel__body {
+  grid-column: 1 / -1;
+  grid-row: 1;
+}
+
+.stage-panel--stacked .stage-panel__img {
+  grid-column: 1;
+  grid-row: 2;
+  width: 100%;
+}
+
+.stage-panel--stacked .stage-panel__img--photo {
+  grid-column: 2;
+  grid-row: 2;
+}
+
+@media (max-width: 640px) {
+  .stage-panel--stacked {
+    grid-template-columns: 1fr;
+  }
+  .stage-panel--stacked .stage-panel__img--photo {
+    grid-column: 1;
+    grid-row: 3;
+  }
 }
 
 .stage-panel__title {
@@ -2951,6 +3181,23 @@ body.has-drawer {
 
 .page-notes__item:last-child {
   margin-bottom: 0;
+}
+
+.page-notes__refs {
+  margin: 8px 0 0;
+  padding-left: 20px;
+  display: grid;
+  gap: 6px;
+}
+
+.page-notes__refs li {
+  line-height: 1.75;
+  word-break: break-word;
+}
+
+.page-notes__refs a,
+.page-notes__item a {
+  color: var(--accent);
 }
 
 .page-notes__label {

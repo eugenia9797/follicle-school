@@ -12,6 +12,7 @@ import {
   SOCIETIES,
   SPECIALTIES,
 } from '../data/doctor.js';
+import { lqipStyle } from '../lib/lqip.js';
 
 const booking = CONTACT_LINKS.find((l) => l.id === 'booking');
 const description = `${DOCTOR_NAME}${DOCTOR_TITLE}：長庚體系皮膚科主治醫師，專長涵蓋落髮治療、青春痘與痘疤、酒糟、色素斑雷射與醫學美容，並於國內外期刊發表多篇皮膚科實證研究。`;
@@ -23,6 +24,7 @@ const description = `${DOCTOR_NAME}${DOCTOR_TITLE}：長庚體系皮膚科主治
       <div class="profile__media">
         <div class="profile__frame">
           <Image
+            style={lqipStyle(portrait, "contain")}
             src={portrait}
             alt={`${DOCTOR_NAME} ${DOCTOR_TITLE}`}
             width={520}

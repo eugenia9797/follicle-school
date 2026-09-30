@@ -4,19 +4,45 @@
  * and how the photographs on it were produced.
  */
 const { sources = [] } = Astro.props;
+
+// 來源可以是字串，或 { label, href }。單筆維持原本的一行寫法，
+// 多筆則改成條列，比較好讀。
+const refs = sources.map((s) => (typeof s === 'string' ? { label: s } : s));
+
+// 預設適用於採用 AI 合成示意圖的頁面；帶有真實臨床照片的頁面必須傳入自己的說明。
+const AI_NOTE = '部分實體照片為 AI 合成之示意圖，非真實患者影像，無侵犯患者隱私之虞。';
+const { imageNote = AI_NOTE } = Astro.props;
 ---
 
 <div class="page-notes">
-  {
-    sources.length > 0 && (
-      <p class="page-notes__item">
-        <span class="page-notes__label">資料來源</span>
-        {sources.join('；')}
-      </p>
-    )
-  }
+  {refs.length === 1 && (
+    <p class="page-notes__item">
+      <span class="page-notes__label">資料來源</span>
+      {refs[0].href ? (
+        <a href={refs[0].href} target="_blank" rel="noopener noreferrer">{refs[0].label}</a>
+      ) : (
+        refs[0].label
+      )}
+    </p>
+  )}
+  {refs.length > 1 && (
+    <div class="page-notes__item">
+      <span class="page-notes__label">資料來源</span>
+      <ol class="page-notes__refs">
+        {refs.map((r) => (
+          <li>
+            {r.href ? (
+              <a href={r.href} target="_blank" rel="noopener noreferrer">{r.label}</a>
+            ) : (
+              r.label
+            )}
+          </li>
+        ))}
+      </ol>
+    </div>
+  )}
   <p class="page-notes__item">
     <span class="page-notes__label">影像說明</span>
-    部分實體照片為 AI 合成之示意圖，非真實患者影像，無侵犯患者隱私之虞。
+    {imageNote}
   </p>
 </div>

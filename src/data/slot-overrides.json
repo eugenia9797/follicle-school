@@ -71,6 +71,42 @@
     "file": "local/male-mechanism.webp",
     "optimize": true
   },
+  "rosacea-mechanism": {
+    "file": "local/rosacea-mechanism.webp",
+    "optimize": true
+  },
+  "rosacea-type-ETR": {
+    "file": "local/rosacea-type-ETR.webp",
+    "optimize": true
+  },
+  "rosacea-type-ETR-photo": {
+    "file": "local/rosacea-type-ETR-photo.webp",
+    "optimize": true
+  },
+  "rosacea-type-OCU": {
+    "file": "local/rosacea-type-OCU.webp",
+    "optimize": true
+  },
+  "rosacea-type-OCU-photo": {
+    "file": "local/rosacea-type-OCU-photo.webp",
+    "optimize": true
+  },
+  "rosacea-type-PHY": {
+    "file": "local/rosacea-type-PHY.webp",
+    "optimize": true
+  },
+  "rosacea-type-PHY-photo": {
+    "file": "local/rosacea-type-PHY-photo.webp",
+    "optimize": true
+  },
+  "rosacea-type-PPR": {
+    "file": "local/rosacea-type-PPR.webp",
+    "optimize": true
+  },
+  "rosacea-type-PPR-photo": {
+    "file": "local/rosacea-type-PPR-photo.webp",
+    "optimize": true
+  },
   "telogen-derm-1": {
     "file": "local/telogen-derm-1.webp",
     "optimize": true

@@ -7,6 +7,8 @@ const {
   scaleName,
   chipMin = 110,
   vertexStageId = null,
+  // 每個分型除了插圖，再多放一張臨床照片
+  photos = false,
   placeholder = '分期示意圖（圖片準備中）',
   // 'stage' shows the scale's short id above the label (Norwood I, Ludwig II);
   // 'condition' is a plain titled card, for clinical types with no scale.
@@ -41,7 +43,7 @@ const isCondition = variant === 'condition';
 {
   stages.map((stage) => (
     <div
-      class="stage-panel"
+      class:list={['stage-panel', photos && 'stage-panel--stacked']}
       id={`stage-${stage.id}`}
       data-stage-panel={stage.id}
       style={`--stage-img-aspect:${imgAspect};`}
@@ -60,6 +62,17 @@ const isCondition = variant === 'condition';
         <p class="stage-panel__title">{stage.title}</p>
         <p class="stage-panel__desc">{stage.desc}</p>
       </div>
+      {photos && (
+        <ImageSlot
+          id={`${slotPrefix}${stage.id}-photo`}
+          class="stage-panel__img stage-panel__img--photo"
+          radius={10}
+          width={364}
+          densities={[1, 2]}
+          alt={`${stage.title}臨床表現`}
+          placeholder="臨床表現照片（圖片準備中）"
+        />
+      )}
       {vertexStageId === stage.id && (
         <ImageSlot
           id={`${slotPrefix}${stage.id}-vertex`}

@@ -1,5 +1,6 @@
 ---
 import { Image } from 'astro:assets';
+import { lqipStyle } from '../lib/lqip.js';
 
 /**
  * Opening band for a condition page: the question a reader arrives with, a
@@ -27,6 +28,7 @@ const { eyebrow, hook, promise, lead, image, imageAlt, sections = [], crumb } = 
 
     <div class="hero-band__media">
       <Image
+        style={lqipStyle(image)}
         src={image}
         alt={imageAlt}
         width={420}

@@ -12,6 +12,7 @@ import iconQuiz from '../../assets/icon-quiz.jpg';
 import examPullTest from '../../assets/exam-pulltest.jpeg';
 import examDermoscopy from '../../assets/exam-dermoscopy.jpeg';
 import examBloodTest from '../../assets/exam-bloodtest.jpeg';
+import { lqipStyle } from '../../lib/lqip.js';
 
 const description =
   '回答 10 題左右的問題，依落髮型態、分佈部位、持續時間與家族史計分，初步判斷可能的落髮分類。結果僅為衛教參考，不能取代醫師之當面診斷。';
@@ -106,6 +107,7 @@ const examSizes = '(min-width: 700px) 170px, 30vw';
         results.map((result) => (
           <div data-quiz-result={result.key} hidden>
             <Image
+              style={lqipStyle(result.image)}
               src={result.image}
               alt=""
               width={88}
@@ -137,6 +139,7 @@ const examSizes = '(min-width: 700px) 170px, 30vw';
             exams.map((exam) => (
               <div class="exam-card">
                 <Image
+                  style={lqipStyle(exam.image)}
                   src={exam.image}
                   alt={exam.title}
                   width={510}

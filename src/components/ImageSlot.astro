@@ -1,6 +1,7 @@
 ---
 import { Image } from 'astro:assets';
 import { getSlot, slotTransform } from '../lib/slots.js';
+import { lqipStyle } from '../lib/lqip.js';
 
 const {
   id,
@@ -20,7 +21,11 @@ const {
 const slot = getSlot(id);
 const transform = slotTransform(slot);
 const frameStyle = `--slot-radius:${radius}px;${style}`;
-const imgStyle = `object-fit:${fit}` + (transform ? `;transform:${transform}` : '');
+// 模糊預覽畫在 <img> 自己的背景上，真圖載完就直接蓋掉
+const imgStyle =
+  `object-fit:${fit};` +
+  (slot ? lqipStyle(slot.image, fit) : '') +
+  (transform ? `transform:${transform};` : '');
 ---
 
 {

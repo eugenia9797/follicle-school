@@ -7,6 +7,7 @@ import iconAga from '../assets/icon-aga.jpg';
 import iconRosacea from '../assets/icon-rosacea.jpg';
 import iconAcne from '../assets/icon-acne.jpg';
 import { CONTACT_LINKS, DOCTOR_NAME, DOCTOR_TITLE, SITE_DESCRIPTION } from '../consts.js';
+import { lqipStyle } from '../lib/lqip.js';
 
 const booking = CONTACT_LINKS.find((l) => l.id === 'booking');
 
@@ -19,7 +20,13 @@ const areas = [
     image: iconAga,
     ready: true,
   },
-  { title: '酒糟', desc: '泛紅、灼熱、丘疹膿皰的成因與長期控制。', image: iconRosacea, ready: false },
+  {
+    href: '/conditions/rosacea/',
+    title: '玫瑰斑（酒糟）',
+    desc: '泛紅、灼熱、丘疹膿皰的成因與長期控制。',
+    image: iconRosacea,
+    ready: true,
+  },
   { title: '青春痘與痘疤', desc: '從粉刺到痘疤，不同階段的治療選擇。', image: iconAcne, ready: false },
 ];
 ---
@@ -27,7 +34,15 @@ const areas = [
 <BaseLayout description={SITE_DESCRIPTION}>
   {/* 圖片塊一 */}
   <section class="plate plate--photo">
-    <Image src={homeHero} alt="" width={2048} widths={[900, 1440, 2048]} sizes="100vw" loading="eager" />
+    <Image
+      src={homeHero}
+      alt=""
+      width={2048}
+      widths={[900, 1440, 2048]}
+      sizes="100vw"
+      loading="eager"
+      style={lqipStyle(homeHero)}
+    />
   </section>
 
   {/* 文字塊一：原網站的入口引言 */}
@@ -47,6 +62,7 @@ const areas = [
   <section class="showcase">
     <Image
       class="showcase__img"
+      style={lqipStyle(doctorBand)}
       src={doctorBand}
       alt={`${DOCTOR_NAME} ${DOCTOR_TITLE}`}
       width={2400}
@@ -91,6 +107,7 @@ const areas = [
           area.ready ? (
             <a class="feature-card" href={area.href}>
               <Image
+                style={lqipStyle(area.image)}
                 src={area.image}
                 alt=""
                 width={520}
@@ -111,6 +128,7 @@ const areas = [
             <div class:list={['feature-card', 'is-soon', !area.image && 'feature-card--soon']}>
               {area.image && (
                 <Image
+                  style={lqipStyle(area.image)}
                   src={area.image}
                   alt=""
                   width={520}
