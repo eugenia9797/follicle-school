@@ -1,0 +1,83 @@
+---
+/**
+ * Treatment comparison for rosacea, in the same card-then-table form as the
+ * hair pages (data-cat-toggle / data-cat-panel are driven by scripts/aga.js),
+ * but with no quadrant chart: every treatment is listed, tagged with the
+ * clinical features it helps.
+ */
+const { categories, symptoms } = Astro.props;
+const bySymptom = Object.fromEntries(symptoms.map((s) => [s.id, s]));
+---
+
+<ul class="symptom-key" aria-label="症狀標籤說明">
+  {
+    symptoms.map((s) => (
+      <li>
+        <span class={`symptom-chip symptom-chip--${s.id}`}>{s.label}</span>
+        <span class="symptom-key__en">{s.en}</span>
+      </li>
+    ))
+  }
+</ul>
+
+<p class="hint--sm">點選分類展開治療項目</p>
+
+<div class="cat-grid">
+  {
+    categories.map((cat) => (
+      <button
+        type="button"
+        class="cat-card"
+        data-cat-toggle={cat.key}
+        aria-expanded="false"
+        aria-controls={`cat-${cat.key}`}
+      >
+        <span class="cat-card__top">
+          <span class="cat-card__title">{cat.title}</span>
+          <span class="cat-card__chevron" aria-hidden="true">⌄</span>
+        </span>
+        <span class="cat-card__summary">{cat.summary}</span>
+      </button>
+    ))
+  }
+</div>
+
+{
+  categories.map((cat) => (
+    <div class="cat-panel" id={`cat-${cat.key}`} data-cat-panel={cat.key} hidden>
+      <div class="treatment-table-wrap">
+        <table class="treatment-table treatment-table--symptoms">
+          <thead>
+            <tr>
+              <th scope="col">治療方式</th>
+              <th scope="col">可改善的症狀</th>
+              <th scope="col">用藥順位</th>
+            </tr>
+          </thead>
+          <tbody>
+            {cat.treatments.map((t) => (
+              <tr>
+                <th scope="row" class="treatment-table__name">
+                  {t.name}
+                  {t.note && <span class="treatment-table__note">{t.note}</span>}
+                </th>
+                <td>
+                  <ul class="symptom-list">
+                    {t.helps.map((id) => (
+                      <li>
+                        <span class={`symptom-chip symptom-chip--${id}`} title={bySymptom[id].en}>
+                          {bySymptom[id].label}
+                        </span>
+                      </li>
+                    ))}
+                  </ul>
+                </td>
+                <td>{t.line ? <span class="line-tag">丘疹／膿皰型・{t.line}</span> : '—'}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  ))
+}

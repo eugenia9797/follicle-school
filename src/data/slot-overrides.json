@@ -71,6 +71,14 @@
     "file": "local/male-mechanism.webp",
     "optimize": true
   },
+  "rosacea-demodex-cartoon": {
+    "file": "local/rosacea-demodex-cartoon.webp",
+    "optimize": true
+  },
+  "rosacea-demodex-micrograph": {
+    "file": "local/rosacea-demodex-micrograph.webp",
+    "optimize": true
+  },
   "rosacea-mechanism": {
     "file": "local/rosacea-mechanism.webp",
     "optimize": true

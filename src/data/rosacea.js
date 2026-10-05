@@ -45,28 +45,62 @@ export const ROSACEA_SELFCARE = [
   '記錄誘因：留意高溫、辛辣、酒精、熱飲、情緒壓力與溫差，找出屬於自己的誘發模式。',
 ];
 
-export const ROSACEA_TREATMENTS = [
+// 治療選項依臨床治療流程圖整理：圖中以「臨床表現」分欄（潮紅、持續性紅斑、
+// 丘疹／膿皰、增生肥厚），這裡改成每個治療標出可改善哪些表現。
+//
+// 圖中沒有把左欄的四種治療（brimonidine、propranolol、carvedilol、botulinum
+// toxin）再細分給潮紅或持續性紅斑，所以兩者都標；丘疹／膿皰那一欄則只標丘疹／膿皰。
+// 要細分時，只需要改各項的 helps 即可。
+export const ROSACEA_SYMPTOMS = [
+  { id: 'flush', label: '潮紅', en: 'Flushing' },
+  { id: 'erythema', label: '持續性紅斑', en: 'Persistent erythema' },
+  { id: 'papule', label: '丘疹／膿皰', en: 'Papules / Pustules' },
+  { id: 'phyma', label: '增生肥厚', en: 'Phymatous change' },
+];
+
+export const ROSACEA_TREATMENT_CATEGORIES = [
   {
-    group: '外用藥物',
-    items: [
-      { name: 'Metronidazole', use: '丘疹膿皰型的第一線外用選擇之一，具抗發炎作用。' },
-      { name: 'Azelaic acid（杜鵑花酸）', use: '改善丘疹膿皰與泛紅，部分人初期會有輕微刺癢感。' },
-      { name: 'Ivermectin', use: '兼具抗發炎與降低蠕型蟎蟲密度的作用，適合蟎蟲相關的丘疹膿皰。' },
-      { name: '血管收縮劑（如 Brimonidine）', use: '暫時性改善持續泛紅，作用時間有限，需由醫師評估使用方式。' },
+    key: 'topical',
+    title: '外用藥物',
+    summary: 'Brimonidine、Metronidazole、Azelaic acid、Retinoids',
+    treatments: [
+      { name: 'Brimonidine', note: '血管收縮劑', helps: ['flush', 'erythema'] },
+      { name: 'Metronidazole', note: '外用抗發炎藥', helps: ['papule'], line: '一線' },
+      { name: 'Azelaic acid', note: '杜鵑花酸', helps: ['papule'], line: '一線' },
+      { name: 'Retinoids', note: 'A 酸類', helps: ['papule'], line: '二線' },
     ],
   },
   {
-    group: '口服藥物',
-    items: [
-      { name: '低劑量 Doxycycline', use: '以抗發炎而非抗菌劑量使用，適用中重度丘疹膿皰型。' },
-      { name: 'Isotretinoin', use: '用於嚴重或頑固型、早期鼻瘤，需嚴格避孕並定期監測，由醫師審慎評估。' },
+    key: 'oral',
+    title: '口服藥物',
+    summary: 'Propranolol、Carvedilol、四環素類、Isotretinoin、大環內酯類',
+    treatments: [
+      { name: 'Propranolol', note: '乙型阻斷劑', helps: ['flush', 'erythema'] },
+      { name: 'Carvedilol', note: 'α／β 阻斷劑', helps: ['flush', 'erythema'] },
+      { name: 'Doxycycline', note: '四環素類抗生素', helps: ['papule', 'phyma'], line: '一線' },
+      { name: 'Isotretinoin', note: '口服 A 酸', helps: ['papule', 'phyma'], line: '一線' },
+      { name: 'Minocycline', note: '四環素類抗生素', helps: ['papule'], line: '二線' },
+      { name: 'Azithromycin', note: '大環內酯類抗生素', helps: ['papule'], line: '二線' },
+      { name: 'Clarithromycin', note: '大環內酯類抗生素', helps: ['papule'], line: '二線' },
     ],
   },
   {
-    group: '光電與手術',
-    items: [
-      { name: '血管雷射、脈衝光', use: '針對持續性泛紅與微血管擴張，通常需多次療程。' },
-      { name: '磨皮或手術重塑', use: '用於已成形的鼻瘤，改善外觀與鼻部功能。' },
+    key: 'injection',
+    title: '注射',
+    summary: 'Botulinum toxin',
+    treatments: [
+      { name: 'Botulinum toxin', note: '肉毒桿菌毒素', helps: ['flush', 'erythema'] },
+    ],
+  },
+  {
+    key: 'procedure',
+    title: '手術與雷射',
+    summary: 'Surgery、Electrosurgery、CO₂ laser、Er:YAG laser',
+    treatments: [
+      { name: 'Surgery', note: '手術切除或重塑', helps: ['phyma'] },
+      { name: 'Electrosurgery', note: '電燒（電刀）', helps: ['phyma'] },
+      { name: 'CO₂ laser', note: '二氧化碳雷射', helps: ['phyma'] },
+      { name: 'Er:YAG laser', note: '鉺雅鉻雷射', helps: ['phyma'] },
     ],
   },
 ];
