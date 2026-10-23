@@ -1,4 +1,8 @@
 {
+  "acne-mechanism": {
+    "file": "local/acne-mechanism.webp",
+    "optimize": true
+  },
   "areata-derm-1": {
     "file": "local/areata-derm-1.webp",
     "optimize": true

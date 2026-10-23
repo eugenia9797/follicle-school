@@ -1381,6 +1381,12 @@ body.has-drawer {
 /* Demodex is a different axis from the four clinical features, so it gets its own hue. */
 .symptom-chip--demodex { background: #e3def0; color: #4a3f7a; }
 
+/* Acne tags: comedones are pale, nodules deepest; pigment is brown, hormonal shares the purple. */
+.symptom-chip--comedone { background: #efe3d0; color: #6b5238; }
+.symptom-chip--nodule { background: #c9482b; color: #fff; }
+.symptom-chip--pigment { background: #dcc3a8; color: #5a3d26; }
+.symptom-chip--hormonal { background: #e3def0; color: #4a3f7a; }
+
 .symptom-list {
   list-style: none;
   margin: 0;
@@ -1416,6 +1422,51 @@ body.has-drawer {
   min-width: 620px;
 }
 
+/* Cautions and advice for a drug: two short labelled lists in one cell. The
+   table scrolls sideways on a phone when this column is present. */
+/* With a fourth column, the name cell is given room so a note such as a brand
+   name does not wrap in the middle of a word. */
+.treatment-table--tips .treatment-table__name {
+  min-width: 140px;
+}
+
+.treatment-table__tips {
+  min-width: 260px;
+  font-size: 13.5px;
+  line-height: 1.75;
+  color: var(--body);
+}
+
+.tips-label {
+  margin: 0 0 4px;
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 0.6px;
+}
+
+.tips-label--caution {
+  color: var(--warn-fg);
+}
+
+.tips-label--advice {
+  margin-top: 10px;
+  color: var(--accent-dark);
+}
+
+.tips-label:first-child {
+  margin-top: 0;
+}
+
+.treatment-table .tips-list {
+  margin: 0;
+  padding-left: 17px;
+  font-size: 13.5px;
+}
+
+.tips-list li {
+  margin-bottom: 4px;
+}
+
 /* The "商品樣式" button sits under the name and note, as on the hair pages. */
 .treatment-table__product {
   display: block;
@@ -1428,7 +1479,151 @@ body.has-drawer {
   font-size: 12.5px;
   font-weight: 400;
   color: var(--muted-2);
-  white-space: normal;
+  white-space: pre-line; /* a note may break onto a second line with \n */
+}
+
+/* ---------------------------------------------------------- acne --- */
+
+/* The four stages of a pimple, as a numbered list. */
+.stage-list {
+  list-style: none;
+  margin: 22px 0 0;
+  padding: 0;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+}
+
+.stage-list__item {
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+  padding: 18px 22px;
+}
+
+.stage-list__item + .stage-list__item {
+  border-top: 1px solid var(--border);
+}
+
+.stage-list__num {
+  flex: none;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  background: var(--accent);
+  color: #fff;
+  font-size: 15px;
+  font-weight: 800;
+  display: grid;
+  place-items: center;
+}
+
+.stage-list__body {
+  display: block;
+  /* centres the first line of the title against the 34px number */
+  padding-top: 3px;
+}
+
+.stage-list__text {
+  display: block;
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 1.6;
+  color: var(--heading);
+}
+
+.stage-list__desc {
+  display: block;
+  margin-top: 4px;
+  font-size: 14px;
+  line-height: 1.85;
+  color: var(--body);
+}
+
+/* Risk factors: a title with its explanation beside it; some have none. */
+.risk-list {
+  list-style: none;
+  margin: 18px 0 0;
+  padding: 0;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+}
+
+.risk-list__item {
+  display: grid;
+  grid-template-columns: 170px 1fr;
+  gap: 8px 24px;
+  align-items: baseline;
+  padding: 16px 22px;
+}
+
+.risk-list__item + .risk-list__item {
+  border-top: 1px solid var(--border);
+}
+
+.risk-list__title {
+  font-size: 15px;
+  font-weight: 800;
+  color: var(--accent-dark);
+}
+
+.risk-list__desc {
+  font-size: 14.5px;
+  line-height: 1.85;
+  color: var(--body);
+}
+
+@media (max-width: 640px) {
+  .stage-list__item {
+    padding: 15px 16px;
+  }
+
+  .risk-list__item {
+    grid-template-columns: 1fr;
+    padding: 14px 16px;
+  }
+}
+
+/* A plain reading table: no symptom tags, so the cells hold sentences or short lists. */
+.treatment-table--plain {
+  min-width: 560px;
+}
+
+.treatment-table--plain thead th {
+  padding: 10px 14px;
+  font-size: 12.5px;
+  font-weight: 700;
+  color: var(--muted-3);
+  border-bottom: 1.5px solid var(--border);
+}
+
+.treatment-table--plain .treatment-table__name {
+  padding: 14px;
+  min-width: 112px;
+  border-bottom: 1px solid var(--border);
+  vertical-align: top;
+}
+
+.treatment-table--plain td {
+  font-size: 14px;
+  line-height: 1.85;
+  color: var(--body);
+}
+
+.cell-list {
+  margin: 0;
+  padding-left: 18px;
+}
+
+.cell-list li {
+  margin-bottom: 6px;
+}
+
+.cell-note {
+  margin: 6px 0 0;
+  font-size: 12.5px;
+  color: var(--muted-2);
 }
 
 /* --------------------------------------------------- doctor site --- */
@@ -2591,6 +2786,18 @@ body.has-drawer {
   margin-bottom: 14px;
 }
 
+/* A part of the section that is planned but not written yet. */
+.split-card.is-soon {
+  background: transparent;
+  border-style: dashed;
+  cursor: default;
+}
+
+.split-card.is-soon .split-card__more {
+  color: var(--muted);
+  font-weight: 500;
+}
+
 .split-card__more {
   display: block;
   color: var(--accent);
@@ -2907,6 +3114,13 @@ body.has-drawer {
   grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
   gap: 12px;
   margin-bottom: 16px;
+}
+
+/* Four categories sit in one row on a wide screen instead of three and an orphan. */
+@media (min-width: 860px) {
+  .cat-grid--one-row {
+    grid-template-columns: repeat(4, 1fr);
+  }
 }
 
 .cat-card {

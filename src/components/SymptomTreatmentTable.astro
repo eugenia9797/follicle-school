@@ -1,15 +1,21 @@
 ---
 /**
- * Treatment comparison for rosacea, in the same card-then-table form as the
- * hair pages (data-cat-toggle / data-cat-panel are driven by scripts/aga.js),
- * but with no quadrant chart: every treatment is listed, tagged with the
- * clinical features it helps.
+ * Treatment comparison in the same card-then-table form as the hair pages
+ * (data-cat-toggle / data-cat-panel are driven by scripts/aga.js), but with no
+ * quadrant chart: every treatment is listed, tagged with the clinical features
+ * it helps. Used by the rosacea and acne pages.
+ *
+ * A category may carry `warning` (shown as a caution above its table) or
+ * `hint` (a plain line of guidance). When any treatment in it has `cautions` or
+ * `advice`, the table gains a fourth column for them. `oneRow` lays four category
+ * cards out across a wide screen rather than three and an orphan.
  */
-const { categories, symptoms } = Astro.props;
+const { categories, symptoms, oneRow = false } = Astro.props;
 const bySymptom = Object.fromEntries(symptoms.map((s) => [s.id, s]));
 // 標籤一律依症狀清單的順序顯示，不受資料裡陣列順序影響
 const order = symptoms.map((s) => s.id);
 const sorted = (ids) => [...ids].sort((a, b) => order.indexOf(a) - order.indexOf(b));
+const hasTips = (cat) => cat.treatments.some((t) => t.cautions?.length || t.advice?.length);
 ---
 
 <ul class="symptom-key" aria-label="症狀標籤說明">
@@ -25,7 +31,7 @@ const sorted = (ids) => [...ids].sort((a, b) => order.indexOf(a) - order.indexOf
 
 <p class="hint--sm">點選分類展開治療項目</p>
 
-<div class="cat-grid">
+<div class:list={['cat-grid', oneRow && 'cat-grid--one-row']}>
   {
     categories.map((cat) => (
       <button
@@ -48,13 +54,16 @@ const sorted = (ids) => [...ids].sort((a, b) => order.indexOf(a) - order.indexOf
 {
   categories.map((cat) => (
     <div class="cat-panel" id={`cat-${cat.key}`} data-cat-panel={cat.key} hidden>
+      {cat.warning && <p class="notice notice--warn" style="margin:0;">⚠ {cat.warning}</p>}
+      {cat.hint && <p class="hint--sm" style="margin:0;">{cat.hint}</p>}
       <div class="treatment-table-wrap">
-        <table class="treatment-table treatment-table--symptoms">
+        <table class:list={['treatment-table', 'treatment-table--symptoms', hasTips(cat) && 'treatment-table--tips']}>
           <thead>
             <tr>
               <th scope="col">治療方式</th>
               <th scope="col">可改善的症狀</th>
               <th scope="col">作用機轉</th>
+              {hasTips(cat) && <th scope="col">使用注意事項與建議</th>}
             </tr>
           </thead>
           <tbody>
@@ -85,6 +94,26 @@ const sorted = (ids) => [...ids].sort((a, b) => order.indexOf(a) - order.indexOf
                   </ul>
                 </td>
                 <td class="treatment-table__moa">{t.moa}</td>
+                {hasTips(cat) && (
+                  <td class="treatment-table__tips">
+                    {t.cautions?.length > 0 && (
+                      <>
+                        <p class="tips-label tips-label--caution">注意</p>
+                        <ul class="tips-list">
+                          {t.cautions.map((x) => <li>{x}</li>)}
+                        </ul>
+                      </>
+                    )}
+                    {t.advice?.length > 0 && (
+                      <>
+                        <p class="tips-label tips-label--advice">建議</p>
+                        <ul class="tips-list">
+                          {t.advice.map((x) => <li>{x}</li>)}
+                        </ul>
+                      </>
+                    )}
+                  </td>
+                )}
               </tr>
             ))}
           </tbody>

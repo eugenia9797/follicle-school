@@ -1,0 +1,29 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+
+const description =
+  '青春痘（痤瘡）與痘疤衛教：青春痘的成因、風險因子與外用、口服藥物、雷射的治療選擇，以及痘疤的處理。由皮膚專科醫師黃易欣整理。';
+---
+
+<BaseLayout title="青春痘與痘疤" description={description} current="conditions">
+  <section class="wrap wrap--narrow" style="padding-block:56px 80px;">
+    <p class="breadcrumb"><a href="/conditions/">皮膚疾病</a> ／ 青春痘與痘疤</p>
+    <h1 class="page-title" style="margin-bottom:18px;">青春痘與痘疤</h1>
+    <p class="lede lede--lg">
+      青春痘（痤瘡）是最常見的皮膚疾病之一，約有 85% 的青少年都曾發生，成年人也會長。痘痘本身控制之後，皮膚也可能留下疤痕或發炎後的色素沉澱，所以這裡分成兩個部分：先認識並控制青春痘，再談痘疤的處理。
+    </p>
+
+    <div class="split-grid">
+      <a class="split-card" href="/conditions/acne/acne-vulgaris/">
+        <span class="split-card__title">青春痘／痤瘡</span>
+        <span class="split-card__desc">成因、風險因子，以及外用藥、口服藥與雷射的治療選擇</span>
+        <span class="split-card__more">查看內容 →</span>
+      </a>
+      <div class="split-card is-soon" aria-disabled="true">
+        <span class="split-card__title">痘疤治療</span>
+        <span class="split-card__desc">凹疤、紅印與色素沉澱的處理方式</span>
+        <span class="split-card__more">內容建置中</span>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

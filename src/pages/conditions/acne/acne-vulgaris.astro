@@ -1,0 +1,188 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import ConditionHero from '../../../components/ConditionHero.astro';
+import ImageSlot from '../../../components/ImageSlot.astro';
+import SymptomTreatmentTable from '../../../components/SymptomTreatmentTable.astro';
+import Faq from '../../../components/Faq.astro';
+import PageNotes from '../../../components/PageNotes.astro';
+import heroAcne from '../../../assets/local/hero-acne.webp';
+import {
+  ACNE_FAQ,
+  ACNE_PRINCIPLES,
+  ACNE_RISK_FACTORS,
+  ACNE_STAGES,
+  ACNE_STRATEGY,
+  ACNE_STRATEGY_NOTES,
+  ACNE_SYMPTOMS,
+  ACNE_TREATMENT_CATEGORIES,
+} from '../../../data/acne.js';
+import { CONTACT_LINKS } from '../../../consts.js';
+
+const booking = CONTACT_LINKS.find((l) => l.id === 'booking');
+
+const description =
+  '青春痘（尋常性痤瘡）衛教：致病機轉的四個階段、容易長痘的風險因子，以及外用維生素 A 酸、過氧化苯、口服抗生素、Isotretinoin、雷射等治療選擇與使用注意事項。';
+---
+
+<BaseLayout title="青春痘／痤瘡（尋常性痤瘡）" description={description} current="conditions">
+  <ConditionHero
+    eyebrow="常見皮膚疾病"
+    hook="痘痘一顆接一顆，是不是哪裡做錯了？"
+    promise="青春痘不是髒，對症治療就能控制！"
+    lead="青春痘（痤瘡）約有 85% 的青少年都曾經歷，成年人也會長。它和毛囊角化、皮脂、痤瘡桿菌與免疫發炎有關，只要接受正規治療、正確保養與規律作息，多數人的痘痘都能得到很好的控制。"
+    image={heroAcne}
+    imageAlt="青春痘示意插圖：臉上長痘痘的女學生在教室裡托著臉，神情煩惱"
+    crumb={{ href: '/conditions/acne/', label: '青春痘與痘疤', current: '青春痘／痤瘡' }}
+    sections={[
+      { id: 'mechanism', label: '致病機轉' },
+      { id: 'risk', label: '風險因子' },
+      { id: 'treatments', label: '治療選擇' },
+      { id: 'strategy', label: '依嚴重度選藥' },
+      { id: 'principles', label: '治療觀念' },
+      { id: 'faq', label: '常見問題' },
+    ]}
+  />
+
+  <section class="wrap" style="padding-block:40px 90px;">
+    <h2 class="section-title" style="margin-bottom:12px;" id="mechanism">致病機轉</h2>
+    <p class="lede">
+      青春痘的醫學名稱是尋常性痤瘡（acne vulgaris）。一顆痘痘的形成，大致會經過下面四個階段。
+    </p>
+
+    <ol class="stage-list">
+      {
+        ACNE_STAGES.map((stage, i) => (
+          <li class="stage-list__item">
+            <span class="stage-list__num" aria-hidden="true">{i + 1}</span>
+            <span class="stage-list__body">
+              <span class="stage-list__text">{stage.title}</span>
+              <span class="stage-list__desc">{stage.desc}</span>
+            </span>
+          </li>
+        ))
+      }
+    </ol>
+
+    <ImageSlot
+      id="acne-mechanism"
+      radius={14}
+      alt="痘痘怎麼形成的？四個階段的剖面示意圖：皮脂腺分泌增加；老廢角質阻塞毛孔形成粉刺；痤瘡桿菌增生刺激發炎；毛囊發炎破裂形成囊腫"
+      placeholder="痘痘形成機轉示意圖（圖片準備中）"
+      style="width:100%;aspect-ratio:16/9;margin:22px 0 36px;"
+      width={1052}
+      widths={[700, 1052, 1400, 2048]}
+      sizes="(min-width: 1148px) 1052px, 92vw"
+    />
+
+    <h2 class="section-title" id="risk">容易長痘的風險因子</h2>
+    <p class="hint">每個人長痘的原因不盡相同，下面這些情況都可能讓痘痘比較容易出現。</p>
+    <ul class="risk-list">
+      {
+        ACNE_RISK_FACTORS.map((f) => (
+          <li class="risk-list__item">
+            <span class="risk-list__title">{f.label}</span>
+            {f.desc && <span class="risk-list__desc">{f.desc}</span>}
+          </li>
+        ))
+      }
+    </ul>
+
+    <h2 class="section-title" style="margin-top:44px;" id="treatments">治療選擇</h2>
+    <p class="notice notice--warn" style="margin:0 0 16px;">
+      ⚠ 實際用藥與療程需由醫師依痘痘的範圍、部位、嚴重程度與個人狀況評估決定，以下僅為衛教說明，並非個人化醫療建議。
+    </p>
+    <p class="hint">
+      青春痘的藥物分成處方藥與指示藥。輕度、小面積的痘痘，可以向藥局的藥事人員諮詢，購買指示藥（例如外用 A 酸 tretinoin、外用過氧化苯）；長期、嚴重或大面積的痘痘，請就診皮膚科，依醫囑使用處方藥，例如口服 A 酸、口服或外用抗生素。
+    </p>
+    <SymptomTreatmentTable categories={ACNE_TREATMENT_CATEGORIES} symptoms={ACNE_SYMPTOMS} oneRow />
+
+    <p class="warn-note" style="margin-top:22px;">
+      ⚠ Co-trimoxazole（常見商品名如 Septrin、Baktar）曾發生史蒂芬強森症候群、嚴重肝功能不全與骨髓抑制等嚴重不良反應，共識不建議用來治療青春痘。
+    </p>
+    <p class="hint--sm" style="margin-top:12px;">
+      另有 clascoterone（外用抗雄性素）、sarecycline（新型四環素類抗生素）等新藥，目前臺灣尚未取得藥物許可證。
+    </p>
+
+    <h2 class="section-title" style="margin-top:44px;" id="strategy">依嚴重程度選擇藥物</h2>
+    <p class="hint">
+      下表是臺灣皮膚科醫學會共識整理的治療建議。一線、二線並不代表一定要照順序，會依你的情況與醫師討論後決定。
+    </p>
+    <div class="treatment-table-wrap">
+      <table class="treatment-table treatment-table--plain">
+        <thead>
+          <tr>
+            <th scope="col">嚴重程度</th>
+            <th scope="col">一線藥物</th>
+            <th scope="col">二線藥物</th>
+          </tr>
+        </thead>
+        <tbody>
+          {
+            ACNE_STRATEGY.map((r) => (
+              <tr>
+                <th scope="row" class="treatment-table__name">{r.name}</th>
+                <td>
+                  <ul class="cell-list">{r.first.map((x) => <li>{x}</li>)}</ul>
+                  {r.note && <p class="cell-note">{r.note}</p>}
+                </td>
+                <td>
+                  <ul class="cell-list">{r.second.map((x) => <li>{x}</li>)}</ul>
+                </td>
+              </tr>
+            ))
+          }
+        </tbody>
+      </table>
+    </div>
+    <ul class="bullets" style="margin-top:16px;">
+      {ACNE_STRATEGY_NOTES.map((n) => <li>{n}</li>)}
+    </ul>
+
+    <p style="margin-top:30px;">
+      <a class="btn" href={booking.href} target="_blank" rel="noopener noreferrer">預約掛號 →</a>
+    </p>
+
+    <h2 class="section-title" style="margin-top:48px;" id="principles">治療觀念</h2>
+    <p class="hint">藥物之外，這幾個觀念會影響治療能不能順利、也不容易復發。</p>
+    <ul class="trigger-grid">
+      {
+        ACNE_PRINCIPLES.map((p) => (
+          <li class="trigger-card">
+            <span class="trigger-card__label">{p.label}</span>
+            <span class="trigger-card__desc">{p.desc}</span>
+          </li>
+        ))
+      }
+    </ul>
+
+    <Faq items={ACNE_FAQ} idPrefix="faq-ac" />
+
+    <PageNotes
+      sources={[
+        '臺灣皮膚科醫學會：痤瘡臨床治療共識（2024 年 3 月共識會議）',
+        {
+          label: '衛生福利部食品藥物管理署：痘痘藥品百百種怎麼用？外用、口服治療原理一次看懂（藥物食品安全週報第 1083 期）',
+          href: 'https://www.fda.gov.tw/tc/PublishOtherEpaperContent.aspx?id=1625&tid=5666&r=90637442',
+        },
+        {
+          label: '臺大醫院 e 報：雷射革新抗痘——無須藥物長效控油（陳柏樺醫師，2026 年 6 月）',
+          href: 'https://health.ntuh.gov.tw/health/NTUH_e_Net/NTUH_e_Net_no247/%E9%9B%B7%E5%B0%84%E9%9D%A9%E6%96%B0%E6%8A%97%E7%97%98.pdf',
+        },
+        {
+          label: 'Jih MH, et al. The 1450-nm diode laser for facial inflammatory acne vulgaris: dose-response and 12-month follow-up study. J Am Acad Dermatol. 2006',
+          href: 'https://pubmed.ncbi.nlm.nih.gov/16781297/',
+        },
+        {
+          label: 'NOWnews（健康醫療網）：藍雷射治療青春痘報導（2023 年 4 月）',
+          href: 'https://www.nownews.com/news/6109447',
+        },
+      ]}
+      imageNote="本頁的人物插圖與機轉圖皆為示意圖，非真實患者影像。"
+    />
+  </section>
+</BaseLayout>
+
+<script>
+  // 治療分類卡片與 FAQ 的展開／收合，與落髮、玫瑰斑各頁共用同一支
+  import '../../../scripts/aga.js';
+</script>

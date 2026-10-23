@@ -4,7 +4,7 @@ import ConditionHero from '../../components/ConditionHero.astro';
 import ImageSlot from '../../components/ImageSlot.astro';
 import StageAccordion from '../../components/StageAccordion.astro';
 import Faq from '../../components/Faq.astro';
-import RosaceaTreatments from '../../components/RosaceaTreatments.astro';
+import SymptomTreatmentTable from '../../components/SymptomTreatmentTable.astro';
 import Lightbox from '../../components/Lightbox.astro';
 import PageNotes from '../../components/PageNotes.astro';
 import heroRosacea from '../../assets/local/hero-rosacea.webp';
@@ -165,7 +165,7 @@ const description =
     <p class="notice notice--warn" style="margin:0 0 16px;">
       ⚠ 實際用藥與療程需由醫師依分型、嚴重度與個人狀況評估決定，以下僅為衛教說明，並非個人化醫療建議。
     </p>
-    <RosaceaTreatments categories={ROSACEA_TREATMENT_CATEGORIES} symptoms={ROSACEA_SYMPTOMS} />
+    <SymptomTreatmentTable categories={ROSACEA_TREATMENT_CATEGORIES} symptoms={ROSACEA_SYMPTOMS} />
 
     <p class="warn-note" style="margin-top:22px;">
       ⚠ 請勿自行長期使用外用類固醇。短期可能讓泛紅看似改善，長期卻會使皮膚變薄、血管更明顯，停用後出現更嚴重的反彈，甚至造成類固醇引起的玫瑰斑。
