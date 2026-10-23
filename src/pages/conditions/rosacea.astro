@@ -5,6 +5,7 @@ import ImageSlot from '../../components/ImageSlot.astro';
 import StageAccordion from '../../components/StageAccordion.astro';
 import Faq from '../../components/Faq.astro';
 import RosaceaTreatments from '../../components/RosaceaTreatments.astro';
+import Lightbox from '../../components/Lightbox.astro';
 import PageNotes from '../../components/PageNotes.astro';
 import heroRosacea from '../../assets/local/hero-rosacea.webp';
 import {
@@ -18,6 +19,11 @@ import {
 import { CONTACT_LINKS } from '../../consts.js';
 
 const booking = CONTACT_LINKS.find((l) => l.id === 'booking');
+
+// 有商品圖的治療會帶一個 lightbox，集中起來交給燈箱元件
+const lightboxes = ROSACEA_TREATMENT_CATEGORIES.flatMap((c) => c.treatments)
+  .map((t) => t.lightbox)
+  .filter(Boolean);
 
 const description =
   '玫瑰斑（酒糟，Rosacea）衛教：基因、神經血管與免疫共同造成的慢性泛紅，紅斑血管擴張型、丘疹膿皰型、增生肥厚型與眼部型四種臨床表現，蠕型蟎蟲扮演的角色，以及外用、口服與光電治療的選擇。';
@@ -170,6 +176,8 @@ const description =
       imageNote="本頁人物插圖為示意圖；臨床照片引用自上列資料來源，用於說明各分型之疾病表現。"
     />
   </section>
+
+  <Lightbox lightboxes={lightboxes} />
 </BaseLayout>
 
 <script>

@@ -7,6 +7,9 @@
  */
 const { categories, symptoms } = Astro.props;
 const bySymptom = Object.fromEntries(symptoms.map((s) => [s.id, s]));
+// 標籤一律依症狀清單的順序顯示，不受資料裡陣列順序影響
+const order = symptoms.map((s) => s.id);
+const sorted = (ids) => [...ids].sort((a, b) => order.indexOf(a) - order.indexOf(b));
 ---
 
 <ul class="symptom-key" aria-label="症狀標籤說明">
@@ -51,7 +54,7 @@ const bySymptom = Object.fromEntries(symptoms.map((s) => [s.id, s]));
             <tr>
               <th scope="col">治療方式</th>
               <th scope="col">可改善的症狀</th>
-              <th scope="col">用藥順位</th>
+              <th scope="col">作用機轉</th>
             </tr>
           </thead>
           <tbody>
@@ -60,10 +63,19 @@ const bySymptom = Object.fromEntries(symptoms.map((s) => [s.id, s]));
                 <th scope="row" class="treatment-table__name">
                   {t.name}
                   {t.note && <span class="treatment-table__note">{t.note}</span>}
+                  {t.lightbox && (
+                    <span class="treatment-table__product">
+                      <span class="treatment__label">商品樣式</span>
+                      <button type="button" class="thumb thumb--open" data-lightbox-open={t.lightbox.id}>
+                        <span class="thumb__icon" aria-hidden="true">🔍</span>
+                        <span>{t.thumbLabel}</span>
+                      </button>
+                    </span>
+                  )}
                 </th>
                 <td>
                   <ul class="symptom-list">
-                    {t.helps.map((id) => (
+                    {sorted(t.helps).map((id) => (
                       <li>
                         <span class={`symptom-chip symptom-chip--${id}`} title={bySymptom[id].en}>
                           {bySymptom[id].label}
@@ -72,7 +84,7 @@ const bySymptom = Object.fromEntries(symptoms.map((s) => [s.id, s]));
                     ))}
                   </ul>
                 </td>
-                <td>{t.line ? <span class="line-tag">丘疹／膿皰型・{t.line}</span> : '—'}</td>
+                <td class="treatment-table__moa">{t.moa}</td>
               </tr>
             ))}
           </tbody>

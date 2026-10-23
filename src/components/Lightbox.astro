@@ -51,7 +51,7 @@ const OFF_LABEL = '非該藥物核准適應症（Off-label use），使用前請
               radius={12}
               alt={`${lb.name}商品外觀`}
               placeholder="商品外觀照片（圖片準備中）"
-              style="width:100%;height:280px;margin-bottom:14px;"
+              style={lb.photoStyle ?? 'width:100%;height:280px;margin-bottom:14px;'}
             />
           )}
 

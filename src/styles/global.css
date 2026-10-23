@@ -1378,6 +1378,8 @@ body.has-drawer {
 .symptom-chip--erythema { background: #f2bfae; color: #7a2f20; }
 .symptom-chip--papule { background: #f4b393; color: #6b2a12; }
 .symptom-chip--phyma { background: #c9482b; color: #fff; }
+/* Demodex is a different axis from the four clinical features, so it gets its own hue. */
+.symptom-chip--demodex { background: #e3def0; color: #4a3f7a; }
 
 .symptom-list {
   list-style: none;
@@ -1386,10 +1388,6 @@ body.has-drawer {
   display: flex;
   flex-wrap: wrap;
   gap: 6px;
-}
-
-.treatment-table--symptoms {
-  min-width: 520px;
 }
 
 .treatment-table--symptoms thead th {
@@ -1406,6 +1404,24 @@ body.has-drawer {
   vertical-align: top;
 }
 
+/* The mechanism column is a sentence, so it wraps and is allowed some room. */
+.treatment-table__moa {
+  font-size: 13.5px;
+  line-height: 1.8;
+  color: var(--body);
+  min-width: 200px;
+}
+
+.treatment-table--symptoms {
+  min-width: 620px;
+}
+
+/* The "商品樣式" button sits under the name and note, as on the hair pages. */
+.treatment-table__product {
+  display: block;
+  margin-top: 12px;
+}
+
 .treatment-table__note {
   display: block;
   margin-top: 2px;
@@ -1413,14 +1429,6 @@ body.has-drawer {
   font-weight: 400;
   color: var(--muted-2);
   white-space: normal;
-}
-
-.line-tag {
-  display: inline-block;
-  font-size: 12.5px;
-  font-weight: 600;
-  color: var(--muted-4);
-  white-space: nowrap;
 }
 
 /* --------------------------------------------------- doctor site --- */

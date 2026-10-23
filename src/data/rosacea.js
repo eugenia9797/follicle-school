@@ -45,43 +45,102 @@ export const ROSACEA_SELFCARE = [
   '記錄誘因：留意高溫、辛辣、酒精、熱飲、情緒壓力與溫差，找出屬於自己的誘發模式。',
 ];
 
-// 治療選項依臨床治療流程圖整理：圖中以「臨床表現」分欄（潮紅、持續性紅斑、
-// 丘疹／膿皰、增生肥厚），這裡改成每個治療標出可改善哪些表現。
+// 治療選項依臨床治療流程圖整理，再加上醫師補充的項目（舒立達）。
+// 圖中以「臨床表現」分欄，這裡改成每個治療標出可改善哪些表現。
 //
-// 圖中沒有把左欄的四種治療（brimonidine、propranolol、carvedilol、botulinum
-// toxin）再細分給潮紅或持續性紅斑，所以兩者都標；丘疹／膿皰那一欄則只標丘疹／膿皰。
-// 要細分時，只需要改各項的 helps 即可。
+// 標註原則（醫師指定）：凡是對丘疹／膿皰有效的藥物，原則上也可改善持續性紅斑，
+// 所以這些藥物一律同時標示兩者。舒立達只標「蠕型蟎蟲症」，照醫師的寫法。
+// `moa` 是一句話的作用機轉，`lightbox` 有值就會在藥名下方出現「商品樣式」按鈕，點了開商品圖。
 export const ROSACEA_SYMPTOMS = [
   { id: 'flush', label: '潮紅', en: 'Flushing' },
   { id: 'erythema', label: '持續性紅斑', en: 'Persistent erythema' },
   { id: 'papule', label: '丘疹／膿皰', en: 'Papules / Pustules' },
   { id: 'phyma', label: '增生肥厚', en: 'Phymatous change' },
+  { id: 'demodex', label: '蠕型蟎蟲症', en: 'Demodex infestation' },
 ];
 
 export const ROSACEA_TREATMENT_CATEGORIES = [
   {
     key: 'topical',
     title: '外用藥物',
-    summary: 'Brimonidine、Metronidazole、Azelaic acid、Retinoids',
+    summary: 'Brimonidine、Metronidazole、Azelaic acid、Retinoids、Soolantra 舒立達',
     treatments: [
-      { name: 'Brimonidine', note: '血管收縮劑', helps: ['flush', 'erythema'] },
-      { name: 'Metronidazole', note: '外用抗發炎藥', helps: ['papule'], line: '一線' },
-      { name: 'Azelaic acid', note: '杜鵑花酸', helps: ['papule'], line: '一線' },
-      { name: 'Retinoids', note: 'A 酸類', helps: ['papule'], line: '二線' },
+      {
+        name: 'Brimonidine',
+        note: '血管收縮劑',
+        helps: ['flush', 'erythema'],
+        moa: '活化血管上的 α2 受體使微血管收縮，暫時減輕泛紅。',
+      },
+      {
+        name: 'Metronidazole',
+        note: '外用抗發炎藥',
+        helps: ['erythema', 'papule'],
+        moa: '具抗發炎與抗氧化作用，減少丘疹與膿皰（確切機轉尚未完全明確）。',
+      },
+      {
+        name: 'Azelaic acid',
+        note: '杜鵑花酸',
+        helps: ['erythema', 'papule'],
+        moa: '抑制發炎訊號與抗菌胜肽（cathelicidin）的活化，兼具抗氧化作用。',
+      },
+      {
+        name: 'Retinoids',
+        note: 'A 酸類',
+        helps: ['erythema', 'papule'],
+        moa: '調節角質細胞分化與毛囊角化，並抑制發炎反應。',
+      },
+      {
+        name: 'Soolantra 舒立達',
+        note: 'Ivermectin 外用乳膏',
+        helps: ['demodex'],
+        moa: '殺滅毛囊中的蠕型蟎蟲，同時具有抗發炎作用。',
+        // 點「商品樣式」開啟燈箱，圖片位 id 為 `${lightbox.id}-photo`
+        thumbLabel: '外用乳膏',
+        lightbox: {
+          id: 'rosacea-soolantra',
+          name: 'Soolantra 舒立達',
+          typeLabel: '外用乳膏（Ivermectin）',
+          // 商品照是 2.9:1 的橫條，圖框跟著它的長寬比，不用預設的固定高度
+          photoStyle: 'width:100%;aspect-ratio:1868 / 645;margin-bottom:14px;',
+        },
+      },
     ],
   },
   {
     key: 'oral',
     title: '口服藥物',
-    summary: 'Propranolol、Carvedilol、四環素類、Isotretinoin、大環內酯類',
+    summary: 'Propranolol、Carvedilol、Doxycycline／Minocycline、Azithromycin／Clarithromycin、Isotretinoin',
     treatments: [
-      { name: 'Propranolol', note: '乙型阻斷劑', helps: ['flush', 'erythema'] },
-      { name: 'Carvedilol', note: 'α／β 阻斷劑', helps: ['flush', 'erythema'] },
-      { name: 'Doxycycline', note: '四環素類抗生素', helps: ['papule', 'phyma'], line: '一線' },
-      { name: 'Isotretinoin', note: '口服 A 酸', helps: ['papule', 'phyma'], line: '一線' },
-      { name: 'Minocycline', note: '四環素類抗生素', helps: ['papule'], line: '二線' },
-      { name: 'Azithromycin', note: '大環內酯類抗生素', helps: ['papule'], line: '二線' },
-      { name: 'Clarithromycin', note: '大環內酯類抗生素', helps: ['papule'], line: '二線' },
+      {
+        name: 'Propranolol',
+        note: '乙型阻斷劑',
+        helps: ['flush', 'erythema'],
+        moa: '阻斷 β 受體，減少交感神經刺激引起的血管擴張與潮紅。',
+      },
+      {
+        name: 'Carvedilol',
+        note: 'α／β 阻斷劑',
+        helps: ['flush', 'erythema'],
+        moa: '兼具 α1 與 β 受體阻斷作用，調節血管張力以減少潮紅與紅斑。',
+      },
+      {
+        name: 'Doxycycline／Minocycline',
+        note: '四環素類抗生素',
+        helps: ['erythema', 'papule', 'phyma'],
+        moa: '低劑量時主要作用是抑制發炎（如降低基質金屬蛋白酶活性），而不是殺菌。',
+      },
+      {
+        name: 'Azithromycin／Clarithromycin',
+        note: '大環內酯類抗生素',
+        helps: ['erythema', 'papule'],
+        moa: '兼具抗菌與調節發炎反應的作用。',
+      },
+      {
+        name: 'Isotretinoin',
+        note: '口服 A 酸',
+        helps: ['erythema', 'papule', 'phyma'],
+        moa: '縮小皮脂腺並抑制皮脂分泌，同時抗發炎，也能改善組織增生。',
+      },
     ],
   },
   {
@@ -89,7 +148,12 @@ export const ROSACEA_TREATMENT_CATEGORIES = [
     title: '注射',
     summary: 'Botulinum toxin',
     treatments: [
-      { name: 'Botulinum toxin', note: '肉毒桿菌毒素', helps: ['flush', 'erythema'] },
+      {
+        name: 'Botulinum toxin',
+        note: '肉毒桿菌毒素',
+        helps: ['flush', 'erythema'],
+        moa: '抑制神經末梢釋放乙醯膽鹼，減少神經調控的血管擴張與潮紅。',
+      },
     ],
   },
   {
@@ -97,10 +161,30 @@ export const ROSACEA_TREATMENT_CATEGORIES = [
     title: '手術與雷射',
     summary: 'Surgery、Electrosurgery、CO₂ laser、Er:YAG laser',
     treatments: [
-      { name: 'Surgery', note: '手術切除或重塑', helps: ['phyma'] },
-      { name: 'Electrosurgery', note: '電燒（電刀）', helps: ['phyma'] },
-      { name: 'CO₂ laser', note: '二氧化碳雷射', helps: ['phyma'] },
-      { name: 'Er:YAG laser', note: '鉺雅鉻雷射', helps: ['phyma'] },
+      {
+        name: 'Surgery',
+        note: '手術切除或重塑',
+        helps: ['phyma'],
+        moa: '切除或削薄增生的組織，重塑外型並改善鼻部功能。',
+      },
+      {
+        name: 'Electrosurgery',
+        note: '電燒（電刀）',
+        helps: ['phyma'],
+        moa: '以電流燒灼並削除增生組織，重塑外型。',
+      },
+      {
+        name: 'CO₂ laser',
+        note: '二氧化碳雷射',
+        helps: ['phyma'],
+        moa: '以雷射汽化增生的組織，可控制削除的深度。',
+      },
+      {
+        name: 'Er:YAG laser',
+        note: '鉺雅鉻雷射',
+        helps: ['phyma'],
+        moa: '以雷射汽化淺層組織，熱傷害較小，適合精細修整。',
+      },
     ],
   },
 ];

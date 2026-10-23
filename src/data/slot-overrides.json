@@ -83,6 +83,10 @@
     "file": "local/rosacea-mechanism.webp",
     "optimize": true
   },
+  "rosacea-soolantra-photo": {
+    "file": "local/rosacea-soolantra-photo.webp",
+    "optimize": true
+  },
   "rosacea-type-ETR": {
     "file": "local/rosacea-type-ETR.webp",
     "optimize": true
