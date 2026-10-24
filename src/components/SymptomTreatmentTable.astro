@@ -10,6 +10,8 @@
  * `advice`, the table gains a fourth column for them. `oneRow` lays four category
  * cards out across a wide screen rather than three and an orphan.
  */
+import { inlineBold } from '../lib/inline-bold.js';
+
 const { categories, symptoms, oneRow = false } = Astro.props;
 const bySymptom = Object.fromEntries(symptoms.map((s) => [s.id, s]));
 // 標籤一律依症狀清單的順序顯示，不受資料裡陣列順序影響
@@ -70,7 +72,7 @@ const hasTips = (cat) => cat.treatments.some((t) => t.cautions?.length || t.advi
             {cat.treatments.map((t) => (
               <tr>
                 <th scope="row" class="treatment-table__name">
-                  {t.name}
+                  {t.name.split('\n').map((line, i) => (i > 0 ? [<br />, line] : line))}
                   {t.note && <span class="treatment-table__note">{t.note}</span>}
                   {t.lightbox && (
                     <span class="treatment-table__product">
@@ -93,14 +95,14 @@ const hasTips = (cat) => cat.treatments.some((t) => t.cautions?.length || t.advi
                     ))}
                   </ul>
                 </td>
-                <td class="treatment-table__moa">{t.moa}</td>
+                <td class="treatment-table__moa" set:html={inlineBold(t.moa)} />
                 {hasTips(cat) && (
                   <td class="treatment-table__tips">
                     {t.cautions?.length > 0 && (
                       <>
                         <p class="tips-label tips-label--caution">注意</p>
                         <ul class="tips-list">
-                          {t.cautions.map((x) => <li>{x}</li>)}
+                          {t.cautions.map((x) => <li set:html={inlineBold(x)} />)}
                         </ul>
                       </>
                     )}
@@ -108,7 +110,7 @@ const hasTips = (cat) => cat.treatments.some((t) => t.cautions?.length || t.advi
                       <>
                         <p class="tips-label tips-label--advice">建議</p>
                         <ul class="tips-list">
-                          {t.advice.map((x) => <li>{x}</li>)}
+                          {t.advice.map((x) => <li set:html={inlineBold(x)} />)}
                         </ul>
                       </>
                     )}

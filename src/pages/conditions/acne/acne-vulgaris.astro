@@ -17,6 +17,7 @@ import {
   ACNE_TREATMENT_CATEGORIES,
 } from '../../../data/acne.js';
 import { CONTACT_LINKS } from '../../../consts.js';
+import { inlineBold } from '../../../lib/inline-bold.js';
 
 const booking = CONTACT_LINKS.find((l) => l.id === 'booking');
 
@@ -26,9 +27,10 @@ const description =
 
 <BaseLayout title="青春痘／痤瘡（尋常性痤瘡）" description={description} current="conditions">
   <ConditionHero
+    fitTitle
     eyebrow="常見皮膚疾病"
-    hook="痘痘一顆接一顆，是不是哪裡做錯了？"
-    promise="青春痘不是髒，對症治療就能控制！"
+    hook="痘痘冒不停！|臉變花花臉！"
+    promise="皮膚科醫師幫你|重新找回水煮蛋肌！"
     lead="青春痘（痤瘡）約有 85% 的青少年都曾經歷，成年人也會長。它和毛囊角化、皮脂、痤瘡桿菌與免疫發炎有關，只要接受正規治療、正確保養與規律作息，多數人的痘痘都能得到很好的控制。"
     image={heroAcne}
     imageAlt="青春痘示意插圖：臉上長痘痘的女學生在教室裡托著臉，神情煩惱"
@@ -81,7 +83,7 @@ const description =
         ACNE_RISK_FACTORS.map((f) => (
           <li class="risk-list__item">
             <span class="risk-list__title">{f.label}</span>
-            {f.desc && <span class="risk-list__desc">{f.desc}</span>}
+            {f.desc && <span class="risk-list__desc" set:html={inlineBold(f.desc)} />}
           </li>
         ))
       }

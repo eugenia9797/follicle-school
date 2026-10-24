@@ -7,10 +7,15 @@ import { lqipStyle } from '../lib/lqip.js';
  * short reassuring lead, and jump links into the detail below. Everything
  * after this section is the existing long-form content, unchanged.
  */
-const { eyebrow, hook, promise, lead, image, imageAlt, sections = [], crumb } = Astro.props;
+const { eyebrow, hook, promise, lead, image, imageAlt, sections = [], crumb, fitTitle = false } = Astro.props;
+
+// A "|" in the hook or promise marks where the line may break. Each phrase between
+// the bars stays whole, so a long title never splits in the middle of a word.
+const parts = (text) => text.split('|');
+
 ---
 
-<section class="hero-band">
+<section class:list={['hero-band', fitTitle && 'hero-band--fit-title']}>
   <div class="hero-band__inner">
     <div class="hero-band__text">
       {crumb && (
@@ -20,8 +25,8 @@ const { eyebrow, hook, promise, lead, image, imageAlt, sections = [], crumb } = 
       )}
       <p class="hero-band__eyebrow">{eyebrow}</p>
       <h1 class="hero-band__title">
-        <span class="hero-band__hook">{hook}</span>
-        <span class="hero-band__promise">{promise}</span>
+        <span class="hero-band__hook">{hook.includes('|') ? parts(hook).map((t) => <span class="hero-band__phrase">{t}</span>) : hook}</span>
+        <span class="hero-band__promise">{promise.includes('|') ? parts(promise).map((t) => <span class="hero-band__phrase">{t}</span>) : promise}</span>
       </h1>
       <p class="hero-band__lead">{lead}</p>
     </div>

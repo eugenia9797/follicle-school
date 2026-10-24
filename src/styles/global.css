@@ -1427,7 +1427,7 @@ body.has-drawer {
 /* With a fourth column, the name cell is given room so a note such as a brand
    name does not wrap in the middle of a word. */
 .treatment-table--tips .treatment-table__name {
-  min-width: 140px;
+  min-width: 160px;
 }
 
 .treatment-table__tips {
@@ -2559,6 +2559,10 @@ body.has-drawer {
   color: var(--accent);
 }
 
+.hero-band__phrase {
+  display: inline-block;
+}
+
 .hero-band__lead {
   background: var(--surface);
   border: 1px solid var(--border);
@@ -2633,6 +2637,17 @@ body.has-drawer {
   .hero-band__nav {
     margin-top: 28px;
   }
+}
+
+/* A long title (hook and promise each a full sentence) scales with its column so
+   each sentence stays on one line; it stops shrinking at 24px, below which the
+   phrases wrap instead. */
+.hero-band--fit-title .hero-band__text {
+  container-type: inline-size;
+}
+
+.hero-band--fit-title .hero-band__title {
+  font-size: clamp(24px, 5.7cqw, 38px);
 }
 
 /* --------------------------------------------------------------- home --- */
