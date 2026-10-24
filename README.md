@@ -18,7 +18,9 @@
 
 ## 小遊戲：擠痘木頭人
 
-`/acne-game/` 是一個單檔網頁小遊戲，放在 `public/acne-game/index.html`，build 時原封不動複製到 `dist/`，不經過 Astro 處理。遊戲原始碼與更新紀錄在 [eugenia9797/Acne_game](https://github.com/eugenia9797/Acne_game)，更新遊戲時把那邊的 `index.html` 複製過來即可。
+`/acne-game/` 是一個網頁小遊戲，原始碼在 [eugenia9797/Acne_game](https://github.com/eugenia9797/Acne_game)，部署在它自己的 Cloudflare Pages 專案（acne-game.pages.dev）。
+
+這個網站用 `functions/acne-game/[[path]].js` 把 `/acne-game/` 的請求轉接過去，在 Cloudflare 邊緣快取 60 秒。所以更新遊戲只要推到 Acne_game，大約一分鐘內 esheen.skin/acne-game/ 就會是新版，不需要改這個 repo。
 
 ## 開發
 
