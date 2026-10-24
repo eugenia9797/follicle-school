@@ -16,6 +16,10 @@
 | `/areata/` | 圓禿：自體免疫機轉、五種臨床型態、皮膚鏡、治療比較、FAQ |
 | `/quiz/` | 自我落髮檢測（計分式問卷，判定六種落髮分類並建議進一步檢查） |
 
+## 小遊戲：擠痘木頭人
+
+`/acne-game/` 是一個單檔網頁小遊戲，放在 `public/acne-game/index.html`，build 時原封不動複製到 `dist/`，不經過 Astro 處理。遊戲原始碼與更新紀錄在 [eugenia9797/Acne_game](https://github.com/eugenia9797/Acne_game)，更新遊戲時把那邊的 `index.html` 複製過來即可。
+
 ## 開發
 
 ```bash
