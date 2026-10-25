@@ -28,6 +28,12 @@ const pageTitle = title ? `${title}｜${brand}` : hair ? `${brand}｜${SITE_TAGL
 const canonical = new URL(Astro.url.pathname, Astro.site);
 // 分享到 LINE、Facebook 等地方時顯示的縮圖
 const ogImage = new URL('/og-image.png', Astro.site);
+
+// Google Analytics 4（和 /acne-game/ 小遊戲同一個資源）。只放在正式站的 build，
+// Cloudflare 的預覽部署（非 main 分支）不載入，免得測試流量混進報表。
+const GA_ID = 'G-FTBL57HWEV';
+const branch = process.env.CF_PAGES_BRANCH;
+const analytics = import.meta.env.PROD && (!branch || branch === 'main');
 ---
 
 <!doctype html>
@@ -67,6 +73,17 @@ const ogImage = new URL('/og-image.png', Astro.site);
     />
 
     <link rel="sitemap" href="/sitemap-index.xml" />
+    {analytics && (
+      <Fragment>
+        <script is:inline async src={`https://www.googletagmanager.com/gtag/js?id=${GA_ID}`}></script>
+        <script is:inline>
+          window.dataLayer = window.dataLayer || [];
+          function gtag() { dataLayer.push(arguments); }
+          gtag('js', new Date());
+          gtag('config', 'G-FTBL57HWEV');
+        </script>
+      </Fragment>
+    )}
     <slot name="head" />
   </head>
   <body>
