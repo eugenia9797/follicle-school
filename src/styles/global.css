@@ -584,6 +584,84 @@ button {
   color: var(--accent);
 }
 
+/* Sub-menus in the drawer: a row that opens on tap, with its links folded inside. */
+.mnav-group {
+  border-bottom: 1px solid var(--border);
+}
+
+.mnav-toggle {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  width: 100%;
+  padding: 14px 4px;
+  background: none;
+  border: 0;
+  font: inherit;
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--ink);
+  text-align: left;
+  cursor: pointer;
+}
+
+.mnav-group.is-current > .mnav-toggle {
+  color: var(--accent);
+}
+
+.mnav-chevron {
+  font-size: 18px;
+  line-height: 1;
+  color: var(--muted);
+  transition: transform 0.2s ease;
+}
+
+.mnav-group.is-open > .mnav-toggle .mnav-chevron {
+  transform: rotate(180deg);
+}
+
+/* The 0fr → 1fr row trick lets the list slide open to its natural height;
+   visibility keeps the folded links out of reach of the keyboard. */
+.mnav-sub {
+  display: grid;
+  grid-template-rows: 0fr;
+  visibility: hidden;
+  transition:
+    grid-template-rows 0.22s ease,
+    visibility 0s linear 0.22s;
+}
+
+.mnav-group.is-open > .mnav-sub {
+  grid-template-rows: 1fr;
+  visibility: visible;
+  transition-delay: 0s;
+}
+
+.mnav-sub__inner {
+  min-height: 0;
+  overflow: hidden;
+  padding-left: 14px;
+}
+
+.mobile-nav .mnav-sub a {
+  display: block;
+  padding: 12px 4px;
+  font-size: 15px;
+  font-weight: 500;
+  color: var(--slate);
+  border-bottom: 1px dashed var(--border);
+}
+
+.mobile-nav .mnav-sub a:last-child {
+  border-bottom: 0;
+}
+
+.mobile-nav .mnav-sub a.mnav-sub__all {
+  color: var(--accent);
+  font-weight: 700;
+}
+
 /* Stop the page behind the drawer from scrolling with it. */
 body.has-drawer {
   overflow: hidden;
@@ -591,7 +669,9 @@ body.has-drawer {
 
 @media (prefers-reduced-motion: reduce) {
   .mobile-nav,
-  .nav-scrim {
+  .nav-scrim,
+  .mnav-sub,
+  .mnav-chevron {
     transition: none;
   }
 }

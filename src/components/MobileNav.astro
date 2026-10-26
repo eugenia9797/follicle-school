@@ -3,9 +3,19 @@
  * Slide-in drawer used by both site headers on phones and tablets.
  *
  * Opens from the right over the page; closes on the scrim, the ✕, Escape, or
- * a rightward swipe. `items` is [{ label, href, external, accent }].
+ * a rightward swipe. `items` is [{ id, label, href, external, accent, children }].
+ *
+ * An item with `children` becomes a group: tapping it opens its sub-menu (and
+ * tapping again closes it), with a first row that goes to the item's own page.
+ * The menu goes one level down; a child's own `children` (used by the desktop
+ * fly-out) are not shown here, the child is simply a link.
  */
-const { items = [], label = '行動版選單' } = Astro.props;
+const { items = [], label = '行動版選單', current = '' } = Astro.props;
+
+const linkAttrs = (item) => ({
+  target: item.external ? '_blank' : undefined,
+  rel: item.external ? 'noopener noreferrer' : undefined,
+});
 ---
 
 <div class="nav-scrim" data-nav-scrim hidden></div>
@@ -14,16 +24,34 @@ const { items = [], label = '行動版選單' } = Astro.props;
   <button type="button" class="mobile-nav__close" data-nav-close aria-label="關閉選單">✕</button>
 
   {
-    items.map((item) => (
-      <a
-        href={item.href}
-        class:list={[item.accent && 'is-accent']}
-        target={item.external ? '_blank' : undefined}
-        rel={item.external ? 'noopener noreferrer' : undefined}
-      >
-        {item.label}
-      </a>
-    ))
+    items.map((item, i) =>
+      item.children?.length ? (
+        <div class:list={['mnav-group', item.id && item.id === current && 'is-current']} data-mnav-group>
+          <button
+            type="button"
+            class="mnav-toggle"
+            data-mnav-toggle
+            aria-expanded="false"
+            aria-controls={`mnav-sub-${i}`}
+          >
+            <span>{item.label}</span>
+            <span class="mnav-chevron" aria-hidden="true">⌄</span>
+          </button>
+          <div class="mnav-sub" id={`mnav-sub-${i}`}>
+            <div class="mnav-sub__inner">
+              <a class="mnav-sub__all" href={item.href}>前往「{item.label}」頁面 →</a>
+              {item.children.map((child) => (
+                <a href={child.href} {...linkAttrs(child)}>{child.label}</a>
+              ))}
+            </div>
+          </div>
+        </div>
+      ) : (
+        <a href={item.href} class:list={[item.accent && 'is-accent']} {...linkAttrs(item)}>
+          {item.label}
+        </a>
+      ),
+    )
   }
 </nav>
 
@@ -61,6 +89,8 @@ const { items = [], label = '行動版選單' } = Astro.props;
       closeTimer = setTimeout(() => {
         drawer.hidden = true;
         scrim.hidden = true;
+        // The next time it opens, every sub-menu starts folded again.
+        for (const group of groups) setGroup(group, false);
       }, 260);
     };
 
@@ -70,6 +100,22 @@ const { items = [], label = '行動版選單' } = Astro.props;
     scrim.addEventListener('click', close);
     closeBtn?.addEventListener('click', close);
     drawer.querySelectorAll('a').forEach((a) => a.addEventListener('click', close));
+
+    // Sub-menus: a tap on a group's row opens it, a second tap closes it. Opening
+    // one folds the others.
+    const groups = [...drawer.querySelectorAll('[data-mnav-group]')];
+    const setGroup = (group, isOpen) => {
+      group.classList.toggle('is-open', isOpen);
+      group.querySelector(':scope > [data-mnav-toggle]')?.setAttribute('aria-expanded', String(isOpen));
+    };
+    for (const button of drawer.querySelectorAll('[data-mnav-toggle]')) {
+      button.addEventListener('click', () => {
+        const group = button.closest('[data-mnav-group]');
+        const willOpen = !group.classList.contains('is-open');
+        if (willOpen) for (const other of groups) if (other !== group) setGroup(other, false);
+        setGroup(group, willOpen);
+      });
+    }
 
     document.addEventListener('keydown', (event) => {
       if (event.key === 'Escape' && isOpen()) {
