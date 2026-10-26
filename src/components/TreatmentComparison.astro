@@ -56,26 +56,26 @@ const asTable = new Set(tableCategories);
 
       {asTable.has(cat.id) ? (
         <div class="treatment-table-wrap">
-          <table class="treatment-table">
-            <thead>
-              <tr>
-                <th scope="col">治療方式</th>
-                <th scope="col">副作用</th>
-                <th scope="col">注意事項</th>
+          <table class="treatment-table" role="table">
+            <thead role="rowgroup">
+              <tr role="row">
+                <th scope="col" role="columnheader">治療方式</th>
+                <th scope="col" role="columnheader">副作用</th>
+                <th scope="col" role="columnheader">注意事項</th>
               </tr>
             </thead>
-            <tbody>
+            <tbody role="rowgroup">
               {cat.treatments.map((t) => (
-                <tr>
-                  <th scope="row" class="treatment-table__name">{t.name}</th>
-                  <td>
+                <tr role="row">
+                  <th scope="row" role="rowheader" class="treatment-table__name">{t.name}</th>
+                  <td role="cell" data-label="副作用">
                     <ul>
                       {t.sideEffects.map((se) => (
                         <li>{se}</li>
                       ))}
                     </ul>
                   </td>
-                  <td>
+                  <td role="cell" data-label="注意事項">
                     <ul>
                       {t.notes.map((note) => (
                         <li>{note}</li>
@@ -101,7 +101,7 @@ const asTable = new Set(tableCategories);
               </span>
             </>
           ))}
-          {cat.points.map((point) => (
+          {cat.points.map((point, i) => (
             <span
               class="quad__point"
               data-point={point.id}
@@ -115,6 +115,7 @@ const asTable = new Set(tableCategories);
                 aria-controls={`t-${cat.key}-${point.id}`}
               >
                 <span class="visually-hidden">{point.name}</span>
+                <span class="quad__num" aria-hidden="true">{i + 1}</span>
               </button>
               <button
                 type="button"
@@ -132,6 +133,23 @@ const asTable = new Set(tableCategories);
           <span>效果較低</span>
           <span>效果較高 →</span>
         </div>
+        <ol class="quad__legend" aria-label="治療項目清單">
+          {cat.points.map((point, i) => (
+            <li style={`--dot-color:${point.color};`}>
+              <button
+                type="button"
+                class="quad__legend-item"
+                data-treatment-toggle={point.id}
+                data-legend-item
+                aria-expanded="false"
+                aria-controls={`t-${cat.key}-${point.id}`}
+              >
+                <span class="quad__legend-num" aria-hidden="true">{i + 1}</span>
+                <span>{point.name}</span>
+              </button>
+            </li>
+          ))}
+        </ol>
       </div>
       )}
 

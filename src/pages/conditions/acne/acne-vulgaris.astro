@@ -110,24 +110,24 @@ const description =
       下表是臺灣皮膚科醫學會共識整理的治療建議。一線、二線並不代表一定要照順序，會依你的情況與醫師討論後決定。
     </p>
     <div class="treatment-table-wrap">
-      <table class="treatment-table treatment-table--plain">
-        <thead>
-          <tr>
-            <th scope="col">嚴重程度</th>
-            <th scope="col">一線藥物</th>
-            <th scope="col">二線藥物</th>
+      <table class="treatment-table treatment-table--plain" role="table">
+        <thead role="rowgroup">
+          <tr role="row">
+            <th scope="col" role="columnheader">嚴重程度</th>
+            <th scope="col" role="columnheader">一線藥物</th>
+            <th scope="col" role="columnheader">二線藥物</th>
           </tr>
         </thead>
-        <tbody>
+        <tbody role="rowgroup">
           {
             ACNE_STRATEGY.map((r) => (
-              <tr>
-                <th scope="row" class="treatment-table__name">{r.name}</th>
-                <td>
+              <tr role="row">
+                <th scope="row" role="rowheader" class="treatment-table__name">{r.name}</th>
+                <td role="cell" data-label="一線藥物">
                   <ul class="cell-list">{r.first.map((x) => <li>{x}</li>)}</ul>
                   {r.note && <p class="cell-note">{r.note}</p>}
                 </td>
-                <td>
+                <td role="cell" data-label="二線藥物">
                   <ul class="cell-list">{r.second.map((x) => <li>{x}</li>)}</ul>
                 </td>
               </tr>

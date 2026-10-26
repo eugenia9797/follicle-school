@@ -59,19 +59,22 @@ const hasTips = (cat) => cat.treatments.some((t) => t.cautions?.length || t.advi
       {cat.warning && <p class="notice notice--warn" style="margin:0;">⚠ {cat.warning}</p>}
       {cat.hint && <p class="hint--sm" style="margin:0;">{cat.hint}</p>}
       <div class="treatment-table-wrap">
-        <table class:list={['treatment-table', 'treatment-table--symptoms', hasTips(cat) && 'treatment-table--tips']}>
-          <thead>
-            <tr>
-              <th scope="col">治療方式</th>
-              <th scope="col">可改善的症狀</th>
-              <th scope="col">作用機轉</th>
-              {hasTips(cat) && <th scope="col">使用注意事項與建議</th>}
+        <table
+          class:list={['treatment-table', 'treatment-table--symptoms', hasTips(cat) && 'treatment-table--tips']}
+          role="table"
+        >
+          <thead role="rowgroup">
+            <tr role="row">
+              <th scope="col" role="columnheader">治療方式</th>
+              <th scope="col" role="columnheader">可改善的症狀</th>
+              <th scope="col" role="columnheader">作用機轉</th>
+              {hasTips(cat) && <th scope="col" role="columnheader">使用注意事項與建議</th>}
             </tr>
           </thead>
-          <tbody>
+          <tbody role="rowgroup">
             {cat.treatments.map((t) => (
-              <tr>
-                <th scope="row" class="treatment-table__name">
+              <tr role="row">
+                <th scope="row" role="rowheader" class="treatment-table__name">
                   {t.name.split('\n').map((line, i) => (i > 0 ? [<br />, line] : line))}
                   {t.note && <span class="treatment-table__note">{t.note}</span>}
                   {t.lightbox && (
@@ -84,7 +87,7 @@ const hasTips = (cat) => cat.treatments.some((t) => t.cautions?.length || t.advi
                     </span>
                   )}
                 </th>
-                <td>
+                <td role="cell" data-label="可改善的症狀">
                   <ul class="symptom-list">
                     {sorted(t.helps).map((id) => (
                       <li>
@@ -95,9 +98,9 @@ const hasTips = (cat) => cat.treatments.some((t) => t.cautions?.length || t.advi
                     ))}
                   </ul>
                 </td>
-                <td class="treatment-table__moa" set:html={inlineBold(t.moa)} />
+                <td class="treatment-table__moa" role="cell" data-label="作用機轉" set:html={inlineBold(t.moa)} />
                 {hasTips(cat) && (
-                  <td class="treatment-table__tips">
+                  <td class="treatment-table__tips" role="cell" data-label="使用注意事項與建議">
                     {t.cautions?.length > 0 && (
                       <>
                         <p class="tips-label tips-label--caution">注意</p>

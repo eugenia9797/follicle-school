@@ -2512,6 +2512,75 @@ body.has-drawer {
   }
 }
 
+@media (max-width: 720px) {
+  /* Article tables with three or more columns fold the same way: the first cell
+     is the card's title and the others carry their column name. */
+  .article__body table.table-cards,
+  .article__body table.table-cards tbody,
+  .article__body table.table-cards tr,
+  .article__body table.table-cards td {
+    display: block;
+  }
+
+  .article__body table.table-cards {
+    overflow: visible;
+  }
+
+  .article__body table.table-cards thead {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    white-space: nowrap;
+  }
+
+  .article__body table.table-cards tr {
+    background: var(--surface-alt);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 0 14px 4px;
+    margin-bottom: 12px;
+  }
+
+  .article__body table.table-cards td {
+    min-width: 0;
+    padding: 10px 0;
+    border: 0;
+  }
+
+  /* beats the zebra striping on .article__body tbody tr:nth-child(...) td */
+  .article__body table.table-cards tbody tr td {
+    background: transparent;
+  }
+
+  .article__body table.table-cards tbody tr td:first-child {
+    background: var(--surface);
+  }
+
+  /* The title runs edge to edge in white, so it stands out from the grey card. */
+  .article__body table.table-cards td:first-child {
+    margin: 0 -14px 2px;
+    padding: 12px 14px;
+    border-radius: 11px 11px 0 0;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .article__body table.table-cards td + td + td {
+    border-top: 1px dashed var(--border);
+  }
+
+  .article__body table.table-cards td[data-label]::before {
+    content: attr(data-label);
+    display: block;
+    margin-bottom: 4px;
+    font-size: 12px;
+    font-weight: 800;
+    letter-spacing: 0.4px;
+    color: var(--muted-3);
+  }
+}
+
 /* ------------------------------------------------- condition hero --- */
 
 .hero-band {
@@ -3366,6 +3435,203 @@ body.has-drawer {
   color: var(--body);
 }
 
+/* ------------------------------------------- on a phone: no sideways scroll --- */
+
+/* The quadrant chart's numbered dots and its list only appear on a phone. */
+.quad__num,
+.quad__legend {
+  display: none;
+}
+
+/* The wide quadrant chart needs about 690px and the four-column acne table about
+   750px, so the folded layouts start below 860px, not at phone width only. */
+@media (max-width: 860px) {
+  .cat-panel {
+    padding: 14px;
+  }
+
+  /* Quadrant chart: the plot fills the card, dots carry numbers, and the names
+     move to a list underneath (the labels no longer fit beside the dots). */
+  .quad {
+    --label-reserve: 0px;
+    padding: 14px;
+    overflow: visible;
+  }
+
+  .quad__caption {
+    min-width: 0;
+  }
+
+  .quad__plot {
+    min-width: 0;
+    height: 300px;
+    margin-left: 32px;
+  }
+
+  .quad__axis {
+    min-width: 0;
+    margin-left: 32px;
+  }
+
+  .quad__label {
+    display: none;
+  }
+
+  .quad__dot {
+    width: 22px;
+    height: 22px;
+    display: grid;
+    place-items: center;
+  }
+
+  .quad__point.is-open .quad__dot {
+    width: 28px;
+    height: 28px;
+  }
+
+  .quad__num {
+    display: block;
+    font-size: 11px;
+    font-weight: 800;
+    line-height: 1;
+    color: #fff;
+  }
+
+  .quad__legend {
+    display: block;
+    list-style: none;
+    margin: 16px 0 0;
+    padding: 0;
+  }
+
+  .quad__legend li + li {
+    margin-top: 8px;
+  }
+
+  .quad__legend-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    width: 100%;
+    min-height: 44px;
+    padding: 8px 12px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    font: inherit;
+    font-size: 14px;
+    font-weight: 600;
+    line-height: 1.5;
+    text-align: left;
+    color: var(--body);
+    cursor: pointer;
+  }
+
+  .quad__legend-item.is-open {
+    background: var(--border);
+    color: var(--heading);
+    font-weight: 700;
+  }
+
+  .quad__legend-num {
+    flex: none;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    background: var(--dot-color);
+    color: #fff;
+    font-size: 12px;
+    font-weight: 800;
+    display: grid;
+    place-items: center;
+  }
+
+  /* Tables: each row becomes a card, and each cell carries its own column title
+     (from data-label), so nothing needs to scroll sideways. */
+  .treatment-table-wrap {
+    overflow-x: visible;
+  }
+
+  .treatment-table,
+  .treatment-table tbody,
+  .treatment-table tr,
+  .treatment-table th[scope='row'],
+  .treatment-table td {
+    display: block;
+  }
+
+  .treatment-table {
+    min-width: 0;
+  }
+
+  .treatment-table thead {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    white-space: nowrap;
+  }
+
+  .treatment-table tr {
+    background: var(--surface-alt);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 2px 14px 4px;
+    margin-bottom: 12px;
+  }
+
+  .treatment-table tbody tr:last-child {
+    margin-bottom: 0;
+  }
+
+  .treatment-table th[scope='row'],
+  .treatment-table td {
+    padding: 12px 0;
+    border-bottom: 0;
+  }
+
+  .treatment-table th[scope='row'] {
+    white-space: normal;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .treatment-table td + td,
+  .treatment-table th[scope='row'] + td {
+    border-top: 0;
+  }
+
+  .treatment-table td + td {
+    border-top: 1px dashed var(--border);
+  }
+
+  .treatment-table td[data-label]::before {
+    content: attr(data-label);
+    display: block;
+    margin-bottom: 6px;
+    font-size: 12px;
+    font-weight: 800;
+    letter-spacing: 0.4px;
+    color: var(--muted-3);
+  }
+
+  .treatment-table .treatment-table__name,
+  .treatment-table .treatment-table__moa,
+  .treatment-table .treatment-table__tips {
+    min-width: 0;
+  }
+
+  .treatment-table tbody tr:last-child th,
+  .treatment-table tbody tr:last-child td {
+    border-bottom: 0;
+  }
+
+  .treatment-table tbody tr:last-child th[scope='row'] {
+    border-bottom: 1px solid var(--border);
+  }
+
+}
+
 /* -------------------------------------------------- treatment detail --- */
 
 .treatment {
@@ -4021,9 +4287,6 @@ body.has-drawer {
   }
   .quiz__question {
     font-size: 20px;
-  }
-  .quad {
-    padding: 18px 12px 14px 44px;
   }
 }
 

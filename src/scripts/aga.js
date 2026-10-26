@@ -44,18 +44,32 @@ for (const button of document.querySelectorAll('[data-treatment-toggle]')) {
     const scope = button.closest('[data-cat-panel]');
     if (!scope) return;
     const id = button.dataset.treatmentToggle;
-    const point = button.closest('.quad__point');
-    const wasOpen = point?.classList.contains('is-open');
+    // A dot, its label and the legend entry (the phone's version of the label) all
+    // share one id, so look the point up by id instead of by where the click landed.
+    const point = scope.querySelector(`.quad__point[data-point="${id}"]`);
+    const panel = scope.querySelector(`[data-treatment-panel="${id}"]`);
+    const wasOpen = panel ? !panel.hidden : false;
 
     for (const p of scope.querySelectorAll('.quad__point')) p.classList.remove('is-open');
     for (const dot of scope.querySelectorAll('.quad__dot')) dot.setAttribute('aria-expanded', 'false');
-    for (const panel of scope.querySelectorAll('[data-treatment-panel]')) panel.hidden = true;
+    for (const item of scope.querySelectorAll('[data-legend-item]')) {
+      item.classList.remove('is-open');
+      item.setAttribute('aria-expanded', 'false');
+    }
+    for (const p of scope.querySelectorAll('[data-treatment-panel]')) p.hidden = true;
 
     if (wasOpen) return;
     point?.classList.add('is-open');
     point?.querySelector('.quad__dot')?.setAttribute('aria-expanded', 'true');
-    const panel = scope.querySelector(`[data-treatment-panel="${id}"]`);
-    if (panel) panel.hidden = false;
+    for (const item of scope.querySelectorAll(`[data-legend-item][data-treatment-toggle="${id}"]`)) {
+      item.classList.add('is-open');
+      item.setAttribute('aria-expanded', 'true');
+    }
+    if (panel) {
+      panel.hidden = false;
+      // On a phone the details sit below the legend; bring them into view if needed.
+      if (button.matches('[data-legend-item]')) panel.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
+    }
   });
 }
 
