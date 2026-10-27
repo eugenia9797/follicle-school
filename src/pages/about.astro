@@ -5,11 +5,14 @@ import portrait from '../assets/brand/doctor-cutout.webp';
 import bookCover from '../assets/brand/book-cosmetic-injection.webp';
 import { CONTACT_LINKS, DOCTOR_NAME, DOCTOR_TITLE } from '../consts.js';
 import {
+  CLINICS,
   CONFERENCES,
   CREDENTIALS,
   HONOURS,
   INTERVIEWS,
   PUBLICATIONS,
+  SCHEDULE,
+  SCHEDULE_PERIODS,
   SOCIETIES,
   SPECIALTIES,
   TRANSLATIONS,
@@ -65,6 +68,61 @@ const description = `${DOCTOR_NAME}${DOCTOR_TITLE}：長庚體系皮膚科主治
         >預約掛號 →</a>
       </div>
     </div>
+  </section>
+
+  <section class="wrap" id="clinic" style="padding-block:8px 0;">
+    <h2 class="profile__heading">門診資訊</h2>
+
+    <table class="schedule">
+      <caption class="visually-hidden">門診時間表</caption>
+      <thead>
+        <tr>
+          <th scope="col"><span class="visually-hidden">時段</span></th>
+          {SCHEDULE.map((d) => <th scope="col">{d.day}</th>)}
+        </tr>
+      </thead>
+      <tbody>
+        {
+          SCHEDULE_PERIODS.map((period) => (
+            <tr>
+              <th scope="row">
+                {period.label}
+                <span class="schedule__time">{period.time}</span>
+              </th>
+              {SCHEDULE.map((d) =>
+                d[period.id].length ? (
+                  <td>
+                    {d[period.id].map((id, i) => (
+                      <>
+                        {i > 0 && <span class="schedule__or">或</span>}
+                        <span class={`schedule__chip schedule__chip--${id}`}>{CLINICS[id].label}</span>
+                      </>
+                    ))}
+                  </td>
+                ) : (
+                  <td class="schedule__none">
+                    <span aria-hidden="true">—</span>
+                    <span class="visually-hidden">無門診</span>
+                  </td>
+                ),
+              )}
+            </tr>
+          ))
+        }
+      </tbody>
+    </table>
+
+    <ul class="schedule-legend">
+      {
+        Object.entries(CLINICS).map(([id, clinic]) => (
+          <li>
+            <span class={`schedule__chip schedule__chip--${id}`}>{clinic.label}</span>
+            {clinic.name}
+          </li>
+        ))
+      }
+    </ul>
+    <p class="hint--sm" style="margin-top:12px;">門診時間如有異動，以診所公告為準。</p>
   </section>
 
   <section class="band">

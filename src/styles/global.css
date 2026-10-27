@@ -2409,6 +2409,138 @@ body.has-drawer {
   text-decoration: underline;
 }
 
+/* Weekly clinic hours: days across, sessions down, each cell naming the clinic. */
+.schedule {
+  width: 100%;
+  table-layout: fixed;
+  border-collapse: separate;
+  border-spacing: 0;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  overflow: hidden;
+  text-align: center;
+}
+
+.schedule th,
+.schedule td {
+  padding: 14px 4px;
+  border-right: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+  vertical-align: middle;
+}
+
+.schedule tr > :last-child {
+  border-right: 0;
+}
+
+.schedule tbody tr:last-child > * {
+  border-bottom: 0;
+}
+
+.schedule thead th {
+  background: #ede6df;
+  color: var(--heading);
+  font-size: 14.5px;
+  font-weight: 800;
+}
+
+.schedule tbody th {
+  width: 118px;
+  background: var(--surface-alt);
+  color: var(--heading);
+  font-size: 14.5px;
+  font-weight: 800;
+  line-height: 1.4;
+}
+
+.schedule__time {
+  display: block;
+  margin-top: 3px;
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--muted-3);
+  letter-spacing: 0;
+}
+
+.schedule__none {
+  color: var(--border);
+}
+
+.schedule__chip {
+  display: inline-block;
+  padding: 3px 12px;
+  border-radius: 999px;
+  font-size: 13px;
+  font-weight: 800;
+  letter-spacing: 0.5px;
+  line-height: 1.5;
+}
+
+/* "或" between the two clinics when a session is one or the other. */
+.schedule__or {
+  display: block;
+  margin: 2px 0;
+  font-size: 11.5px;
+  font-weight: 600;
+  line-height: 1.3;
+  color: var(--muted-3);
+}
+
+.schedule__chip--nhi {
+  background: #e1eee8;
+  color: #2f5d4c;
+}
+
+.schedule__chip--aesthetic {
+  background: #f4e1d6;
+  color: #8a4a2f;
+}
+
+.schedule-legend {
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px 28px;
+  margin: 18px 0 0;
+  padding: 0;
+  font-size: 15px;
+  color: var(--body);
+}
+
+.schedule-legend li {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+@media (max-width: 640px) {
+  .schedule th,
+  .schedule td {
+    padding: 10px 2px;
+  }
+
+  .schedule thead th {
+    font-size: 13px;
+  }
+
+  .schedule tbody th {
+    width: 66px;
+    font-size: 13px;
+  }
+
+  .schedule__time {
+    font-size: 10px;
+    letter-spacing: -0.3px;
+  }
+
+  .schedule__chip {
+    padding: 2px 5px;
+    font-size: 12px;
+    letter-spacing: 0;
+  }
+}
+
 /* A translated book: the cover beside its title, role and credits. */
 .book {
   display: grid;

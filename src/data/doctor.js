@@ -51,6 +51,28 @@ export const PUBLICATIONS = [
   'Wu, P. C., Chen, W. T., Huang, I. H., Chen, C. B., Wang, C. W., Tai, C. C., Chung, W. H., & Chi, C. C. (2024). Human Leukocyte Antigens and Sulfamethoxazole/Cotrimoxazole-Induced Severe Cutaneous Adverse Reactions: A Systematic Review and Meta-Analysis. JAMA dermatology, 160(5), 525–534.',
 ];
 
+// 門診時間。每個格子列出該時段看診的診所（nhi＝健保、aesthetic＝醫美），空陣列代表沒有門診；
+// 一格列出兩間代表該時段是「擇一」看診（兩間之一），不是同時兩間都有。
+export const CLINICS = {
+  nhi: { label: '健保', name: '林政賢皮膚科診所' },
+  aesthetic: { label: '醫美', name: '賢美學' },
+};
+
+export const SCHEDULE_PERIODS = [
+  { id: 'morning', label: '早上', time: '09:00–12:00' },
+  { id: 'afternoon', label: '下午', time: '14:30–17:30' },
+  { id: 'evening', label: '晚上', time: '18:00–21:00' },
+];
+
+export const SCHEDULE = [
+  { day: '週一', morning: ['nhi'], afternoon: ['aesthetic'], evening: [] },
+  { day: '週二', morning: [], afternoon: ['nhi'], evening: ['aesthetic'] },
+  { day: '週三', morning: [], afternoon: [], evening: ['nhi'] },
+  { day: '週四', morning: ['nhi'], afternoon: [], evening: [] },
+  { day: '週五', morning: [], afternoon: ['aesthetic'], evening: ['nhi'] },
+  { day: '週六', morning: ['nhi', 'aesthetic'], afternoon: ['nhi', 'aesthetic'], evening: [] },
+];
+
 // 專書翻譯。
 export const TRANSLATIONS = [
   {
