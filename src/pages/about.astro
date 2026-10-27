@@ -2,6 +2,7 @@
 import { Image } from 'astro:assets';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import portrait from '../assets/brand/doctor-cutout.webp';
+import bookCover from '../assets/brand/book-cosmetic-injection.webp';
 import { CONTACT_LINKS, DOCTOR_NAME, DOCTOR_TITLE } from '../consts.js';
 import {
   CONFERENCES,
@@ -11,6 +12,7 @@ import {
   PUBLICATIONS,
   SOCIETIES,
   SPECIALTIES,
+  TRANSLATIONS,
 } from '../data/doctor.js';
 import { lqipStyle } from '../lib/lqip.js';
 
@@ -97,7 +99,35 @@ const description = `${DOCTOR_NAME}${DOCTOR_TITLE}：長庚體系皮膚科主治
     </div>
   </section>
 
-  <section class="wrap" style="padding-block:36px 80px;">
+  <section class="band" style="margin-top:28px;">
+    <div class="wrap">
+      <h2 class="profile__heading" id="translation">專書翻譯</h2>
+      {
+        TRANSLATIONS.map((book) => (
+          <article class="book">
+            <div class="book__cover">
+              <Image
+                style={lqipStyle(bookCover, 'contain')}
+                src={bookCover}
+                alt={`《${book.title}》書封`}
+                width={200}
+                densities={[1, 2]}
+                loading="lazy"
+              />
+              {book.coverCredit && <p class="book__credit">書封圖片來源：{book.coverCredit}</p>}
+            </div>
+            <div class="book__body">
+              <p class="book__role">{book.role}</p>
+              <h3 class="book__title">{book.title}</h3>
+              <p class="book__english">{book.english}</p>
+            </div>
+          </article>
+        ))
+      }
+    </div>
+  </section>
+
+  <section class="wrap" style="padding-block:52px 80px;">
     <h2 class="profile__heading" id="publications">
       期刊論文 <span class="section-title__count">{PUBLICATIONS.length} 篇</span>
     </h2>

@@ -51,6 +51,16 @@ export const PUBLICATIONS = [
   'Wu, P. C., Chen, W. T., Huang, I. H., Chen, C. B., Wang, C. W., Tai, C. C., Chung, W. H., & Chi, C. C. (2024). Human Leukocyte Antigens and Sulfamethoxazole/Cotrimoxazole-Induced Severe Cutaneous Adverse Reactions: A Systematic Review and Meta-Analysis. JAMA dermatology, 160(5), 525–534.',
 ];
 
+// 專書翻譯。
+export const TRANSLATIONS = [
+  {
+    title: '醫美注射技巧指南：神經毒素與填充劑',
+    english: 'Cosmetic Injection Techniques: A Text and Video Guide to Neurotoxins and Fillers, 2nd Edition',
+    role: '譯者',
+    coverCredit: '合記圖書出版社',
+  },
+];
+
 export const INTERVIEWS = [
   {
     title: '痘痘藥品百百種怎麼用？外用、口服治療原理一次看懂',

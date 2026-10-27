@@ -2409,6 +2409,76 @@ body.has-drawer {
   text-decoration: underline;
 }
 
+/* A translated book: the cover beside its title, role and credits. */
+.book {
+  display: grid;
+  grid-template-columns: 200px minmax(0, 1fr);
+  gap: 32px;
+  align-items: center;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 24px;
+}
+
+.book__cover img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: 4px;
+  box-shadow: 0 8px 22px rgba(28, 22, 16, 0.2);
+}
+
+.book__credit {
+  margin: 10px 0 0;
+  font-size: 12px;
+  line-height: 1.5;
+  color: var(--muted);
+}
+
+.book__role {
+  display: inline-block;
+  margin: 0 0 12px;
+  padding: 3px 12px;
+  border-radius: 999px;
+  background: var(--accent);
+  color: #fff;
+  font-size: 12.5px;
+  font-weight: 800;
+  letter-spacing: 1px;
+}
+
+.book__title {
+  margin: 0 0 6px;
+  font-size: 22px;
+  font-weight: 800;
+  line-height: 1.45;
+  color: var(--heading);
+}
+
+.book__english {
+  margin: 0;
+  font-size: 14px;
+  line-height: 1.65;
+  color: var(--muted-3);
+}
+
+@media (max-width: 640px) {
+  .book {
+    grid-template-columns: 1fr;
+    gap: 20px;
+    padding: 20px;
+  }
+
+  .book__cover img {
+    max-width: 170px;
+  }
+
+  .book__title {
+    font-size: 20px;
+  }
+}
+
 .cv-source {
   display: block;
   font-size: 13px;
