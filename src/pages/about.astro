@@ -95,7 +95,7 @@ const description = `${DOCTOR_NAME}${DOCTOR_TITLE}：長庚體系皮膚科主治
                     {d[period.id].map((id, i) => (
                       <>
                         {i > 0 && <span class="schedule__or">或</span>}
-                        <span class={`schedule__chip schedule__chip--${id}`}>{CLINICS[id].label}</span>
+                        <span class={`schedule__chip schedule__chip--${id}`} role="img" aria-label={CLINICS[id].name}>{CLINICS[id].label}</span>
                       </>
                     ))}
                   </td>
@@ -116,7 +116,7 @@ const description = `${DOCTOR_NAME}${DOCTOR_TITLE}：長庚體系皮膚科主治
       {
         Object.entries(CLINICS).map(([id, clinic]) => (
           <li>
-            <span class={`schedule__chip schedule__chip--${id}`}>{clinic.label}</span>
+            <span class={`schedule__chip schedule__chip--${id}`} aria-hidden="true">{clinic.label}</span>
             {clinic.name}
           </li>
         ))

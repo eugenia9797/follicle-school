@@ -51,11 +51,11 @@ export const PUBLICATIONS = [
   'Wu, P. C., Chen, W. T., Huang, I. H., Chen, C. B., Wang, C. W., Tai, C. C., Chung, W. H., & Chi, C. C. (2024). Human Leukocyte Antigens and Sulfamethoxazole/Cotrimoxazole-Induced Severe Cutaneous Adverse Reactions: A Systematic Review and Meta-Analysis. JAMA dermatology, 160(5), 525–534.',
 ];
 
-// 門診時間。每個格子列出該時段看診的診所（nhi＝健保、aesthetic＝醫美），空陣列代表沒有門診；
+// 門診時間。每個格子列出該時段看診的診所（nhi＝●林政賢皮膚科診所、aesthetic＝◆賢美學），空陣列代表沒有門診；
 // 一格列出兩間代表該時段是「擇一」看診（兩間之一），不是同時兩間都有。
 export const CLINICS = {
-  nhi: { label: '健保', name: '林政賢皮膚科診所' },
-  aesthetic: { label: '醫美', name: '賢美學' },
+  nhi: { label: '●', name: '林政賢皮膚科診所' },
+  aesthetic: { label: '◆', name: '賢美學' },
 };
 
 export const SCHEDULE_PERIODS = [
