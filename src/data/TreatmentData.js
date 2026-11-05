@@ -621,15 +621,17 @@ export const SELF_CHECK_QUESTIONS = [
     ]
   },
   {
-    id: 'q6_distribution', text: '落髮主要分佈在哪些部位？（可多選）', type: 'multi',
+    id: 'q6_distribution', text: '落髮主要分佈在哪個部位？', type: 'single',
     options: [
-      { label: '頭頂', points: { male_aga: 1, female_aga: 1, acute_telogen: 1, chronic_telogen: 1 } },
-      { label: '頭髮分線變寬（頭頂中線）', points: { female_aga: 2, acute_telogen: 1, chronic_telogen: 1 } },
-      { label: '前額髮際線後退', points: { male_aga: 2, acute_telogen: 1, chronic_telogen: 1 } },
-      { label: '雙邊顳側', points: { acute_telogen: 1, chronic_telogen: 1 } },
-      { label: '枕側（後腦）', points: { acute_telogen: 1, chronic_telogen: 1 } },
+      { label: '頭頂', points: { male_aga: 1, female_aga: 1 } },
+      { label: '頭髮分線變寬（頭頂中線）', points: { female_aga: 2 } },
+      // 髮際線後退：男性算雄性禿；女性較少見於雄性禿，改算兩種休止期各 +1。
+      {
+        label: '前額髮際線後退',
+        points: (a) => (a.q1_gender === '男' ? { male_aga: 2 } : { acute_telogen: 1, chronic_telogen: 1 }),
+      },
       { label: '其他部位', points: { acute_telogen: 1, chronic_telogen: 1 } },
-      { label: '沒有特別集中的部位', points: {} }
+      { label: '沒有特別集中的部位', points: { acute_telogen: 1, chronic_telogen: 1 } }
     ]
   },
   {
@@ -641,11 +643,12 @@ export const SELF_CHECK_QUESTIONS = [
   },
   {
     id: 'q8_duration', text: '落髮持續的時間大約多久？', type: 'single',
+    // telogen：結果落在休止期落髮時，依持續時間決定急性或慢性（3 個月內算急性）。
     options: [
-      { label: '30 天內', points: { acute_telogen: 2, areata: 1, other: 1 } },
-      { label: '1–3 個月內', points: { areata: 1, other: 1 } },
-      { label: '3 個月到 2 年', points: { male_aga: 1, female_aga: 1, chronic_telogen: 2, other: 1 } },
-      { label: '2 年以上', points: { male_aga: 2, female_aga: 2, chronic_telogen: 2, other: 1 } }
+      { label: '30 天內', telogen: 'acute_telogen', points: { acute_telogen: 2, areata: 1, other: 1 } },
+      { label: '1–3 個月內', telogen: 'acute_telogen', points: { areata: 1, other: 1 } },
+      { label: '3 個月到 2 年', telogen: 'chronic_telogen', points: { male_aga: 1, female_aga: 1, chronic_telogen: 2, other: 1 } },
+      { label: '2 年以上', telogen: 'chronic_telogen', points: { male_aga: 2, female_aga: 2, chronic_telogen: 2, other: 1 } }
     ]
   },
   {

@@ -17,6 +17,8 @@ const PRIORITY = {
   女: ['areata', 'acute_telogen', 'female_aga', 'chronic_telogen', 'other'],
 };
 
+const TELOGEN = ['acute_telogen', 'chronic_telogen'];
+
 const ESCAPES = { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' };
 
 function esc(value) {
@@ -44,7 +46,10 @@ export function computeScores(answers) {
     for (const label of Array.isArray(answer) ? answer : [answer]) {
       const option = question.options.find((o) => o.label === label);
       if (!option || !option.points) continue;
-      for (const [category, points] of Object.entries(option.points)) {
+      // An option's points can depend on earlier answers (e.g. sex), given as
+      // a function of the answers instead of a fixed object.
+      const optionPoints = typeof option.points === 'function' ? option.points(answers) : option.points;
+      for (const [category, points] of Object.entries(optionPoints)) {
         scores[category] += points;
       }
     }
@@ -64,6 +69,14 @@ export function topCategory(answers) {
       bestScore = scores[category];
       best = category;
     }
+  }
+
+  // Once the answers point to telogen effluvium, duration alone decides acute
+  // vs chronic: the q8 option names which one (within 3 months = acute).
+  if (TELOGEN.includes(best)) {
+    const duration = SELF_CHECK_QUESTIONS.find((q) => q.id === 'q8_duration');
+    const option = duration?.options.find((o) => o.label === answers.q8_duration);
+    if (option?.telogen) best = option.telogen;
   }
   return best;
 }
