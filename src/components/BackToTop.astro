@@ -1,9 +1,12 @@
 ---
 import { Image } from 'astro:assets';
 import mascot from '../assets/mascot-walk.png';
+import { pageLang, t } from '../i18n/index.js';
+
+const { toTop } = t(pageLang(Astro));
 ---
 
-<button type="button" class="to-top" data-to-top aria-label="回到頁面頂端" hidden>
+<button type="button" class="to-top" data-to-top aria-label={toTop} hidden>
   <Image src={mascot} alt="" width={52} densities={[1, 2, 3]} />
   <span class="to-top__caption">TOP</span>
 </button>

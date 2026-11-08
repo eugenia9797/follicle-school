@@ -1,4 +1,4 @@
-import { optionsHTML, questionState, topCategory, visibleQuestions } from '../lib/quiz.js';
+import { optionsHTML, questionState, questionText, topCategory, visibleQuestions } from '../lib/quiz.js';
 
 const view = document.getElementById('quiz-question');
 const result = document.getElementById('quiz-result');
@@ -12,6 +12,10 @@ if (view && result) {
   const text = view.querySelector('[data-quiz-text]');
   const optionList = view.querySelector('[data-quiz-options]');
   const multiNext = view.querySelector('[data-quiz-multi-next]');
+
+  // The page says which language it is in and how to word "question N".
+  const lang = document.documentElement.lang.startsWith('en') ? 'en' : 'zh';
+  const stepTemplate = stepLabel.dataset.quizStep || '第 {n} 題';
 
   // index walks the visible questions; answers keys by question id, holding a
   // string for single-choice and an array for multi-choice. multiSelection is
@@ -36,16 +40,16 @@ if (view && result) {
     const saved = state.answers[step.question.id];
     state.multiSelection = step.isMulti && Array.isArray(saved) ? [...saved] : [];
 
-    stepLabel.textContent = `第 ${step.number} 題`;
+    stepLabel.textContent = stepTemplate.replace('{n}', step.number);
     backButton.hidden = !step.canBack;
     // The mascot keeps its DOM node across renders so its CSS transition
     // animates the walk from one question to the next.
     mascot.style.left = `${step.progress}%`;
     barFill.style.width = `${step.progress}%`;
     bar.setAttribute('aria-valuenow', String(step.progress));
-    text.textContent = step.question.text;
+    text.textContent = questionText(step.question, lang).text;
     optionList.classList.toggle('quiz__options--multi', step.isMulti);
-    optionList.innerHTML = optionsHTML(step.question, state.multiSelection);
+    optionList.innerHTML = optionsHTML(step.question, state.multiSelection, lang);
     multiNext.hidden = !step.isMulti;
   }
 
@@ -76,7 +80,7 @@ if (view && result) {
     state.multiSelection = state.multiSelection.includes(label)
       ? state.multiSelection.filter((l) => l !== label)
       : [...state.multiSelection, label];
-    optionList.innerHTML = optionsHTML(question, state.multiSelection);
+    optionList.innerHTML = optionsHTML(question, state.multiSelection, lang);
   }
 
   function confirmMulti() {

@@ -1,0 +1,124 @@
+---
+import { Image } from 'astro:assets';
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import iconAga from '../../../assets/icon-aga.jpg';
+import iconTelogen from '../../../assets/icon-telogen.jpg';
+import iconAreata from '../../../assets/icon-areata.jpg';
+import iconQuiz from '../../../assets/icon-quiz.jpg';
+import { lqipStyle } from '../../../lib/lqip.js';
+
+// Crop offsets match the Chinese page; see the note there.
+const topics = [
+  {
+    href: '/en/follicle-school/aga/',
+    image: iconAga,
+    alt: 'Pattern hair loss',
+    title: 'Pattern hair loss (AGA)',
+    desc: 'The most common type: gradual, hormone-related thinning',
+    imgStyle: 'object-position:center 25%;top:-2.02%',
+  },
+  {
+    href: '/en/follicle-school/telogen/',
+    image: iconTelogen,
+    alt: 'Telogen effluvium',
+    title: 'Telogen effluvium',
+    desc: 'Short-term shedding, often after stress or childbirth',
+    imgStyle: '',
+  },
+  {
+    href: '/en/follicle-school/areata/',
+    image: iconAreata,
+    alt: 'Alopecia areata',
+    title: 'Alopecia areata',
+    desc: 'Round bald patches linked to the immune system',
+    imgStyle: 'top:-4.03%',
+  },
+  {
+    href: '/en/follicle-school/quiz/',
+    image: iconQuiz,
+    alt: 'Hair loss self-check',
+    title: 'Hair loss self-check',
+    desc: 'Answer a few questions for a first idea of your type of hair loss',
+    imgStyle: 'width:147.98%;height:133.47%;left:-24.19%;top:-20.16%',
+  },
+];
+
+const cardWidths = [250, 340, 500, 680, 1000];
+const cardSizes = '(min-width: 1148px) 250px, (min-width: 700px) 33vw, 92vw';
+
+const articles = [
+  {
+    href: '/en/follicle-school/breast-cancer/',
+    tag: 'Hair loss | Breast cancer',
+    title: 'Losing hair on hormone therapy for breast cancer: what can you do?',
+    excerpt:
+      'Many people with breast cancer start losing hair after hormone therapy. It is often overlooked, yet it can be deeply distressing. This article explains why it happens and what can help.',
+  },
+];
+
+const description =
+  'Follicle School, a hair loss education section: understand the causes, stages and treatment options for pattern hair loss, telogen effluvium and alopecia areata, and take a hair loss self-check to help you talk with your doctor about the right treatment.';
+---
+
+<BaseLayout title="Hair loss" description={description} current="" shell="hair">
+
+  <section class="hero">
+    <p class="hero__eyebrow">Dermatology patient education</p>
+    <h1 class="hero__title">Understand your hair loss and find the right treatment</h1>
+    <p class="hero__text">
+      Hair loss has many causes, and an accurate diagnosis is the first step to effective treatment. The guides below are organized by the most common types of hair loss, to help you and your doctor plan the treatment that suits you best.
+    </p>
+  </section>
+
+  <section class="wrap" style="padding-bottom:40px;">
+    <h2 class="visually-hidden">Types of hair loss</h2>
+    <div class="topic-grid">
+      {
+        topics.map((topic, i) => (
+          <a class="topic-card" href={topic.href}>
+            <Image
+              style={lqipStyle(topic.image)}
+              src={topic.image}
+              alt={topic.alt}
+              width={500}
+              widths={cardWidths}
+              sizes={cardSizes}
+              loading={i < 2 ? 'eager' : 'lazy'}
+              decoding="async"
+              style={topic.imgStyle}
+            />
+            <span class="topic-card__scrim" />
+            <span class="topic-card__body">
+              <span class="topic-card__title">{topic.title}</span>
+              <span class="topic-card__desc">{topic.desc}</span>
+            </span>
+          </a>
+        ))
+      }
+    </div>
+  </section>
+
+  <section class="wrap wrap--narrow" style="padding-block:16px 48px;">
+    <div class="cta">
+      <p class="cta__title">Not sure what kind of hair loss you have?</p>
+      <p class="cta__text">Spend 2 minutes answering a few questions for a first idea of the likely type</p>
+      <a class="btn" href="/en/follicle-school/quiz/">Start the self-check →</a>
+    </div>
+  </section>
+
+  <section class="wrap" style="padding-block:24px 80px;">
+    <h2 class="section-title">Articles</h2>
+    <div class="article-list">
+      {
+        articles.map((a) => (
+          <a class="article-card" href={a.href}>
+            <span class="article-card__tag">{a.tag}</span>
+            <span class="article-card__title">{a.title}</span>
+            <span class="article-card__excerpt">{a.excerpt}</span>
+            <span class="article-card__more">Read more →</span>
+          </a>
+        ))
+      }
+    </div>
+  </section>
+</BaseLayout>

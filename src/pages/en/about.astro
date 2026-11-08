@@ -1,0 +1,195 @@
+---
+import { Image } from 'astro:assets';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import portrait from '../../assets/brand/doctor-cutout.webp';
+import bookCover from '../../assets/brand/book-cosmetic-injection.webp';
+import { CONTACT_LINKS } from '../../consts.js';
+import {
+  CLINICS,
+  CONFERENCES,
+  CREDENTIALS,
+  HONOURS,
+  INTERVIEWS,
+  PUBLICATIONS,
+  SCHEDULE,
+  SCHEDULE_PERIODS,
+  SOCIETIES,
+  SPECIALTIES,
+  TRANSLATIONS,
+} from '../../data/en/doctor.js';
+import { lqipStyle } from '../../lib/lqip.js';
+
+const booking = CONTACT_LINKS.find((l) => l.id === 'booking');
+const description =
+  'Dr. I-Hsin Huang, board-certified dermatologist: former attending dermatologist in the Chang Gung Memorial Hospital system, with a focus on hair loss, acne and acne scars, rosacea, laser treatment for pigmentation and aesthetic dermatology, and author of published dermatology research.';
+---
+
+<BaseLayout title="About Dr. I-Hsin Huang" description={description} current="about">
+  <section class="wrap" id="profile" style="padding-block:56px 32px;">
+    <div class="profile">
+      <div class="profile__media">
+        <div class="profile__frame">
+          <Image
+            style={lqipStyle(portrait, 'contain')}
+            src={portrait}
+            alt="Dr. I-Hsin Huang, board-certified dermatologist"
+            width={520}
+            densities={[1, 2]}
+            loading="eager"
+          />
+        </div>
+      </div>
+
+      <div class="profile__main">
+        <h1 class="profile__name">Dr. I-Hsin Huang<br />Board-Certified Dermatologist</h1>
+
+        <h2 class="profile__heading">Areas of expertise</h2>
+        <ul class="pill-list">{SPECIALTIES.map((item) => <li>{item}</li>)}</ul>
+
+        <div class="profile__cols">
+          <div>
+            <h2 class="profile__heading">Training & experience</h2>
+            <ul class="cv-list cv-list--tight">{CREDENTIALS.map((c) => <li>{c}</li>)}</ul>
+          </div>
+          <div>
+            <h2 class="profile__heading">Professional societies</h2>
+            <ul class="cv-list cv-list--tight">{SOCIETIES.map((c) => <li>{c}</li>)}</ul>
+
+            <h2 class="profile__heading" style="margin-top:32px;">Awards</h2>
+            <ul class="cv-list cv-list--tight">{HONOURS.map((c) => <li>{c}</li>)}</ul>
+          </div>
+        </div>
+
+        <a
+          class="btn"
+          href={booking.href}
+          target="_blank"
+          rel="noopener noreferrer"
+          style="margin-top:30px;"
+        >Book an appointment →</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="wrap" id="clinic" style="padding-block:8px 0;">
+    <h2 class="profile__heading">Clinic hours</h2>
+
+    <table class="schedule">
+      <caption class="visually-hidden">Clinic hours</caption>
+      <thead>
+        <tr>
+          <th scope="col"><span class="visually-hidden">Session</span></th>
+          {SCHEDULE.map((d) => <th scope="col">{d.day}</th>)}
+        </tr>
+      </thead>
+      <tbody>
+        {
+          SCHEDULE_PERIODS.map((period) => (
+            <tr>
+              <th scope="row">
+                {period.label}
+                <span class="schedule__time">{period.time}</span>
+              </th>
+              {SCHEDULE.map((d) =>
+                d[period.id].length ? (
+                  <td>
+                    {d[period.id].map((id, i) => (
+                      <>
+                        {i > 0 && <span class="schedule__or">or</span>}
+                        <span class={`schedule__chip schedule__chip--${id}`} role="img" aria-label={CLINICS[id].name}>{CLINICS[id].label}</span>
+                      </>
+                    ))}
+                  </td>
+                ) : (
+                  <td class="schedule__none">
+                    <span aria-hidden="true">—</span>
+                    <span class="visually-hidden">No clinic</span>
+                  </td>
+                ),
+              )}
+            </tr>
+          ))
+        }
+      </tbody>
+    </table>
+
+    <ul class="schedule-legend">
+      {
+        Object.entries(CLINICS).map(([id, clinic]) => (
+          <li>
+            <span class={`schedule__chip schedule__chip--${id}`} aria-hidden="true">{clinic.label}</span>
+            {clinic.name}
+          </li>
+        ))
+      }
+    </ul>
+    <p class="hint--sm" style="margin-top:12px;">Hours may change; please check the clinic’s latest announcements.</p>
+  </section>
+
+  <section class="band">
+    <div class="wrap">
+      <h2 class="profile__heading" id="interviews">In the media</h2>
+      <ul class="cv-list--links">
+        {
+          INTERVIEWS.map((item) => (
+            <li>
+              <a href={item.href} target="_blank" rel="noopener noreferrer">
+                {item.title}
+              </a>
+              <span class="cv-source">{item.source}</span>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+  </section>
+
+  <section class="wrap" style="padding-block:52px 24px;">
+    <h2 class="profile__heading" id="conferences">Conference presentations</h2>
+    <div class="profile__cols">
+      {
+        CONFERENCES.map((group) => (
+          <div class="cv-group">
+            <h3 class="cv-group__title">{group.scope}</h3>
+            <ul class="cv-list cv-list--tight">{group.items.map((item) => <li>{item}</li>)}</ul>
+          </div>
+        ))
+      }
+    </div>
+  </section>
+
+  <section class="band" style="margin-top:28px;">
+    <div class="wrap">
+      <h2 class="profile__heading" id="translation">Book translation</h2>
+      {
+        TRANSLATIONS.map((book) => (
+          <article class="book">
+            <div class="book__cover">
+              <Image
+                style={lqipStyle(bookCover, 'contain')}
+                src={bookCover}
+                alt={`Cover of ${book.title}`}
+                width={200}
+                densities={[1, 2]}
+                loading="lazy"
+              />
+              {book.coverCredit && <p class="book__credit">Cover image: {book.coverCredit}</p>}
+            </div>
+            <div class="book__body">
+              <p class="book__role">{book.role}</p>
+              <h3 class="book__title">{book.title}</h3>
+              <p class="book__english">{book.english}</p>
+            </div>
+          </article>
+        ))
+      }
+    </div>
+  </section>
+
+  <section class="wrap" style="padding-block:52px 80px;">
+    <h2 class="profile__heading" id="publications">
+      Journal publications <span class="section-title__count">{PUBLICATIONS.length}</span>
+    </h2>
+    <ol class="cv-list cv-list--refs">{PUBLICATIONS.map((p) => <li>{p}</li>)}</ol>
+  </section>
+</BaseLayout>

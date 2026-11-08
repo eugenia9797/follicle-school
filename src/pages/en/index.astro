@@ -1,0 +1,133 @@
+---
+import { Image } from 'astro:assets';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import homeHero from '../../assets/brand/home-hero.webp';
+import doctorBand from '../../assets/brand/doctor-band.webp';
+import iconAga from '../../assets/icon-aga.jpg';
+import iconRosacea from '../../assets/icon-rosacea.jpg';
+import iconAcne from '../../assets/icon-acne.jpg';
+import { CONTACT_LINKS } from '../../consts.js';
+import { lqipStyle } from '../../lib/lqip.js';
+
+const booking = CONTACT_LINKS.find((l) => l.id === 'booking');
+
+const areas = [
+  {
+    href: '/en/follicle-school/',
+    title: 'Hair loss',
+    latin: 'Follicle School',
+    desc: 'Causes, stages and treatment options for pattern hair loss, telogen effluvium and alopecia areata, plus a hair loss self-check.',
+    image: iconAga,
+  },
+  {
+    href: '/en/conditions/rosacea/',
+    title: 'Rosacea',
+    desc: 'What causes redness, burning, bumps and pus spots, and how to keep them under control long-term.',
+    image: iconRosacea,
+  },
+  {
+    href: '/en/conditions/acne/',
+    title: 'Acne & acne scars',
+    desc: 'Treatment options at every stage, from comedones to scars.',
+    image: iconAcne,
+  },
+];
+---
+
+<BaseLayout>
+  <section class="plate plate--photo">
+    <Image
+      src={homeHero}
+      alt=""
+      width={2048}
+      widths={[900, 1440, 2048]}
+      sizes="100vw"
+      loading="eager"
+      style={lqipStyle(homeHero)}
+    />
+  </section>
+
+  <section class="statement">
+    <p class="statement__eyebrow">About the skin</p>
+    <h1 class="statement__title">Skin is the gentlest organ we have</h1>
+    <p class="statement__text">
+      It cannot speak, yet it carries our emotions, our personality and the story of the life we have lived.<br />
+      When skin is unwell, it affects more than how we look — it can quietly change how we see ourselves.
+    </p>
+    <p class="statement__text statement__text--strong">
+      As a dermatologist, I am here to help you get back to healthy skin and the confidence that comes with it.
+    </p>
+  </section>
+
+  <section class="showcase">
+    <Image
+      class="showcase__img"
+      style={lqipStyle(doctorBand)}
+      src={doctorBand}
+      alt="Dr. I-Hsin Huang, board-certified dermatologist"
+      width={2400}
+      widths={[900, 1440, 2400]}
+      sizes="100vw"
+      loading="lazy"
+    />
+    <div class="showcase__inner">
+      <div class="showcase__panel">
+        <p class="showcase__eyebrow">The doctor</p>
+        <h2 class="showcase__title">Dr. I-Hsin Huang<br />Board-Certified Dermatologist</h2>
+        <p class="showcase__text">
+          Hair loss (including female hair loss, pattern hair loss and alopecia areata), acne and acne scars, and intimate area concerns for women, with a special interest in laser treatment for pigmentation, non-invasive radiofrequency and ultrasound lifting, and facial injectables.
+        </p>
+        <p class="showcase__text showcase__text--slogan">
+          Let me help you make a fresh start and feel like yourself again.
+        </p>
+        <div class="showcase__actions">
+          <a class="btn" href={booking.href} target="_blank" rel="noopener noreferrer">Book an appointment →</a>
+          <a class="btn btn--ghost" href="/en/about/">About the doctor</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="wrap" style="padding-block:64px 88px;">
+    <div class="section-head">
+      <div>
+        <h2 class="home-section-title">Patient education</h2>
+        <p class="hint">In-depth guides by condition, from causes and stages to treatment options</p>
+      </div>
+      <div class="carousel-nav" data-carousel-nav>
+        <button type="button" data-carousel-prev aria-label="Previous" aria-controls="feature-track">‹</button>
+        <button type="button" data-carousel-next aria-label="Next" aria-controls="feature-track">›</button>
+      </div>
+    </div>
+
+    <div class="feature-track" id="feature-track" data-carousel tabindex="0" aria-label="Patient education topics">
+      {
+        areas.map((area) => (
+          <a class="feature-card" href={area.href}>
+            <Image
+              style={lqipStyle(area.image)}
+              src={area.image}
+              alt=""
+              width={520}
+              widths={[280, 520, 780]}
+              sizes="(min-width: 1148px) 350px, (min-width: 700px) 45vw, 88vw"
+              class="feature-card__img"
+              loading="lazy"
+            />
+            <span class="feature-card__scrim" />
+            <span class="feature-card__body">
+              <span class="feature-card__title">{area.title}</span>
+              {area.latin && <span class="feature-card__latin">{area.latin}</span>}
+              <span class="feature-card__desc">{area.desc}</span>
+              <span class="feature-card__more">Explore →</span>
+            </span>
+          </a>
+        ))
+      }
+    </div>
+  </section>
+</BaseLayout>
+
+<script>
+  import '../../scripts/carousel.js';
+</script>

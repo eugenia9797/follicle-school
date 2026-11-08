@@ -1,0 +1,49 @@
+---
+import { Image } from 'astro:assets';
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import logo from '../../../assets/brand/logo-esheen.png';
+import { lqipStyle } from '../../../lib/lqip.js';
+
+const description =
+  'Aesthetic dermatology: a dermatologist’s view on intimate area care, laser treatment for pigmentation, radiofrequency and ultrasound lifting, and injectables. Written by board-certified dermatologist Dr. I-Hsin Huang.';
+
+// Same card grid as Skin conditions. An entry without `image` gets the brand
+// plate until an illustration is supplied for it.
+const articles = [
+  {
+    href: '/en/aesthetics/intimate-care/',
+    title: 'Intimate area care',
+    subtitle: 'A woman’s most delicate secret',
+    desc: 'The skin of the intimate area is thinner and more sensitive than skin elsewhere. From comparing hair removal methods and the causes of common concerns to a dermatologist’s advice on improving them.',
+  },
+];
+---
+
+<BaseLayout title="Aesthetic dermatology" description={description} current="aesthetics">
+  <section class="wrap" style="padding-block:56px 24px;">
+    <h1 class="page-title" style="margin-bottom:10px;">Aesthetic dermatology</h1>
+    <p class="lede lede--lg">Gentle, careful care to help you feel confident again.</p>
+  </section>
+
+  <section class="wrap" style="padding-bottom:80px;">
+    <div class="area-grid area-grid--rich">
+      {
+        articles.map((a) => (
+          <a class="area-card area-card--img" href={a.href}>
+            {a.image ? (
+              <Image src={a.image} alt={a.title} width={420} densities={[1, 2]} class="area-card__img" style={lqipStyle(a.image)} />
+            ) : (
+              <span class="area-card__plate">
+                <Image src={logo} alt="" height={70} densities={[1, 2]} />
+              </span>
+            )}
+            <span class="area-card__title">{a.title}</span>
+            <span class="area-card__latin">{a.subtitle}</span>
+            <span class="area-card__desc">{a.desc}</span>
+            <span class="area-card__more">Read the article →</span>
+          </a>
+        ))
+      }
+    </div>
+  </section>
+</BaseLayout>

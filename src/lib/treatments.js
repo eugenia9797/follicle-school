@@ -4,6 +4,9 @@ import {
   getMaleCategories,
   getTelogenCategories,
 } from '../data/TreatmentData.js';
+import { CATEGORY_TEXT, TREATMENT_TEXT } from '../data/en/hair.js';
+import { warnMissing } from './hair-content.js';
+import { t as ui } from '../i18n/index.js';
 
 // Dot colours cycle per category, matching the original design.
 const PALETTE = [
@@ -30,14 +33,12 @@ export const Y_TICKS = [
   { pct: 72, label: '$$$' },
 ];
 
-const MINOX_NOTE = '市面上有多種商品，無法一一陳列，實際外觀請與醫師或藥師確認。';
-const OFF_LABEL_NOTICE = '非該藥物核准適應症（Off-label use），使用前請與醫師充分討論';
-
 function evidenceLabel(grade) {
   return grade === 'Bplus' ? 'B+' : grade;
 }
 
-function buildTreatment(t) {
+function buildTreatment(t, lang) {
+  const words = ui(lang).treatments;
   const hideProduct = Boolean(t.hideProduct) || NO_PRODUCT_IDS.has(t.id);
   const notAvailableTW = Boolean(t.notAvailableTW);
   const colors = EVIDENCE_COLORS[t.evidence] ?? EVIDENCE_COLORS.C;
@@ -50,7 +51,7 @@ function buildTreatment(t) {
     evidenceFg: colors.fg,
     hideProduct,
     notAvailableTW,
-    thumbLabel: t.thumbTypeLabel || (t.minoxTopical ? '外用劑型' : t.product.type),
+    thumbLabel: t.thumbTypeLabel || (t.minoxTopical ? words.topicalForm : t.product.type),
     // Null when there is no product column to open a lightbox from.
     lightbox:
       hideProduct || notAvailableTW
@@ -59,9 +60,9 @@ function buildTreatment(t) {
             id: t.id,
             name: t.name,
             brands,
-            note: t.minoxTopical ? MINOX_NOTE : null,
-            typeLabel: t.minoxTopical ? '外用生髮水／生髮泡沫' : null,
-            offLabelNotice: t.singleOffLabel ? OFF_LABEL_NOTICE : null,
+            note: t.minoxTopical ? words.minoxNote : null,
+            typeLabel: t.minoxTopical ? words.minoxType : null,
+            offLabelNotice: t.singleOffLabel ? words.offLabel : null,
           },
   };
 }
@@ -108,16 +109,43 @@ const CATEGORY_SOURCES = {
 };
 
 /**
+ * Lay the English words over a Chinese treatment. Numbers (evidence, stars,
+ * price tier, cost score) and flags stay as they are, so the two languages
+ * always plot the same chart.
+ */
+function englishTreatment(t) {
+  const text = TREATMENT_TEXT[t.id];
+  if (!text) {
+    warnMissing(`treatment "${t.id}"`);
+    return t;
+  }
+  const { productType, brands, ...rest } = text;
+  return {
+    ...t,
+    ...rest,
+    product: { ...t.product, type: productType ?? t.product.type },
+    brands: t.brands && brands ? t.brands.map((b, i) => ({ ...b, ...brands[i] })) : t.brands,
+  };
+}
+
+function englishCategory(kind, cat) {
+  const text = CATEGORY_TEXT[kind]?.[cat.id];
+  if (!text) warnMissing(`category "${kind}/${cat.id}"`);
+  return { ...cat, ...text, treatments: cat.treatments.map(englishTreatment) };
+}
+
+/**
  * Build every treatment category for one condition page, ready to render.
  * `kind` is one of the keys of CATEGORY_SOURCES and also namespaces the
  * per-category keys, so two pages can never collide in the DOM.
  */
-export function buildCategories(kind) {
+export function buildCategories(kind, lang = 'zh') {
   const raw = CATEGORY_SOURCES[kind]();
-  return raw.map((cat) => ({
+  const localized = lang === 'en' ? raw.map((cat) => englishCategory(kind, cat)) : raw;
+  return localized.map((cat) => ({
     ...cat,
     key: `${kind}-${cat.id}`,
-    treatments: cat.treatments.map(buildTreatment),
+    treatments: cat.treatments.map((t) => buildTreatment(t, lang)),
     points: buildPoints(cat.treatments),
   }));
 }

@@ -1,0 +1,29 @@
+---
+import BaseLayout from '../../../../layouts/BaseLayout.astro';
+
+const description =
+  'Pattern hair loss (androgenetic alopecia, AGA) is the most common type of hair loss and is linked to genetics and how the body handles male hormones. Learn about its stages in men and women, what doctors see under the dermatoscope, and treatment options.';
+---
+
+<BaseLayout title="Pattern hair loss (AGA): overview" description={description} current="aga" shell="hair">
+
+  <section class="wrap wrap--narrow" style="padding-block:56px;">
+    <h1 class="page-title" style="margin-bottom:18px;">Pattern hair loss (androgenetic alopecia, AGA)</h1>
+    <p class="lede lede--lg">
+      Pattern hair loss is the most common type of hair loss. It is linked to genetics and how the body handles male hormones (androgens), and affects both men and women, though the pattern and the areas affected differ. It becomes more common with age: about half of men show some degree of it before 50. It is a little less common in women, but rises clearly after menopause. Recognizing the stage early and starting treatment can slow it down and improve hair density.
+    </p>
+
+    <div class="split-grid">
+      <a class="split-card" href="/en/follicle-school/aga/male/">
+        <span class="split-card__title">In men</span>
+        <span class="split-card__desc">A receding M-shaped hairline and thinning crown, staged with the Hamilton–Norwood scale</span>
+        <span class="split-card__more">Read more →</span>
+      </a>
+      <a class="split-card" href="/en/follicle-school/aga/female/">
+        <span class="split-card__title">In women</span>
+        <span class="split-card__desc">Diffuse thinning on top, staged with the Ludwig scale; hormonal causes need ruling out</span>
+        <span class="split-card__more">Read more →</span>
+      </a>
+    </div>
+  </section>
+</BaseLayout>

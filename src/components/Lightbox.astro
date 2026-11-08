@@ -1,13 +1,15 @@
 ---
 import ImageSlot from './ImageSlot.astro';
+import { pageLang, t } from '../i18n/index.js';
 
 const { lightboxes } = Astro.props;
-const OFF_LABEL = '非該藥物核准適應症（Off-label use），使用前請與醫師充分討論';
+const { lightbox: ui } = t(pageLang(Astro));
+const OFF_LABEL = ui.offLabel;
 ---
 
 <div class="lightbox" id="lightbox" hidden>
-  <div class="lightbox__panel" role="dialog" aria-modal="true" aria-label="商品樣式" tabindex="-1">
-    <button type="button" class="lightbox__close" data-lightbox-close aria-label="關閉">✕</button>
+  <div class="lightbox__panel" role="dialog" aria-modal="true" aria-label={ui.label} tabindex="-1">
+    <button type="button" class="lightbox__close" data-lightbox-close aria-label={ui.close}>✕</button>
 
     {
       lightboxes.map((lb) => (
@@ -16,7 +18,7 @@ const OFF_LABEL = '非該藥物核准適應症（Off-label use），使用前請
 
           {lb.brands ? (
             <>
-              <p class="lightbox__hint">市售常見廠牌（點選展開外觀說明）</p>
+              <p class="lightbox__hint">{ui.brandsHint}</p>
               <div class="brand-tabs" role="tablist">
                 {lb.brands.map((brand, i) => (
                   <button
@@ -37,8 +39,8 @@ const OFF_LABEL = '非該藥物核准適應症（Off-label use），使用前請
                   <ImageSlot
                     id={`${lb.id}-${i}`}
                     radius={10}
-                    alt={`${brand.name}外觀`}
-                    placeholder="外觀照片（圖片準備中）"
+                    alt={ui.brandAlt(brand.name)}
+                    placeholder={ui.brandPlaceholder}
                     style="width:100%;height:280px;"
                   />
                 </div>
@@ -49,8 +51,8 @@ const OFF_LABEL = '非該藥物核准適應症（Off-label use），使用前請
             <ImageSlot
               id={`${lb.id}-photo`}
               radius={12}
-              alt={`${lb.name}商品外觀`}
-              placeholder="商品外觀照片（圖片準備中）"
+              alt={ui.productAlt(lb.name)}
+              placeholder={ui.productPlaceholder}
               style={lb.photoStyle ?? 'width:100%;height:280px;margin-bottom:14px;'}
             />
           )}
@@ -59,7 +61,7 @@ const OFF_LABEL = '非該藥物核准適應症（Off-label use），使用前請
           {lb.offLabelNotice && <p class="badge-offlabel">{lb.offLabelNotice}</p>}
           {lb.typeLabel && (
             <p class="lightbox__type">
-              <b>劑型：</b>
+              <b>{ui.form}</b>
               {lb.typeLabel}
             </p>
           )}

@@ -1,39 +1,37 @@
 ---
 import { Image } from 'astro:assets';
 import logo from '../assets/brand/logo-esheen-light.png';
-import {
-  CONTACT_LINKS,
-  HAIR_SECTION_BASE,
-  HAIR_SECTION_NAME,
-  MEDICAL_DISCLAIMER,
-  SITE_NAME,
-  SITE_TAGLINE,
-} from '../consts.js';
+import { CONTACT_LINKS, HAIR_SECTION_BASE } from '../consts.js';
+import { localize, pageLang, t } from '../i18n/index.js';
 
 // Follicle School has its own shell, so its footer points back at the main
 // site rather than around it.
 const { shell = 'main' } = Astro.props;
 
+const lang = pageLang(Astro);
+const { site, nav, footer, medicalDisclaimer } = t(lang);
+const to = (href) => localize(href, lang);
+
 const META_LINKS =
   shell === 'hair'
     ? [
-        { label: `${HAIR_SECTION_NAME}首頁`, href: `${HAIR_SECTION_BASE}/` },
-        { label: '自我落髮檢測', href: `${HAIR_SECTION_BASE}/quiz/` },
-        { label: '醫師介紹', href: '/about/' },
-        { label: '← 回 E.sheen 主站', href: '/' },
+        { label: footer.hairHome, href: to(`${HAIR_SECTION_BASE}/`) },
+        { label: nav.quiz, href: to(`${HAIR_SECTION_BASE}/quiz/`) },
+        { label: nav.about, href: to('/about/') },
+        { label: nav.backToMain, href: to('/') },
       ]
     : [
-        { label: '醫師介紹', href: '/about/' },
-        { label: '皮膚疾病', href: '/conditions/' },
-        { label: '醫學美容', href: '/aesthetics/' },
-        { label: '聯絡我', href: '/contact/' },
+        { label: nav.about, href: to('/about/') },
+        { label: nav.conditions, href: to('/conditions/') },
+        { label: nav.aesthetics, href: to('/aesthetics/') },
+        { label: nav.contact, href: to('/contact/') },
       ];
 
 const year = new Date().getFullYear();
 
 // Booking first: it is the one action every page is working towards.
 const CONTACT_ORDER = ['booking', 'line', 'instagram', 'facebook'];
-const CONTACT_LABELS = { booking: '線上預約掛號', line: 'LINE 官方帳號' };
+const CONTACT_LABELS = { booking: nav.bookOnline, line: nav.line };
 const contacts = CONTACT_ORDER.map((id) => {
   const link = CONTACT_LINKS.find((l) => l.id === id);
   return { ...link, text: CONTACT_LABELS[id] ?? link.label };
@@ -54,17 +52,17 @@ const ICONS = {
   <div class="site-footer__inner">
     <div class="site-footer__top">
       <div class="site-footer__brand">
-        <a href="/" aria-label={SITE_NAME}>
-          <Image src={logo} alt={SITE_NAME} height={120} densities={[1, 2]} class="site-footer__logo" />
+        <a href={to('/')} aria-label={site.name}>
+          <Image src={logo} alt={site.name} height={120} densities={[1, 2]} class="site-footer__logo" />
         </a>
         <p class="site-footer__tagline">
-          {SITE_TAGLINE}<br />
-          讓我陪您重欣出發，找回喜歡自己的樣子。
+          {site.tagline}<br />
+          {site.slogan}
         </p>
       </div>
 
       <div class="site-footer__col">
-        <h2 class="site-footer__heading">聯絡預約</h2>
+        <h2 class="site-footer__heading">{footer.contactHeading}</h2>
         <ul class="site-footer__list">
           {
             contacts.map((link) => (
@@ -82,7 +80,7 @@ const ICONS = {
       </div>
 
       <div class="site-footer__col">
-        <h2 class="site-footer__heading">網站導覽</h2>
+        <h2 class="site-footer__heading">{footer.siteHeading}</h2>
         <ul class="site-footer__list">
           {META_LINKS.map((link) => <li><a href={link.href}>{link.label}</a></li>)}
         </ul>
@@ -90,8 +88,8 @@ const ICONS = {
     </div>
 
     <div class="site-footer__bottom">
-      <p class="site-footer__disclaimer">⚕ 醫療免責聲明：{MEDICAL_DISCLAIMER}</p>
-      <p class="site-footer__copy">© {year} {SITE_NAME}. All rights reserved.</p>
+      <p class="site-footer__disclaimer">{footer.disclaimerLabel}{medicalDisclaimer}</p>
+      <p class="site-footer__copy">© {year} {site.name}. All rights reserved.</p>
     </div>
   </div>
 </footer>

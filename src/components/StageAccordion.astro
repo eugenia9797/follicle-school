@@ -1,5 +1,8 @@
 ---
 import ImageSlot from './ImageSlot.astro';
+import { pageLang, t } from '../i18n/index.js';
+
+const { stages: ui } = t(pageLang(Astro));
 
 const {
   stages,
@@ -9,7 +12,7 @@ const {
   vertexStageId = null,
   // 每個分型除了插圖，再多放一張臨床照片
   photos = false,
-  placeholder = '分期示意圖（圖片準備中）',
+  placeholder = ui.placeholder,
   // 'stage' shows the scale's short id above the label (Norwood I, Ludwig II);
   // 'condition' is a plain titled card, for clinical types with no scale.
   variant = 'stage',
@@ -55,7 +58,7 @@ const isCondition = variant === 'condition';
         radius={10}
         width={364}
         densities={[1, 2]}
-        alt={`${scaleName}${stage.title}示意圖`}
+        alt={ui.alt(scaleName, stage.title)}
         placeholder={placeholder}
       />
       <div class="stage-panel__body">
@@ -69,8 +72,8 @@ const isCondition = variant === 'condition';
           radius={10}
           width={364}
           densities={[1, 2]}
-          alt={`${stage.title}臨床表現`}
-          placeholder="臨床表現照片（圖片準備中）"
+          alt={ui.photoAlt(stage.title)}
+          placeholder={ui.photoPlaceholder}
         />
       )}
       {vertexStageId === stage.id && (
@@ -80,8 +83,8 @@ const isCondition = variant === 'condition';
           radius={10}
           width={364}
           densities={[1, 2]}
-          alt={`${scaleName}${stage.title} vertex 型示意圖`}
-          placeholder="vertex 型示意圖（圖片準備中）"
+          alt={ui.vertexAlt(scaleName, stage.title)}
+          placeholder={ui.vertexPlaceholder}
         />
       )}
     </div>

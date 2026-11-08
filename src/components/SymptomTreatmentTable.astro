@@ -11,6 +11,10 @@
  * cards out across a wide screen rather than three and an orphan.
  */
 import { inlineBold } from '../lib/inline-bold.js';
+import { pageLang, t as translate } from '../i18n/index.js';
+
+const lang = pageLang(Astro);
+const { symptomTable: ui } = translate(lang);
 
 const { categories, symptoms, oneRow = false } = Astro.props;
 const bySymptom = Object.fromEntries(symptoms.map((s) => [s.id, s]));
@@ -20,18 +24,18 @@ const sorted = (ids) => [...ids].sort((a, b) => order.indexOf(a) - order.indexOf
 const hasTips = (cat) => cat.treatments.some((t) => t.cautions?.length || t.advice?.length);
 ---
 
-<ul class="symptom-key" aria-label="症狀標籤說明">
+<ul class="symptom-key" aria-label={ui.keyLabel}>
   {
     symptoms.map((s) => (
       <li>
         <span class={`symptom-chip symptom-chip--${s.id}`}>{s.label}</span>
-        <span class="symptom-key__en">{s.en}</span>
+        {lang !== 'en' && <span class="symptom-key__en">{s.en}</span>}
       </li>
     ))
   }
 </ul>
 
-<p class="hint--sm">點選分類展開治療項目</p>
+<p class="hint--sm">{ui.expandHint}</p>
 
 <div class:list={['cat-grid', oneRow && 'cat-grid--one-row']}>
   {
@@ -65,10 +69,10 @@ const hasTips = (cat) => cat.treatments.some((t) => t.cautions?.length || t.advi
         >
           <thead role="rowgroup">
             <tr role="row">
-              <th scope="col" role="columnheader">治療方式</th>
-              <th scope="col" role="columnheader">可改善的症狀</th>
-              <th scope="col" role="columnheader">作用機轉</th>
-              {hasTips(cat) && <th scope="col" role="columnheader">使用注意事項與建議</th>}
+              <th scope="col" role="columnheader">{ui.treatment}</th>
+              <th scope="col" role="columnheader">{ui.helps}</th>
+              <th scope="col" role="columnheader">{ui.moa}</th>
+              {hasTips(cat) && <th scope="col" role="columnheader">{ui.tips}</th>}
             </tr>
           </thead>
           <tbody role="rowgroup">
@@ -79,7 +83,7 @@ const hasTips = (cat) => cat.treatments.some((t) => t.cautions?.length || t.advi
                   {t.note && <span class="treatment-table__note">{t.note}</span>}
                   {t.lightbox && (
                     <span class="treatment-table__product">
-                      <span class="treatment__label">商品樣式</span>
+                      <span class="treatment__label">{ui.product}</span>
                       <button type="button" class="thumb thumb--open" data-lightbox-open={t.lightbox.id}>
                         <span class="thumb__icon" aria-hidden="true">🔍</span>
                         <span>{t.thumbLabel}</span>
@@ -87,23 +91,23 @@ const hasTips = (cat) => cat.treatments.some((t) => t.cautions?.length || t.advi
                     </span>
                   )}
                 </th>
-                <td role="cell" data-label="可改善的症狀">
+                <td role="cell" data-label={ui.helps}>
                   <ul class="symptom-list">
                     {sorted(t.helps).map((id) => (
                       <li>
-                        <span class={`symptom-chip symptom-chip--${id}`} title={bySymptom[id].en}>
+                        <span class={`symptom-chip symptom-chip--${id}`} title={lang === 'en' ? undefined : bySymptom[id].en}>
                           {bySymptom[id].label}
                         </span>
                       </li>
                     ))}
                   </ul>
                 </td>
-                <td class="treatment-table__moa" role="cell" data-label="作用機轉" set:html={inlineBold(t.moa)} />
+                <td class="treatment-table__moa" role="cell" data-label={ui.moa} set:html={inlineBold(t.moa)} />
                 {hasTips(cat) && (
-                  <td class="treatment-table__tips" role="cell" data-label="使用注意事項與建議">
+                  <td class="treatment-table__tips" role="cell" data-label={ui.tips}>
                     {t.cautions?.length > 0 && (
                       <>
-                        <p class="tips-label tips-label--caution">注意</p>
+                        <p class="tips-label tips-label--caution">{ui.caution}</p>
                         <ul class="tips-list">
                           {t.cautions.map((x) => <li set:html={inlineBold(x)} />)}
                         </ul>
@@ -111,7 +115,7 @@ const hasTips = (cat) => cat.treatments.some((t) => t.cautions?.length || t.advi
                     )}
                     {t.advice?.length > 0 && (
                       <>
-                        <p class="tips-label tips-label--advice">建議</p>
+                        <p class="tips-label tips-label--advice">{ui.advice}</p>
                         <ul class="tips-list">
                           {t.advice.map((x) => <li set:html={inlineBold(x)} />)}
                         </ul>

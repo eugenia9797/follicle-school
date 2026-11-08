@@ -1,0 +1,113 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import ConditionHero from '../../../components/ConditionHero.astro';
+import ImageSlot from '../../../components/ImageSlot.astro';
+import StageAccordion from '../../../components/StageAccordion.astro';
+import TreatmentComparison from '../../../components/TreatmentComparison.astro';
+import Faq from '../../../components/Faq.astro';
+import PageNotes from '../../../components/PageNotes.astro';
+import Lightbox from '../../../components/Lightbox.astro';
+import { hairContent } from '../../../lib/hair-content.js';
+import { buildCategories, collectLightboxes } from '../../../lib/treatments.js';
+import { t } from '../../../i18n/index.js';
+import heroTelogen from '../../../assets/local/hero-telogen.webp';
+
+const { TELOGEN_FAQ, TELOGEN_TYPES } = hairContent('en');
+const categories = buildCategories('telogen', 'en');
+const lightboxes = collectLightboxes(categories);
+const { costDisclaimer } = t('en');
+
+const description =
+  'A patient guide to telogen effluvium: the hair growth cycle and the physical stresses that push many hairs into the resting phase at once, acute and chronic types, what doctors see under the dermatoscope, and how dealing with the trigger, nutrition tests and minoxidil compare on evidence and cost.';
+---
+
+<BaseLayout title="Telogen effluvium" description={description} current="telogen" shell="hair">
+
+  <ConditionHero
+    eyebrow="Usually reversible"
+    hook="Follicles taking an early break — and hair coming out in handfuls!"
+    promise="With telogen effluvium, finding the trigger is key."
+    lead="Illness, childbirth, stress or rapid weight loss can all upset the hair growth cycle. Once the trigger is identified and dealt with, most cases of telogen effluvium gradually recover — it does not cause permanent baldness."
+    image={heroTelogen}
+    imageAlt="Illustration of telogen effluvium: a woman losing a lot of hair while brushing"
+    sections={[
+        { id: 'mechanism', label: 'What causes it' },
+        { id: 'stages', label: 'Acute and chronic' },
+        { id: 'dermoscopy', label: 'Under the dermatoscope' },
+        { id: 'treatments', label: 'Treatments' },
+        { id: 'faq', label: 'FAQ' },
+      ]}
+  />
+
+  <section class="wrap" style="padding-block:40px 90px;">
+    <h2 class="section-title" style="margin-bottom:12px;" id="mechanism">What causes it?</h2>
+    <p class="lede">
+      Each hair cycles through a growth phase (anagen, about 85–90% of hairs), a short transition phase (catagen) and a resting phase (telogen, about 10–15%). When the body goes through a significant physical stress — such as surgery, childbirth, a feverish illness, rapid weight loss, severe emotional stress, certain medicines or hormone changes — many growing follicles switch into the resting phase early and all at once. A few months later they shed together, causing diffuse hair loss. It is usually reversible, and finding and dealing with the cause is the core of treatment.
+    </p>
+    <ImageSlot
+      id="telogen-mechanism"
+      radius={14}
+      alt="Diagram of the hair growth cycle: growth (anagen), transition (catagen) and resting (telogen) phases"
+      placeholder="Hair growth cycle diagram (anagen / catagen / telogen) (coming soon)"
+      style="width:100%;aspect-ratio:16/9;margin:18px 0 36px;"
+      width={1052}
+      widths={[700, 1052, 1400, 2104]}
+      sizes="(min-width: 1148px) 1052px, 92vw"
+      loading="eager"
+    />
+
+    <h2 class="section-title" id="stages">Types: acute and chronic</h2>
+    <p class="hint">Tap a card to read more</p>
+    <StageAccordion
+      stages={TELOGEN_TYPES}
+      slotPrefix="telogen-type-"
+      scaleName=""
+      chipMin={220}
+      variant="condition"
+      imgAspect="1 / 1"
+      placeholder="Illustration (coming soon)"
+    />
+
+    <h2 class="section-title" style="margin-top:32px;" id="dermoscopy">What doctors see under the dermatoscope</h2>
+    <ul class="bullets">
+      <li>Hair thickness is roughly even (under 20% variation), unlike pattern hair loss</li>
+      <li>More short regrowing hairs (*)</li>
+      <li>More yellow dots, meaning more empty follicles, though overall follicle density is roughly normal (red arrows)</li>
+      <li>A positive hair pull test: a gentle tug pulls out several resting hairs</li>
+    </ul>
+    <div class="derm-grid">
+      <ImageSlot
+        id="telogen-derm-1"
+        radius={12}
+        width={520}
+        densities={[1, 2]}
+        alt="Short regrowing hairs under the dermatoscope; the asterisks mark new short hairs"
+        placeholder="Short regrowing hairs (coming soon)"
+      />
+      <ImageSlot
+        id="telogen-derm-2"
+        radius={12}
+        width={520}
+        densities={[1, 2]}
+        alt="Yellow dots under the dermatoscope; the red arrows point to empty follicle openings"
+        placeholder="Yellow dots (coming soon)"
+      />
+    </div>
+
+    <TreatmentComparison
+      categories={categories}
+      banners={[costDisclaimer]}
+      tableCategories={['cause']}
+    />
+
+    <Faq items={TELOGEN_FAQ} idPrefix="faq-t" />
+
+    <PageNotes />
+  </section>
+
+  <Lightbox lightboxes={lightboxes} />
+</BaseLayout>
+
+<script>
+  import '../../../scripts/aga.js';
+</script>

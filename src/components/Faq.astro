@@ -1,8 +1,11 @@
 ---
+import { pageLang, t } from '../i18n/index.js';
+
+const { faq } = t(pageLang(Astro));
 const { items, idPrefix = 'faq' } = Astro.props;
 ---
 
-<h2 class="section-title" style="margin-top:40px;" id="faq">常見問題 FAQ</h2>
+<h2 class="section-title" style="margin-top:40px;" id="faq">{faq}</h2>
 
 {
   items.map((item, i) => (

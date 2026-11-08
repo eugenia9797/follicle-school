@@ -1,12 +1,21 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+
+// Cloudflare serves this one page for every missing URL, Chinese or English,
+// so it speaks both languages.
 ---
 
-<BaseLayout title="找不到頁面" description="您要找的頁面不存在或已移動。" noindex>
+<BaseLayout title="找不到頁面 Page not found" description="您要找的頁面不存在或已移動。The page you are looking for does not exist or has moved." noindex>
   <section class="simple-page">
     <p class="simple-page__eyebrow">404</p>
     <h1 class="simple-page__title">找不到這個頁面</h1>
     <p class="simple-page__text">您要找的頁面不存在或已經移動位置。您可以從首頁重新瀏覽各項落髮衛教內容。</p>
     <a class="btn btn--sm" href="/">返回首頁</a>
+
+    <div lang="en" style="margin-top:40px;">
+      <h2 class="simple-page__title">Page not found</h2>
+      <p class="simple-page__text">The page you are looking for does not exist or has moved. You can start again from the home page.</p>
+      <a class="btn btn--sm btn--ghost" href="/en/">English home page</a>
+    </div>
   </section>
 </BaseLayout>

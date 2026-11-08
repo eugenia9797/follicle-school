@@ -1,0 +1,56 @@
+---
+import { Image } from 'astro:assets';
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import iconAga from '../../../assets/icon-aga.jpg';
+import iconRosacea from '../../../assets/icon-rosacea.jpg';
+import iconAcne from '../../../assets/icon-acne.jpg';
+import { lqipStyle } from '../../../lib/lqip.js';
+
+const description =
+  'Patient guides to common skin conditions: a full section on hair loss (pattern hair loss, telogen effluvium, alopecia areata), plus rosacea and acne. Written by board-certified dermatologist Dr. I-Hsin Huang.';
+
+const sections = [
+  {
+    href: '/en/follicle-school/',
+    title: 'Hair loss',
+    latin: 'Follicle School',
+    desc: 'Causes, stages, what doctors see under the dermatoscope and how treatments compare for pattern hair loss, telogen effluvium and alopecia areata, plus a hair loss self-check.',
+    image: iconAga,
+  },
+  {
+    href: '/en/conditions/rosacea/',
+    title: 'Rosacea',
+    desc: 'What causes redness, burning, bumps and pus spots, and how to keep them under control long-term.',
+    image: iconRosacea,
+  },
+  {
+    href: '/en/conditions/acne/',
+    title: 'Acne & acne scars',
+    desc: 'Treatment options at every stage, from comedones and inflamed spots to scars.',
+    image: iconAcne,
+  },
+];
+---
+
+<BaseLayout title="Common skin conditions" description={description} current="conditions">
+  <section class="wrap" style="padding-block:56px 24px;">
+    <h1 class="page-title" style="margin-bottom:10px;">Common skin conditions</h1>
+    <p class="lede lede--lg">A dermatologist’s guide to looking after your skin.</p>
+  </section>
+
+  <section class="wrap" style="padding-bottom:80px;">
+    <div class="area-grid area-grid--rich">
+      {
+        sections.map((s) => (
+          <a class="area-card area-card--img" href={s.href}>
+            <Image src={s.image} alt={s.title} width={420} densities={[1, 2]} class="area-card__img" style={lqipStyle(s.image)} />
+            <span class="area-card__title">{s.title}</span>
+            {s.latin && <span class="area-card__latin">{s.latin}</span>}
+            <span class="area-card__desc">{s.desc}</span>
+            <span class="area-card__more">Explore →</span>
+          </a>
+        ))
+      }
+    </div>
+  </section>
+</BaseLayout>

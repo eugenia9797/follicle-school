@@ -1,0 +1,17 @@
+---
+import { HTML_LANG, alternates, pageLang, t } from '../i18n/index.js';
+
+/**
+ * The link to this same page in the other language. Every page exists at a
+ * mirrored path (/about/ ⇄ /en/about/), so the switch always lands on the
+ * matching page rather than the other language's home page.
+ */
+const lang = pageLang(Astro);
+const other = lang === 'en' ? 'zh' : 'en';
+const href = alternates(Astro.url.pathname)[other];
+const { langSwitch } = t(lang);
+---
+
+<a class="lang-switch" href={href} hreflang={HTML_LANG[other]} lang={langSwitch.lang} title={langSwitch.title}>
+  {langSwitch.label}
+</a>

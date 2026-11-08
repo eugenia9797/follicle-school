@@ -10,7 +10,10 @@
  * The menu goes one level down; a child's own `children` (used by the desktop
  * fly-out) are not shown here, the child is simply a link.
  */
-const { items = [], label = '行動版選單', current = '' } = Astro.props;
+import { pageLang, t } from '../i18n/index.js';
+
+const { nav } = t(pageLang(Astro));
+const { items = [], label = nav.mobile, current = '' } = Astro.props;
 
 const linkAttrs = (item) => ({
   target: item.external ? '_blank' : undefined,
@@ -21,7 +24,7 @@ const linkAttrs = (item) => ({
 <div class="nav-scrim" data-nav-scrim hidden></div>
 
 <nav class="mobile-nav" id="mobile-nav" data-mobile-nav aria-label={label} hidden>
-  <button type="button" class="mobile-nav__close" data-nav-close aria-label="關閉選單">✕</button>
+  <button type="button" class="mobile-nav__close" data-nav-close aria-label={nav.closeMenu}>✕</button>
 
   {
     items.map((item, i) =>
@@ -39,7 +42,7 @@ const linkAttrs = (item) => ({
           </button>
           <div class="mnav-sub" id={`mnav-sub-${i}`}>
             <div class="mnav-sub__inner">
-              <a class="mnav-sub__all" href={item.href}>前往「{item.label}」頁面 →</a>
+              <a class="mnav-sub__all" href={item.href}>{nav.goTo(item.label)}</a>
               {item.children.map((child) => (
                 <a href={child.href} {...linkAttrs(child)}>{child.label}</a>
               ))}

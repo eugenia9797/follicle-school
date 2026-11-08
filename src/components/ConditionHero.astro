@@ -1,6 +1,9 @@
 ---
 import { Image } from 'astro:assets';
 import { lqipStyle } from '../lib/lqip.js';
+import { pageLang, t } from '../i18n/index.js';
+
+const { heroNav, crumbSep } = t(pageLang(Astro));
 
 /**
  * Opening band for a condition page: the question a reader arrives with, a
@@ -20,7 +23,7 @@ const parts = (text) => text.split('|');
     <div class="hero-band__text">
       {crumb && (
         <p class="breadcrumb">
-          <a href={crumb.href}>{crumb.label}</a> ／ {crumb.current}
+          <a href={crumb.href}>{crumb.label}</a> {crumbSep} {crumb.current}
         </p>
       )}
       <p class="hero-band__eyebrow">{eyebrow}</p>
@@ -46,7 +49,7 @@ const parts = (text) => text.split('|');
 
   {
     sections.length > 0 && (
-      <nav class="hero-band__nav" aria-label="本頁章節">
+      <nav class="hero-band__nav" aria-label={heroNav}>
         {sections.map((s) => (
           <a href={`#${s.id}`}>{s.label}</a>
         ))}

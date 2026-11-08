@@ -16,7 +16,16 @@ const site =
 export default defineConfig({
   site,
   output: 'static',
-  integrations: [sitemap()],
+  // English pages live under /en/ and mirror the Chinese paths; the sitemap
+  // links each page to its other-language version.
+  integrations: [
+    sitemap({
+      i18n: {
+        defaultLocale: 'zh',
+        locales: { zh: 'zh-Hant-TW', en: 'en' },
+      },
+    }),
+  ],
   build: { format: 'directory' },
   devToolbar: { enabled: false },
 });

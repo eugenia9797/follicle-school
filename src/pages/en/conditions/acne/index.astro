@@ -1,0 +1,29 @@
+---
+import BaseLayout from '../../../../layouts/BaseLayout.astro';
+
+const description =
+  'Acne and acne scars: what causes acne, risk factors, and treatment options with topical and oral medicines and lasers, plus how acne scars are treated. Written by board-certified dermatologist Dr. I-Hsin Huang.';
+---
+
+<BaseLayout title="Acne & acne scars" description={description} current="conditions">
+  <section class="wrap wrap--narrow" style="padding-block:56px 80px;">
+    <p class="breadcrumb"><a href="/en/conditions/">Skin conditions</a> / Acne & acne scars</p>
+    <h1 class="page-title" style="margin-bottom:18px;">Acne & acne scars</h1>
+    <p class="lede lede--lg">
+      Acne is one of the most common skin conditions: about 85% of teenagers get it, and adults can too. Even once the spots are under control, they can leave scars or dark marks behind. So this section comes in two parts: first understanding and controlling acne, then dealing with acne scars.
+    </p>
+
+    <div class="split-grid">
+      <a class="split-card" href="/en/conditions/acne/acne-vulgaris/">
+        <span class="split-card__title">Acne</span>
+        <span class="split-card__desc">Causes, risk factors, and treatment with topical medicines, tablets and lasers</span>
+        <span class="split-card__more">Read more →</span>
+      </a>
+      <div class="split-card is-soon" aria-disabled="true">
+        <span class="split-card__title">Acne scar treatment</span>
+        <span class="split-card__desc">Treating pitted scars, red marks and dark marks</span>
+        <span class="split-card__more">Coming soon</span>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

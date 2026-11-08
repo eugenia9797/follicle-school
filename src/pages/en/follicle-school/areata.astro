@@ -1,0 +1,135 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import ConditionHero from '../../../components/ConditionHero.astro';
+import ImageSlot from '../../../components/ImageSlot.astro';
+import StageAccordion from '../../../components/StageAccordion.astro';
+import SeverityScale from '../../../components/SeverityScale.astro';
+import Faq from '../../../components/Faq.astro';
+import PageNotes from '../../../components/PageNotes.astro';
+import { hairContent } from '../../../lib/hair-content.js';
+import { t } from '../../../i18n/index.js';
+import heroAreata from '../../../assets/local/hero-areata.webp';
+
+const { AREATA_FAQ, AREATA_TYPES } = hairContent('en');
+const { costDisclaimer } = t('en');
+
+const SYSTEMIC_WARNING =
+  'Systemic (whole-body) treatments have more noticeable side effects. Your doctor will weigh how severe and widespread the condition is and your overall health before using them, and will monitor you regularly.';
+
+const description =
+  'A patient guide to alopecia areata: an autoimmune condition in which T cells attack growing hair follicles; its forms, from a single patch to total body hair loss; what doctors see under the dermatoscope; and how local injections, immune treatments and JAK inhibitors compare.';
+---
+
+<BaseLayout title="Alopecia areata" description={description} current="areata" shell="hair">
+
+  <ConditionHero
+    eyebrow="Autoimmune condition"
+    hook="When your immune system turns on your own hair follicles"
+    promise="Treatment keeps advancing — there is real hope for your follicles."
+    lead="Alopecia areata is an autoimmune condition that often comes back. A specialist assessment and the right treatment can help bring it under control and support hair regrowth."
+    image={heroAreata}
+    imageAlt="Illustration of alopecia areata: a woman finding a round, smooth bald patch on her scalp in the mirror"
+    sections={[
+        { id: 'mechanism', label: 'What causes it' },
+        { id: 'stages', label: 'Forms' },
+        { id: 'dermoscopy', label: 'Under the dermatoscope' },
+        { id: 'treatments', label: 'Treatments' },
+        { id: 'faq', label: 'FAQ' },
+      ]}
+  />
+
+  <section class="wrap" style="padding-block:40px 90px;">
+    <h2 class="section-title" style="margin-bottom:12px;" id="mechanism">What causes it?</h2>
+    <p class="lede">
+      Alopecia areata is an autoimmune condition. Immune cells (mainly T cells) mistakenly attack hair follicles in the growth phase, pushing them into the resting phase early so they stop growing. The follicle itself is usually not destroyed, so in most cases the hair loss can be reversed. It is linked to inherited tendency, and environmental triggers such as stress or infection may set it off or make it worse. People with alopecia areata are also more likely to have other autoimmune conditions, such as thyroid disease or vitiligo.
+    </p>
+    <ImageSlot
+      id="areata-mechanism"
+      radius={14}
+      alt="Diagram of the immune process in alopecia areata: T cells attacking growing hair follicles"
+      placeholder="Alopecia areata diagram (coming soon)"
+      style="width:100%;aspect-ratio:16/9;margin:18px 0 36px;"
+      width={1052}
+      widths={[700, 1052, 1400, 2104]}
+      sizes="(min-width: 1148px) 1052px, 92vw"
+      loading="eager"
+    />
+
+    <h2 class="section-title" id="stages">Forms and severity</h2>
+    <p class="hint">Tap a card to read more</p>
+    <StageAccordion
+      stages={AREATA_TYPES}
+      slotPrefix="areata-pattern-"
+      scaleName=""
+      chipMin={190}
+      variant="condition"
+      imgAspect="4 / 3"
+      placeholder="Illustration (coming soon)"
+    />
+
+    <SeverityScale />
+
+    <h2 class="section-title" style="margin-top:32px;" id="dermoscopy">What doctors see under the dermatoscope</h2>
+    <ul class="bullets">
+      <li>Exclamation mark hairs: the hair shaft gets thinner and paler near the scalp, like an exclamation mark (yellow circles)</li>
+      <li>Yellow dots: enlarged, empty follicle openings filled with oil and skin debris (red arrows)</li>
+      <li>Black dots: hairs broken off at the follicle opening (blue arrows)</li>
+      <li>Short new hairs (regrowing vellus hairs) at the edge of a patch, often a sign that it is improving</li>
+    </ul>
+    <div class="derm-grid">
+      <ImageSlot
+        id="areata-derm-1"
+        radius={12}
+        width={520}
+        densities={[1, 2]}
+        alt="Dermoscopy image of alopecia areata: yellow circles mark exclamation mark hairs, red arrows yellow dots, and blue arrows black dots"
+        placeholder="Exclamation mark hairs, yellow dots and black dots (coming soon)"
+      />
+      <ImageSlot
+        id="areata-derm-2"
+        radius={12}
+        width={520}
+        densities={[1, 2]}
+        alt="Dermoscopy image of alopecia areata: red arrows mark yellow dots and blue arrows black dots"
+        placeholder="Yellow dots and black dots (coming soon)"
+      />
+    </div>
+
+    <h2 class="section-title" style="margin-top:40px;" id="treatments">Comparing treatments</h2>
+    <p class="hint">Treatment depends on age and severity; your doctor will decide on the medicines after assessing you</p>
+
+    <p class="notice notice--warn" style="margin:0 0 12px;">⚠ {costDisclaimer}</p>
+    <p class="notice notice--warn" style="margin:0 0 20px;">⚠ {SYSTEMIC_WARNING}</p>
+
+    <div class="algorithm">
+      <ImageSlot
+        id="areata-treatment-adult"
+        radius={14}
+        alt="Treatment flowchart for teenagers aged 12–18 and adults with alopecia areata. Mild (under 20% hair loss): topical steroids or steroid injections into the patches, with topical 5% minoxidil as an option. Severe (over 50%): oral JAK inhibitors first, then systemic steroids or immunosuppressants, with contact immunotherapy (DPCP) or topical 5% minoxidil as options. Moderate (20–50%): the mild or severe approach, depending on how quickly it is progressing, its severity and individual circumstances."
+        placeholder="Treatment flowchart for teenagers and adults (coming soon)"
+        style="width:100%;aspect-ratio:16/9;"
+        width={1052}
+        widths={[700, 1052, 1400, 2104]}
+        sizes="(min-width: 1148px) 1052px, 92vw"
+      />
+      <ImageSlot
+        id="areata-treatment-child"
+        radius={14}
+        alt="Treatment flowchart for children under 12 with alopecia areata. Mild (under 20% hair loss): topical steroids or steroid injections into the patches, with topical 5% minoxidil as an option. Severe (over 50%): systemic steroids or immunosuppressants, used with caution. Moderate (20–50%): treatment depends on how quickly it is progressing, its severity and individual circumstances."
+        placeholder="Treatment flowchart for children (coming soon)"
+        style="width:100%;aspect-ratio:16/9;"
+        width={1052}
+        widths={[700, 1052, 1400, 2104]}
+        sizes="(min-width: 1148px) 1052px, 92vw"
+      />
+    </div>
+
+    <Faq items={AREATA_FAQ} idPrefix="faq-a" />
+
+    <PageNotes sources={['Taiwanese Dermatological Association | Consensus on the diagnosis and treatment of alopecia areata']} />
+  </section>
+</BaseLayout>
+
+<script>
+  import '../../../scripts/aga.js';
+</script>

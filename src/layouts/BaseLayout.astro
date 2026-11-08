@@ -4,28 +4,47 @@ import Header from '../components/Header.astro';
 import FollicleHeader from '../components/FollicleHeader.astro';
 import Footer from '../components/Footer.astro';
 import BackToTop from '../components/BackToTop.astro';
-import {
-  HAIR_SITE_NAME,
-  SITE_DESCRIPTION,
-  SITE_NAME,
-  SITE_TAGLINE,
-  SITE_TITLE_HOME,
-} from '../consts.js';
+import { HTML_LANG, OG_LOCALE, alternates, pageLang, t } from '../i18n/index.js';
 
 // `shell` picks which site the page belongs to: 'main' is E.sheen, 'hair' is
 // Follicle School, which carries its own header, footer links and title.
+// The language comes from the URL: everything under /en/ is English.
+const lang = pageLang(Astro);
+const { site } = t(lang);
+
 const {
   title,
-  description = SITE_DESCRIPTION,
+  description = site.description,
   current = '',
   shell = 'main',
   noindex = false,
 } = Astro.props;
 
 const hair = shell === 'hair';
-const brand = hair ? HAIR_SITE_NAME : SITE_NAME;
-const pageTitle = title ? `${title}｜${brand}` : hair ? `${brand}｜${SITE_TAGLINE}` : SITE_TITLE_HOME;
+const brand = hair ? site.hairSiteName : site.name;
+const pageTitle = title
+  ? `${title}${site.titleSep}${brand}`
+  : hair
+    ? `${brand}${site.titleSep}${site.tagline}`
+    : site.titleHome;
 const canonical = new URL(Astro.url.pathname, Astro.site);
+
+// Every page exists in both languages at mirrored paths, so each one points
+// search engines at its counterpart. Chinese is the default (x-default).
+const alt = alternates(Astro.url.pathname);
+const hreflang = [
+  { lang: HTML_LANG.zh, href: new URL(alt.zh, Astro.site) },
+  { lang: HTML_LANG.en, href: new URL(alt.en, Astro.site) },
+  { lang: 'x-default', href: new URL(alt.zh, Astro.site) },
+];
+const otherLang = lang === 'en' ? 'zh' : 'en';
+
+// English pages add a Latin face ahead of the Chinese one (see --font in global.css).
+const FONT_WEIGHTS = 'wght@400;500;600;700;900';
+const fontsHref =
+  lang === 'en'
+    ? `https://fonts.googleapis.com/css2?family=Noto+Sans:${FONT_WEIGHTS}&family=Noto+Sans+TC:${FONT_WEIGHTS}&display=swap`
+    : `https://fonts.googleapis.com/css2?family=Noto+Sans+TC:${FONT_WEIGHTS}&display=swap`;
 // 分享到 LINE、Facebook 等地方時顯示的縮圖
 const ogImage = new URL('/og-image.png', Astro.site);
 
@@ -37,7 +56,7 @@ const analytics = import.meta.env.PROD && (!branch || branch === 'main');
 ---
 
 <!doctype html>
-<html lang="zh-Hant-TW">
+<html lang={HTML_LANG[lang]}>
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -45,13 +64,15 @@ const analytics = import.meta.env.PROD && (!branch || branch === 'main');
     <meta name="description" content={description} />
     <link rel="canonical" href={canonical} />
     {noindex && <meta name="robots" content="noindex" />}
+    {!noindex && hreflang.map((link) => <link rel="alternate" hreflang={link.lang} href={link.href} />)}
 
     <meta property="og:type" content="website" />
     <meta property="og:site_name" content={brand} />
     <meta property="og:title" content={pageTitle} />
     <meta property="og:description" content={description} />
     <meta property="og:url" content={canonical} />
-    <meta property="og:locale" content="zh_TW" />
+    <meta property="og:locale" content={OG_LOCALE[lang]} />
+    <meta property="og:locale:alternate" content={OG_LOCALE[otherLang]} />
     <meta property="og:image" content={ogImage} />
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
@@ -67,10 +88,7 @@ const analytics = import.meta.env.PROD && (!branch || branch === 'main');
 
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      rel="stylesheet"
-      href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;600;700;900&display=swap"
-    />
+    <link rel="stylesheet" href={fontsHref} />
 
     <link rel="sitemap" href="/sitemap-index.xml" />
     {analytics && (

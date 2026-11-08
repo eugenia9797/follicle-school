@@ -1,5 +1,10 @@
 ---
-import { EVIDENCE_INFO } from '../data/TreatmentData.js';
+import { hairContent } from '../lib/hair-content.js';
+import { pageLang, t } from '../i18n/index.js';
+
+const lang = pageLang(Astro);
+const { EVIDENCE_INFO } = hairContent(lang);
+const { compare } = t(lang);
 
 const grades = [
   EVIDENCE_INFO.A,
@@ -14,5 +19,5 @@ const grades = [
 <div class="evidence-legend" id="evidence-legend" hidden>
   {grades.map((line) => <p>{line}</p>)}
   <p class="is-disclaimer">{EVIDENCE_INFO.disclaimer}</p>
-  <p>效果星等（★1–5）為臨床常見療效強度之概略呈現，實際效果因人而異。</p>
+  <p>{compare.starsNote}</p>
 </div>

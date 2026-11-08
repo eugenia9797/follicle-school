@@ -120,6 +120,26 @@ push 完 Cloudflare 會自動重新 build，約 2–3 分鐘後線上就更新�
 
 `optimize: true` 表示交給 Astro 依螢幕產生多種尺寸——原始檔請放夠大（顯示寬度的 2 倍以上）。
 
+## 中英雙語
+
+中文維持原本的網址，英文版放在 `/en/` 底下、路徑一一對應（`/about/` ⇄ `/en/about/`）。頁首的 EN／中文 按鈕會直接切到同一頁的另一種語言；每頁都有 hreflang 互相指向，sitemap 也會標出中英對應。
+
+| 要改什麼 | 中文 | 英文 |
+| --- | --- | --- |
+| 頁面內文 | `src/pages/…` | `src/pages/en/…`（同樣的路徑） |
+| 導覽列、頁尾、按鈕、表頭等共用文字 | `src/i18n/ui.js` 的 `zh` | 同一檔的 `en` |
+| 醫師資料 | `src/data/doctor.js` | `src/data/en/doctor.js` |
+| 玫瑰斑、青春痘 | `src/data/rosacea.js`、`acne.js` | `src/data/en/rosacea.js`、`acne.js` |
+| 落髮的治療、分期、FAQ | `src/data/TreatmentData.js` | `src/data/en/hair.js` |
+| 自我檢測的題目與結果 | `src/data/TreatmentData.js` | `src/data/en/quiz.js` |
+
+幾個要注意的地方：
+
+- **門診時間只改中文那份就好**：英文版的門診表直接沿用 `doctor.js` 的時段，只換星期和時段的名稱。
+- **治療比較與問卷的數字只有一份**：證據等級、星等、價位與問卷計分都只存在 `TreatmentData.js`，英文檔只放文字。改權重只要改一次，兩種語言會一起變。
+- **從 Design 重新匯入後，記得補英文**：匯入腳本只會更新中文的 `TreatmentData.js`。如果多了新的治療、分期、FAQ 或題目，要到 `src/data/en/` 補上英文；漏掉的地方會先顯示中文，`npm run build` 時也會印出 `[i18n] Missing English for …` 提醒是哪一筆。
+- **圖片共用**：機轉圖、文章圖卡等畫在圖上的中文字，英文版沿用原圖，只有替代文字（alt）是英文。
+
 ## 部署到 Cloudflare Pages
 
 Cloudflare Pages 直接連 GitHub repo，push 到 `main` 就會自動 build 並上線。

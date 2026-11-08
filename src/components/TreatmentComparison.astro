@@ -1,6 +1,9 @@
 ---
 import EvidenceLegend from './EvidenceLegend.astro';
 import { Y_TICKS } from '../lib/treatments.js';
+import { pageLang, t } from '../i18n/index.js';
+
+const { compare: ui } = t(pageLang(Astro));
 
 // `banners` are the warnings shown above the comparison, in order: the shared
 // cost/efficacy disclaimer first, then anything specific to the page.
@@ -13,21 +16,21 @@ const asTable = new Set(tableCategories);
 ---
 
 <div class="compare-head">
-  <h2 class="section-title" style="margin:0;" id="treatments">治療方式比較</h2>
+  <h2 class="section-title" style="margin:0;" id="treatments">{ui.heading}</h2>
   <button
     type="button"
     class="pill-toggle"
     data-legend-toggle
     aria-expanded="false"
     aria-controls="evidence-legend"
-  >ⓘ 證據等級與效果星等說明</button>
+  >{ui.legendToggle}</button>
 </div>
 
 {banners.map((text) => <p class="notice notice--warn" style="margin:0 0 16px;">⚠ {text}</p>)}
 
 <EvidenceLegend />
 
-<p class="hint--sm">點選分類展開詳細治療項目與比較表格</p>
+<p class="hint--sm">{ui.expandHint}</p>
 
 <div class="cat-grid">
   {
@@ -59,23 +62,23 @@ const asTable = new Set(tableCategories);
           <table class="treatment-table" role="table">
             <thead role="rowgroup">
               <tr role="row">
-                <th scope="col" role="columnheader">治療方式</th>
-                <th scope="col" role="columnheader">副作用</th>
-                <th scope="col" role="columnheader">注意事項</th>
+                <th scope="col" role="columnheader">{ui.treatment}</th>
+                <th scope="col" role="columnheader">{ui.sideEffects}</th>
+                <th scope="col" role="columnheader">{ui.notes}</th>
               </tr>
             </thead>
             <tbody role="rowgroup">
               {cat.treatments.map((t) => (
                 <tr role="row">
                   <th scope="row" role="rowheader" class="treatment-table__name">{t.name}</th>
-                  <td role="cell" data-label="副作用">
+                  <td role="cell" data-label={ui.sideEffects}>
                     <ul>
                       {t.sideEffects.map((se) => (
                         <li>{se}</li>
                       ))}
                     </ul>
                   </td>
-                  <td role="cell" data-label="注意事項">
+                  <td role="cell" data-label={ui.notes}>
                     <ul>
                       {t.notes.map((note) => (
                         <li>{note}</li>
@@ -89,9 +92,7 @@ const asTable = new Set(tableCategories);
         </div>
       ) : (
       <div class="quad">
-        <p class="quad__caption">
-          縱軸：費用級距（$～$$$$$，越上越貴）／橫軸：治療效果（越右越佳）・點選圖中項目查看詳細內容
-        </p>
+        <p class="quad__caption">{ui.quadCaption}</p>
         <div class="quad__plot">
           {Y_TICKS.map((tick) => (
             <>
@@ -130,10 +131,10 @@ const asTable = new Set(tableCategories);
           ))}
         </div>
         <div class="quad__axis" aria-hidden="true">
-          <span>效果較低</span>
-          <span>效果較高 →</span>
+          <span>{ui.lowEffect}</span>
+          <span>{ui.highEffect}</span>
         </div>
-        <ol class="quad__legend" aria-label="治療項目清單">
+        <ol class="quad__legend" aria-label={ui.listLabel}>
           {cat.points.map((point, i) => (
             <li style={`--dot-color:${point.color};`}>
               <button
@@ -161,30 +162,30 @@ const asTable = new Set(tableCategories);
           hidden
         >
           <div>
-            <p class="treatment__label">治療方式</p>
+            <p class="treatment__label">{ui.treatment}</p>
             <p class="treatment__name">{t.name}</p>
-            <p class="treatment__price">預估自費級距：{t.priceTier}</p>
+            <p class="treatment__price">{ui.priceTier(t.priceTier)}</p>
           </div>
 
           <div>
-            <p class="treatment__label">證據等級</p>
+            <p class="treatment__label">{ui.evidence}</p>
             <span
               class="treatment__evidence"
               style={`background:${t.evidenceBg};color:${t.evidenceFg};`}
             >
-              {t.evidenceLabel} 級
+              {ui.evidenceGrade(t.evidenceLabel)}
             </span>
           </div>
 
           <div>
-            <p class="treatment__label">效果</p>
-            <p class="treatment__stars" aria-label={`效果 ${t.stars} 星，滿分 5 星`}>
+            <p class="treatment__label">{ui.effect}</p>
+            <p class="treatment__stars" aria-label={ui.starsLabel(t.stars)}>
               <span aria-hidden="true">{t.starsText}</span>
             </p>
           </div>
 
           <div>
-            <p class="treatment__label">副作用</p>
+            <p class="treatment__label">{ui.sideEffects}</p>
             <ul>
               {t.sideEffects.map((se) => (
                 <li>{se}</li>
@@ -193,7 +194,7 @@ const asTable = new Set(tableCategories);
           </div>
 
           <div>
-            <p class="treatment__label">注意事項</p>
+            <p class="treatment__label">{ui.notes}</p>
             <ul>
               {t.notes.map((note) => (
                 <li>{note}</li>
@@ -208,11 +209,11 @@ const asTable = new Set(tableCategories);
             <div />
           ) : (
             <div>
-              <p class="treatment__label">商品樣式</p>
+              <p class="treatment__label">{ui.product}</p>
               {t.notAvailableTW ? (
                 <div class="thumb thumb--unavailable">
                   <span class="thumb__icon" aria-hidden="true">🚫</span>
-                  <span>台灣未上市</span>
+                  <span>{ui.notInTaiwan}</span>
                 </div>
               ) : (
                 <button type="button" class="thumb thumb--open" data-lightbox-open={t.id}>

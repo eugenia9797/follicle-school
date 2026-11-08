@@ -1,4 +1,5 @@
 import { SELF_CHECK_QUESTIONS } from '../data/TreatmentData.js';
+import { SELF_CHECK_TEXT } from '../data/en/quiz.js';
 
 export const CATEGORIES = [
   'male_aga',
@@ -99,15 +100,32 @@ export function questionState(index, answers) {
 }
 
 /**
+ * The words to show for a question in the page's language.
+ *
+ * Answers are always stored under the Chinese option label, which is what the
+ * scoring, `showIf` and point functions read; only the text on screen changes.
+ * English options are matched by position, falling back to Chinese if missing.
+ */
+export function questionText(question, lang = 'zh') {
+  const english = lang === 'en' ? SELF_CHECK_TEXT[question.id] : null;
+  return {
+    text: english?.text ?? question.text,
+    labels: question.options.map((option, i) => english?.options?.[i] ?? option.label),
+  };
+}
+
+/**
  * Option markup, shared so the server-rendered first question and every
  * later client render produce exactly the same HTML.
  */
-export function optionsHTML(question, selected = []) {
+export function optionsHTML(question, selected = [], lang = 'zh') {
+  const { labels } = questionText(question, lang);
+
   if (question.type === 'multi') {
     return question.options
       .map((option, i) => {
         const on = selected.includes(option.label);
-        return `<button type="button" class="quiz__check${on ? ' is-on' : ''}" data-quiz-toggle="${i}" aria-pressed="${on}"><span class="quiz__check-box" aria-hidden="true"></span><span>${esc(option.label)}</span></button>`;
+        return `<button type="button" class="quiz__check${on ? ' is-on' : ''}" data-quiz-toggle="${i}" aria-pressed="${on}"><span class="quiz__check-box" aria-hidden="true"></span><span>${esc(labels[i])}</span></button>`;
       })
       .join('\n');
   }
@@ -115,7 +133,7 @@ export function optionsHTML(question, selected = []) {
   return question.options
     .map(
       (option, i) =>
-        `<button type="button" class="quiz__option" data-quiz-option="${i}">${esc(option.label)}</button>`,
+        `<button type="button" class="quiz__option" data-quiz-option="${i}">${esc(labels[i])}</button>`,
     )
     .join('\n');
 }

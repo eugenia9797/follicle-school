@@ -3,6 +3,9 @@
  * Footnotes closing a condition page: where the clinical content came from,
  * and how the photographs on it were produced.
  */
+import { pageLang, t } from '../i18n/index.js';
+
+const { notes } = t(pageLang(Astro));
 const { sources = [] } = Astro.props;
 
 // 來源可以是字串，或 { label, href }。單筆維持原本的一行寫法，
@@ -10,14 +13,13 @@ const { sources = [] } = Astro.props;
 const refs = sources.map((s) => (typeof s === 'string' ? { label: s } : s));
 
 // 預設適用於採用 AI 合成示意圖的頁面；帶有真實臨床照片的頁面必須傳入自己的說明。
-const AI_NOTE = '部分實體照片為 AI 合成之示意圖，非真實患者影像，無侵犯患者隱私之虞。';
-const { imageNote = AI_NOTE } = Astro.props;
+const { imageNote = notes.aiNote } = Astro.props;
 ---
 
 <div class="page-notes">
   {refs.length === 1 && (
     <p class="page-notes__item">
-      <span class="page-notes__label">資料來源</span>
+      <span class="page-notes__label">{notes.sources}</span>
       {refs[0].href ? (
         <a href={refs[0].href} target="_blank" rel="noopener noreferrer">{refs[0].label}</a>
       ) : (
@@ -27,7 +29,7 @@ const { imageNote = AI_NOTE } = Astro.props;
   )}
   {refs.length > 1 && (
     <div class="page-notes__item">
-      <span class="page-notes__label">資料來源</span>
+      <span class="page-notes__label">{notes.sources}</span>
       <ol class="page-notes__refs">
         {refs.map((r) => (
           <li>
@@ -42,7 +44,7 @@ const { imageNote = AI_NOTE } = Astro.props;
     </div>
   )}
   <p class="page-notes__item">
-    <span class="page-notes__label">影像說明</span>
+    <span class="page-notes__label">{notes.images}</span>
     {imageNote}
   </p>
 </div>

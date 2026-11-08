@@ -1,0 +1,175 @@
+---
+import { Image } from 'astro:assets';
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import { CATEGORIES, optionsHTML, questionState, questionText } from '../../../lib/quiz.js';
+import { SELF_CHECK_RESULT_INFO } from '../../../data/TreatmentData.js';
+import { SELF_CHECK_RESULT_INFO as RESULT_TEXT } from '../../../data/en/quiz.js';
+import mascot from '../../../assets/mascot-walk.png';
+import iconAga from '../../../assets/icon-aga.jpg';
+import iconAgaFemale from '../../../assets/icon-aga-female-result.jpg';
+import iconTelogen from '../../../assets/icon-telogen.jpg';
+import iconAreata from '../../../assets/icon-areata.jpg';
+import iconQuiz from '../../../assets/icon-quiz.jpg';
+import examPullTest from '../../../assets/exam-pulltest.jpeg';
+import examDermoscopy from '../../../assets/exam-dermoscopy.jpeg';
+import examBloodTest from '../../../assets/exam-bloodtest.jpeg';
+import { lqipStyle } from '../../../lib/lqip.js';
+
+const description =
+  'Answer about 10 questions on the pattern, location and duration of your hair loss and your family history for a first idea of which type it may be. The result is for education only and cannot replace an in-person diagnosis by a doctor.';
+
+// Scoring and questions are shared with the Chinese page; only the words differ.
+const first = questionState(0, {});
+const firstText = questionText(first.question, 'en').text;
+const firstOptions = optionsHTML(first.question, [], 'en');
+
+const RESULT_IMAGES = {
+  male_aga: iconAga,
+  female_aga: iconAgaFemale,
+  acute_telogen: iconTelogen,
+  chronic_telogen: iconTelogen,
+  areata: iconAreata,
+  other: iconQuiz,
+};
+
+// Where a result leads comes from the Chinese data (goGender / goPage).
+function resultHref(info) {
+  if (info.goGender) return `/en/follicle-school/aga/${info.goGender}/`;
+  if (info.goPage) return `/en/follicle-school/${info.goPage}/`;
+  return null;
+}
+
+const results = CATEGORIES.map((key) => {
+  const info = SELF_CHECK_RESULT_INFO[key];
+  return { key, ...info, ...RESULT_TEXT[key], image: RESULT_IMAGES[key], href: resultHref(info) };
+});
+
+const exams = [
+  { image: examPullTest, title: 'Hair pull test', subtitle: 'Checks how easily hairs come out' },
+  { image: examDermoscopy, title: 'Trichoscopy', subtitle: 'A magnified look at the scalp and hair' },
+  { image: examBloodTest, title: 'Blood tests and other checks', subtitle: 'Ruling out hormonal and other causes' },
+];
+
+const examWidths = [170, 340, 510];
+const examSizes = '(min-width: 700px) 170px, 30vw';
+---
+
+<BaseLayout title="Hair loss self-check" description={description} current="quiz" shell="hair">
+
+  <section class="quiz">
+    <h1 class="visually-hidden">Hair loss self-check</h1>
+
+    <div id="quiz-question">
+      <div class="quiz__top">
+        <span class="quiz__step" data-quiz-step="Question {n}">Question {first.number}</span>
+        <button type="button" class="quiz__back" data-quiz-back hidden>← Back</button>
+      </div>
+
+      <div class="quiz__track" aria-hidden="true">
+        <span class="quiz__track-line"></span>
+        <span class="quiz__track-start">🌱</span>
+        <span class="quiz__track-end">🏁</span>
+        <Image
+          src={mascot}
+          alt=""
+          width={34}
+          densities={[1, 2, 3]}
+          class="quiz__mascot"
+          data-quiz-mascot
+          style={`left:${first.progress}%;`}
+          loading="eager"
+        />
+      </div>
+
+      <div
+        class="quiz__bar"
+        role="progressbar"
+        aria-valuemin="0"
+        aria-valuemax="100"
+        aria-valuenow={first.progress}
+        aria-label="Progress"
+        data-quiz-bar
+      >
+        <span style={`width:${first.progress}%;`}></span>
+      </div>
+
+      <p class="quiz__question" data-quiz-text>{firstText}</p>
+
+      <div class="quiz__options" data-quiz-options set:html={firstOptions} />
+
+      <button type="button" class="btn btn--wide" data-quiz-multi-next hidden>Next →</button>
+    </div>
+
+    <div class="quiz__result" id="quiz-result" hidden tabindex="-1">
+      <p class="quiz__result-eyebrow">Your result</p>
+
+      {
+        results.map((result) => (
+          <div data-quiz-result={result.key} hidden>
+            <Image
+              style={lqipStyle(result.image)}
+              src={result.image}
+              alt=""
+              width={88}
+              height={88}
+              densities={[1, 2, 3]}
+              class="quiz__result-thumb"
+              loading="eager"
+            />
+            <p class="quiz__result-title">{result.title}</p>
+            <p class="quiz__result-desc">{result.desc}</p>
+            {result.href && (
+              <a class="btn btn--block" href={result.href} style="margin-bottom:12px;">
+                {result.goLabel}
+              </a>
+            )}
+          </div>
+        ))
+      }
+
+      <div class="quiz__result-actions">
+        <button type="button" class="btn btn--ghost" data-quiz-restart>Start again</button>
+        <a class="btn btn--ghost" href="/en/follicle-school/">Back to Follicle School</a>
+      </div>
+
+      <div class="exams">
+        <p class="exams__title">Tests you may also need</p>
+        <div class="exams__grid">
+          {
+            exams.map((exam) => (
+              <div class="exam-card">
+                <Image
+                  style={lqipStyle(exam.image)}
+                  src={exam.image}
+                  alt={exam.title}
+                  width={510}
+                  widths={examWidths}
+                  sizes={examSizes}
+                  class="exam-card__img"
+                  loading="lazy"
+                />
+                <p class="exam-card__title">{exam.title}</p>
+                <p class="exam-card__subtitle">{exam.subtitle}</p>
+              </div>
+            ))
+          }
+        </div>
+      </div>
+
+      <p class="quiz__result-note">
+        This result is a first guide for education only and cannot replace an in-person diagnosis. Please see a dermatologist for an examination; your doctor will decide whether you need further tests (such as trichoscopy or blood tests) to confirm the diagnosis and plan the right treatment.
+      </p>
+    </div>
+
+    <noscript>
+      <p class="hint" style="margin-top:24px;">
+        The self-check needs JavaScript to work. You can also read the
+        <a href="/en/follicle-school/aga/">guide to pattern hair loss</a>, or see a dermatologist for an assessment.
+      </p>
+    </noscript>
+  </section>
+</BaseLayout>
+
+<script>
+  import '../../../scripts/quiz.js';
+</script>
