@@ -107,7 +107,7 @@ const analytics = import.meta.env.PROD && (!branch || branch === 'main');
   <body>
     <div class="page">
       {hair ? <FollicleHeader current={current} /> : <Header current={current} />}
-      <main class="page__main">
+      <main class="page__main" data-pagefind-body={noindex ? undefined : ''} data-pagefind-meta={`title:${title ?? brand}`}>
         <slot />
       </main>
       <Footer shell={shell} />

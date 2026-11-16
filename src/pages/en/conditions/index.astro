@@ -4,6 +4,7 @@ import BaseLayout from '../../../layouts/BaseLayout.astro';
 import iconAga from '../../../assets/icon-aga.jpg';
 import iconRosacea from '../../../assets/icon-rosacea.jpg';
 import iconAcne from '../../../assets/icon-acne.jpg';
+import iconCyst from '../../../assets/icon-epidermal-cyst.jpg';
 import { lqipStyle } from '../../../lib/lqip.js';
 
 const description =
@@ -29,6 +30,12 @@ const sections = [
     desc: 'Treatment options at every stage, from comedones and inflamed spots to scars.',
     image: iconAcne,
   },
+  {
+    href: '/en/conditions/common/',
+    title: 'Common skin conditions',
+    desc: 'Epidermal cysts and other everyday skin problems, with more added over time.',
+    image: iconCyst,
+  },
 ];
 ---
 
@@ -43,7 +50,11 @@ const sections = [
       {
         sections.map((s) => (
           <a class="area-card area-card--img" href={s.href}>
-            <Image src={s.image} alt={s.title} width={420} densities={[1, 2]} class="area-card__img" style={lqipStyle(s.image)} />
+            {s.image.format === 'svg' ? (
+              <img src={s.image.src} alt={s.title} class="area-card__img" loading="lazy" />
+            ) : (
+              <Image src={s.image} alt={s.title} width={420} densities={[1, 2]} class="area-card__img" style={lqipStyle(s.image)} />
+            )}
             <span class="area-card__title">{s.title}</span>
             {s.latin && <span class="area-card__latin">{s.latin}</span>}
             <span class="area-card__desc">{s.desc}</span>

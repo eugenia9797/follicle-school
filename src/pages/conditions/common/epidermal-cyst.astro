@@ -1,0 +1,117 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import ConditionHero from '../../../components/ConditionHero.astro';
+import CystAnimation from '../../../components/CystAnimation.astro';
+import Faq from '../../../components/Faq.astro';
+import PageNotes from '../../../components/PageNotes.astro';
+import heroCyst from '../../../assets/local/hero-epidermal-cyst.webp';
+import {
+  CYST_ANIM,
+  CYST_CAUSES,
+  CYST_FAQ,
+  CYST_FEATURES,
+  CYST_INTRO,
+  CYST_RISK,
+  CYST_SEE_DOCTOR,
+  CYST_SOURCES,
+  CYST_TREATMENTS,
+} from '../../../data/epidermal-cyst.js';
+import { CONTACT_LINKS } from '../../../consts.js';
+import { inlineBold } from '../../../lib/inline-bold.js';
+
+const booking = CONTACT_LINKS.find((l) => l.id === 'booking');
+
+const description =
+  '表皮囊腫（粉瘤）衛教：粉瘤形成的原因、高風險族群、臨床表現與症狀，以及為什麼只把裡面的角質擠出來無法根治，必須手術完整切除囊袋。由皮膚專科醫師黃易欣整理。';
+---
+
+<BaseLayout title="表皮囊腫（粉瘤）" description={description} current="conditions">
+  <ConditionHero
+    eyebrow="常見皮膚腫塊"
+    hook="皮膚下有顆硬硬的小包，|擠掉了又長回來？"
+    promise="粉瘤要根治，|得把整個囊袋拿掉！"
+    lead="粉瘤是皮膚裡的一個小囊袋，良性、不會傳染，但也不會自己消失。擠出來的只有裡面的角質，囊袋還在，所以常常反覆長回來。認識它的構造，就知道為什麼要完整切除才會斷根。"
+    image={heroCyst}
+    imageAlt="粉瘤示意插圖：皮膚剖面中，真皮裡有一個填滿角質的囊袋，並以一個小開口通到表皮"
+    crumb={{ href: '/conditions/common/', label: '常見皮膚疾病', current: '表皮囊腫（粉瘤）' }}
+    sections={[
+      { id: 'cause', label: '為什麼會有粉瘤' },
+      { id: 'risk', label: '高風險族群' },
+      { id: 'features', label: '臨床表現與症狀' },
+      { id: 'why', label: '為什麼擠不掉' },
+      { id: 'treatment', label: '處理方式' },
+      { id: 'faq', label: '常見問題' },
+    ]}
+  />
+
+  <section class="wrap" style="padding-block:40px 90px;">
+    <h2 class="section-title" style="margin-bottom:12px;" id="cause">為什麼會有粉瘤</h2>
+    <p class="lede">{CYST_INTRO}</p>
+    <ul class="trigger-grid">
+      {
+        CYST_CAUSES.map((c) => (
+          <li class="trigger-card">
+            <span class="trigger-card__label">{c.label}</span>
+            <span class="trigger-card__desc">{c.desc}</span>
+          </li>
+        ))
+      }
+    </ul>
+
+    <h2 class="section-title" style="margin-top:44px;" id="risk">高風險族群</h2>
+    <p class="hint">任何人都可能長粉瘤，不過下面這些情況比較常見。</p>
+    <ul class="risk-list">
+      {
+        CYST_RISK.map((f) => (
+          <li class="risk-list__item">
+            <span class="risk-list__title">{f.label}</span>
+            <span class="risk-list__desc" set:html={inlineBold(f.desc)} />
+          </li>
+        ))
+      }
+    </ul>
+
+    <h2 class="section-title" style="margin-top:44px;" id="features">臨床表現與症狀</h2>
+    <ul class="bullets">
+      {CYST_FEATURES.map((item) => <li>{item}</li>)}
+    </ul>
+    <p class="notice notice--warn" style="margin:20px 0 8px;">⚠ 出現下面這些情形，建議盡早就醫：</p>
+    <ul class="bullets">
+      {CYST_SEE_DOCTOR.map((item) => <li>{item}</li>)}
+    </ul>
+
+    <h2 class="section-title" style="margin-top:48px;" id="why">為什麼擠出來還是會再長？</h2>
+    <p class="lede">
+      很多人會把粉瘤擠破、把裡面的東西擠出來，看起來好像就好了。但粉瘤真正的問題不是裡面的角質，而是<strong>製造角質的囊壁</strong>。下面的動畫，用皮膚剖面比較兩種做法的差別。
+    </p>
+    <CystAnimation copy={CYST_ANIM} />
+
+    <h2 class="section-title" style="margin-top:48px;" id="treatment">處理方式</h2>
+    <p class="notice notice--warn" style="margin:0 0 16px;">
+      ⚠ 實際處理方式需由醫師依粉瘤的大小、位置與是否發炎評估決定，以下僅為衛教說明，並非個人化醫療建議。
+    </p>
+    <ul class="risk-list">
+      {
+        CYST_TREATMENTS.map((f) => (
+          <li class="risk-list__item">
+            <span class="risk-list__title">{f.label}</span>
+            <span class="risk-list__desc" set:html={inlineBold(f.desc)} />
+          </li>
+        ))
+      }
+    </ul>
+
+    <p style="margin-top:30px;">
+      <a class="btn" href={booking.href} target="_blank" rel="noopener noreferrer">預約掛號 →</a>
+    </p>
+
+    <Faq items={CYST_FAQ} idPrefix="faq-cy" />
+
+    <PageNotes sources={CYST_SOURCES} imageNote="本頁的插圖與動畫皆為示意圖，非真實患者影像。" />
+  </section>
+</BaseLayout>
+
+<script>
+  // FAQ 的展開／收合，與其他皮膚疾病頁共用同一支
+  import '../../../scripts/aga.js';
+</script>

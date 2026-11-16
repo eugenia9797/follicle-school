@@ -1,0 +1,39 @@
+---
+import BaseLayout from '../../../../layouts/BaseLayout.astro';
+
+const description =
+  'Patient guides to common skin conditions seen in clinic: epidermal cysts, moles, atopic dermatitis, psoriasis and more. Written by board-certified dermatologist Dr. I-Hsin Huang.';
+---
+
+<BaseLayout title="Common skin conditions" description={description} current="conditions">
+  <section class="wrap wrap--narrow" style="padding-block:56px 80px;">
+    <p class="breadcrumb"><a href="/en/conditions/">Skin conditions</a> / Common skin conditions</p>
+    <h1 class="page-title" style="margin-bottom:18px;">Common skin conditions</h1>
+    <p class="lede lede--lg">
+      Beyond hair loss, rosacea and acne, many other skin problems are seen in clinic every day. This section will gradually cover their causes, how they look and how they are managed. The epidermal cyst guide is ready so far.
+    </p>
+
+    <div class="split-grid">
+      <a class="split-card" href="/en/conditions/common/epidermal-cyst/">
+        <span class="split-card__title">Epidermal cyst</span>
+        <span class="split-card__desc">Why cysts form, and why squeezing one out does not cure it</span>
+        <span class="split-card__more">Read more →</span>
+      </a>
+      <div class="split-card is-soon" aria-disabled="true">
+        <span class="split-card__title">Moles (melanocytic nevi)</span>
+        <span class="split-card__desc">Types of moles, and which ones deserve attention</span>
+        <span class="split-card__more">Coming soon</span>
+      </div>
+      <div class="split-card is-soon" aria-disabled="true">
+        <span class="split-card__title">Atopic dermatitis</span>
+        <span class="split-card__desc">Causes of recurring itchy, dry, inflamed skin and long-term control</span>
+        <span class="split-card__more">Coming soon</span>
+      </div>
+      <div class="split-card is-soon" aria-disabled="true">
+        <span class="split-card__title">Psoriasis</span>
+        <span class="split-card__desc">The immune process behind red, scaly plaques, and treatment options</span>
+        <span class="split-card__more">Coming soon</span>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

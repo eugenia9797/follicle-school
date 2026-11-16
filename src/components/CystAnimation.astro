@@ -1,0 +1,522 @@
+---
+/**
+ * Step-by-step cross-section animation for the epidermal cyst page: why
+ * squeezing out the keratin does not cure a cyst (the sac wall stays and
+ * refills), versus excising the whole sac.
+ *
+ * The artwork is Dr. Huang's cyst illustration, cut into layers (see
+ * assets/local/cyst-anim-*.webp): the skin with the sac removed, the sac wall,
+ * the keratin inside it, and the orange "pop" marks. Each step only flips a
+ * data-step attribute that the CSS below turns into transitions. All text comes
+ * in through `copy` (CYST_ANIM in data/epidermal-cyst.js). The page is readable
+ * without JavaScript: the first scenario shows step 1 and every caption is in
+ * the HTML.
+ */
+import base from '../assets/local/cyst-anim-base.webp';
+import wall from '../assets/local/cyst-anim-wall.webp';
+import keratin from '../assets/local/cyst-anim-keratin.webp';
+import burst from '../assets/local/cyst-anim-burst.webp';
+import closed from '../assets/local/cyst-anim-closed.webp';
+
+const { copy } = Astro.props;
+const { layers, labels, controls, scenarios } = copy;
+
+const img = (cls, image) =>
+  `<image class="${cls}" href="${image.src}" x="0" y="0" width="1618" height="972" />`;
+
+const layerLabels = `
+  <text class="cz-layer" x="1318" y="362">${layers.epidermis}</text>
+  <text class="cz-layer" x="1318" y="600">${layers.dermis}</text>
+  <text class="cz-layer" x="1318" y="868">${layers.fat}</text>
+`;
+
+const tool = `
+  <g class="cz-tool">
+    <path d="M806,266 L900,206" class="cz-tool-blade" />
+    <path d="M900,206 L986,150" class="cz-tool-handle" />
+  </g>
+`;
+
+const structLabels = `
+  <g class="cz-lbl cz-lbl--struct">
+    <path class="cz-leader" d="M250,694 L560,652 M1000,100 L900,520" />
+    <text x="120" y="712">${labels.wall}</text>
+    <text x="700" y="84">${labels.keratin}</text>
+  </g>
+`;
+
+const svgA = `
+<svg class="cz-svg cz-svg--squeeze" data-step="0" viewBox="100 0 1460 1010" role="img" aria-label="${scenarios[0].tab}">
+  ${img('cz-base', base)}
+  <g class="cz-collapse">${img('cz-wallimg', wall)}</g>
+  ${img('cz-keratin', keratin)}
+  ${img('cz-burst', burst)}
+  <g class="cz-squeezed">
+    <ellipse cx="800" cy="248" rx="40" ry="26" /><ellipse cx="770" cy="222" rx="24" ry="18" /><ellipse cx="836" cy="220" rx="26" ry="18" />
+  </g>
+  <g class="cz-press">
+    <path d="M300,700 H470 M436,660 L480,700 L436,740" />
+    <path d="M1290,700 H1120 M1154,660 L1110,700 L1154,740" />
+  </g>
+  ${tool}
+  ${layerLabels}
+  ${structLabels}
+  <g class="cz-lbl cz-lbl--stays">
+    <path class="cz-leader cz-leader--red" d="M810,918 L800,712" />
+    <text class="cz-note cz-note--red" x="810" y="975" text-anchor="middle">${labels.wallStays}</text>
+  </g>
+  <g class="cz-lbl cz-lbl--refill">
+    <text class="cz-note cz-note--red" x="810" y="975" text-anchor="middle">${labels.refill}</text>
+  </g>
+</svg>`;
+
+const svgB = `
+<svg class="cz-svg cz-svg--excise" data-step="0" viewBox="100 0 1460 1010" role="img" aria-label="${scenarios[1].tab}">
+  ${img('cz-base', base)}
+  ${img('cz-closed', closed)}
+  <g class="cz-cavity"><ellipse cx="790" cy="612" rx="259" ry="215" /><path class="cz-cavity-neck" d="M770,398 V330 M812,398 V330" /></g>
+  <g class="cz-sac-b">
+    ${img('cz-wallimg', wall)}
+    ${img('cz-keratin', keratin)}
+  </g>
+  <path class="cz-cut" d="M740,266 Q800,254 860,266" />
+  <g class="cz-stitches"><path d="M752,244 V286 M776,240 V284 M800,240 V284 M824,240 V284 M848,244 V286" /></g>
+  <path class="cz-scar" d="M748,268 Q800,254 852,268" />
+  ${tool}
+  ${layerLabels}
+  ${structLabels}
+  <g class="cz-lbl cz-lbl--whole">
+    <text class="cz-note cz-note--green" x="810" y="975" text-anchor="middle">${labels.outWhole}</text>
+  </g>
+  <g class="cz-lbl cz-lbl--healed">
+    <path class="cz-check" d="M690,620 L770,700 L910,520" />
+    <text class="cz-note cz-note--green" x="810" y="975" text-anchor="middle">${labels.empty}</text>
+  </g>
+</svg>`;
+
+const svgs = { squeeze: svgA, excise: svgB };
+---
+
+<div class="cyst-anim" data-cyst-anim data-scenario={scenarios[0].id}>
+  <div class="cyst-anim__tabs" role="tablist" aria-label={copy.tabsLabel}>
+    {
+      scenarios.map((sc, i) => (
+        <button
+          type="button"
+          role="tab"
+          class:list={['cyst-anim__tab', i === 0 && 'is-active']}
+          data-cyst-tab={sc.id}
+          aria-selected={i === 0 ? 'true' : 'false'}
+        >
+          {sc.tab}
+        </button>
+      ))
+    }
+  </div>
+
+  {
+    scenarios.map((sc, i) => (
+      <div class="cyst-anim__panel" data-cyst-panel={sc.id} hidden={i !== 0}>
+        <div class="cyst-anim__stage" set:html={svgs[sc.id]} />
+
+        <ol class="cyst-anim__steps">
+          {
+            sc.steps.map((s, j) => (
+              <li>
+                <button type="button" class:list={['cyst-anim__dot', j === 0 && 'is-active']} data-cyst-dot={j}>
+                  <span class="cyst-anim__dotnum">{j + 1}</span>
+                  <span class="cyst-anim__dotlabel">{s.short}</span>
+                </button>
+              </li>
+            ))
+          }
+        </ol>
+
+        <div class="cyst-anim__captions" aria-live="polite">
+          {
+            sc.steps.map((s, j) => (
+              <div class="cyst-anim__caption" data-cyst-caption={j} hidden={j !== 0}>
+                <p class="cyst-anim__title">
+                  <span class="cyst-anim__stepno">{controls.step} {j + 1}</span> {s.title}
+                </p>
+                <p class="cyst-anim__desc">{s.desc}</p>
+              </div>
+            ))
+          }
+        </div>
+
+        <p class:list={['cyst-anim__verdict', sc.id === 'squeeze' ? 'is-bad' : 'is-good']}>
+          <span aria-hidden="true">{sc.id === 'squeeze' ? '✕' : '✓'}</span>
+          {sc.verdict}
+        </p>
+      </div>
+    ))
+  }
+
+  <div class="cyst-anim__controls">
+    <button type="button" class="cyst-anim__btn" data-cyst-prev>← {controls.prev}</button>
+    <button
+      type="button"
+      class="cyst-anim__btn cyst-anim__btn--play"
+      data-cyst-play
+      data-label-play={controls.play}
+      data-label-pause={controls.pause}
+    >
+      {controls.pause}
+    </button>
+    <button type="button" class="cyst-anim__btn" data-cyst-next>{controls.next} →</button>
+  </div>
+</div>
+
+<style is:global>
+  .cyst-anim {
+    --cz-bad: #b5392a;
+    --cz-good: #2f7d4f;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 18px 18px 20px;
+    margin-top: 20px;
+  }
+
+  .cyst-anim__tabs {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 14px;
+  }
+  .cyst-anim__tab {
+    font: inherit;
+    font-size: 15px;
+    font-weight: 700;
+    padding: 9px 18px;
+    border-radius: 999px;
+    border: 1px solid var(--border);
+    background: var(--surface-alt);
+    color: var(--body);
+    cursor: pointer;
+  }
+  .cyst-anim__tab.is-active {
+    background: var(--accent);
+    border-color: var(--accent);
+    color: #fff;
+  }
+
+  .cyst-anim__stage {
+    border-radius: 12px;
+    overflow: hidden;
+    border: 1px solid var(--grid);
+    background: #fff;
+  }
+  .cz-svg {
+    display: block;
+    width: 100%;
+    height: auto;
+  }
+  .cz-svg text {
+    font-family: var(--font);
+    font-size: 34px;
+    font-weight: 700;
+    fill: var(--muted-4);
+    paint-order: stroke;
+    stroke: #fff;
+    stroke-width: 8px;
+    stroke-linejoin: round;
+  }
+  .cz-svg .cz-layer { font-size: 30px; font-weight: 600; fill: var(--muted-2); }
+  .cz-svg .cz-note { font-size: 44px; font-weight: 800; }
+  .cz-svg .cz-note--red { fill: var(--cz-bad); }
+  .cz-svg .cz-note--green { fill: var(--cz-good); }
+
+  /* image layers all share the illustration's 1618x972 canvas; the sac layers
+     scale and move about the sac's centre */
+  .cz-wallimg,
+  .cz-keratin,
+  .cz-sac-b,
+  .cz-cavity,
+  .cz-collapse { transform-origin: 790px 612px; }
+  .cz-collapse { transition: transform 0.9s ease, filter 0.6s ease; }
+  .cz-keratin { transition: transform 1s ease, opacity 0.7s ease; }
+  .cz-sac-b { transition: transform 1.1s ease, opacity 0.8s ease; }
+
+  .cz-burst { opacity: 0; transition: opacity 0.4s ease; }
+  .cz-squeezed { opacity: 0; transform: translateY(14px); transition: opacity 0.5s ease, transform 0.6s ease; }
+  .cz-squeezed ellipse { fill: #fbeec2; stroke: #e8d291; stroke-width: 4; }
+  .cz-press { opacity: 0; transition: opacity 0.4s ease; }
+  .cz-press path { fill: none; stroke: var(--cz-bad); stroke-width: 20; stroke-linecap: round; stroke-linejoin: round; }
+
+  .cz-tool { opacity: 0; transform: translate(50px, -30px); transition: opacity 0.5s ease, transform 0.6s ease; }
+  .cz-tool-blade { stroke: #8a7d6d; stroke-width: 10; stroke-linecap: round; fill: none; }
+  .cz-tool-handle { stroke: #4a4033; stroke-width: 22; stroke-linecap: round; fill: none; }
+
+  .cz-cut { fill: none; stroke: var(--cz-bad); stroke-width: 9; stroke-linecap: round; stroke-dasharray: 140; stroke-dashoffset: 140; opacity: 0; transition: stroke-dashoffset 0.8s ease, opacity 0.4s ease; }
+  .cz-stitches { opacity: 0; transition: opacity 0.5s ease; }
+  .cz-stitches path { fill: none; stroke: #4a4033; stroke-width: 7; stroke-linecap: round; }
+  .cz-scar { fill: none; stroke: #b9775f; stroke-width: 5; stroke-linecap: round; opacity: 0; transition: opacity 0.6s ease; }
+
+  /* once the sac and its channel to the surface are out, the skin closes over */
+  .cz-closed { opacity: 0; transition: opacity 0.7s ease; }
+  .cz-cavity-neck { transition: opacity 0.4s ease; }
+  .cz-cavity { opacity: 0; transition: opacity 0.6s ease, transform 0.9s ease; }
+  .cz-cavity ellipse, .cz-cavity path { fill: none; stroke: #a46aa8; stroke-width: 6; stroke-dasharray: 16 14; }
+  .cz-check { fill: none; stroke: var(--cz-good); stroke-width: 30; stroke-linecap: round; stroke-linejoin: round; }
+
+  .cz-lbl { opacity: 0; transition: opacity 0.6s ease; }
+  .cz-leader { fill: none; stroke: var(--muted-2); stroke-width: 3; }
+  .cz-leader--red { stroke: var(--cz-bad); stroke-width: 5; }
+
+  /* =========================== scenario A: just squeeze ================== */
+  .cz-svg--squeeze[data-step='0'] .cz-lbl--struct,
+  .cz-svg--squeeze[data-step='4'] .cz-lbl--refill { opacity: 1; }
+  .cz-svg--squeeze[data-step='2'] .cz-lbl--stays,
+  .cz-svg--squeeze[data-step='3'] .cz-lbl--stays { opacity: 1; }
+
+  .cz-svg--squeeze[data-step='1'] .cz-tool { opacity: 1; transform: translate(0, 0); }
+
+  .cz-svg--squeeze[data-step='2'] .cz-press { opacity: 1; }
+  .cz-svg--squeeze[data-step='2'] .cz-burst { opacity: 1; }
+  .cz-svg--squeeze[data-step='2'] .cz-squeezed { opacity: 1; transform: translateY(0); }
+
+  /* the keratin leaves through the opening; the empty wall flattens but stays */
+  .cz-svg--squeeze[data-step='2'] .cz-keratin,
+  .cz-svg--squeeze[data-step='3'] .cz-keratin { opacity: 0; transform: translateY(-190px) scale(0.12); }
+  .cz-svg--squeeze[data-step='2'] .cz-collapse,
+  .cz-svg--squeeze[data-step='3'] .cz-collapse {
+    transform: scaleY(0.3);
+    filter: drop-shadow(0 0 10px rgba(224, 69, 58, 0.95));
+  }
+  .cz-svg--squeeze[data-step='4'] .cz-keratin,
+  .cz-svg--squeeze[data-step='4'] .cz-collapse { transition-duration: 1.7s; }
+
+  /* =========================== scenario B: excision ====================== */
+  .cz-svg--excise[data-step='0'] .cz-lbl--struct { opacity: 1; }
+  .cz-svg--excise[data-step='1'] .cz-tool { opacity: 1; transform: translate(0, 0); }
+  .cz-svg--excise[data-step='1'] .cz-cut { opacity: 1; stroke-dashoffset: 0; }
+
+  .cz-svg--excise[data-step='2'] .cz-sac-b { transform: translateY(-480px) scale(0.5); }
+  .cz-svg--excise[data-step='3'] .cz-sac-b,
+  .cz-svg--excise[data-step='4'] .cz-sac-b { transform: translateY(-480px) scale(0.5); opacity: 0; }
+  .cz-svg--excise[data-step='2'] .cz-lbl--whole { opacity: 1; }
+
+  .cz-svg--excise[data-step='2'] .cz-cavity { opacity: 1; }
+  .cz-svg--excise[data-step='3'] .cz-cavity { opacity: 1; transform: scaleY(0.18); }
+  .cz-svg--excise[data-step='4'] .cz-cavity { opacity: 0; transform: scaleY(0); }
+
+  .cz-svg--excise[data-step='3'] .cz-closed,
+  .cz-svg--excise[data-step='4'] .cz-closed { opacity: 1; }
+  .cz-svg--excise[data-step='3'] .cz-cavity-neck,
+  .cz-svg--excise[data-step='4'] .cz-cavity-neck { opacity: 0; }
+  .cz-svg--excise[data-step='3'] .cz-stitches { opacity: 1; }
+  .cz-svg--excise[data-step='4'] .cz-scar { opacity: 1; }
+  .cz-svg--excise[data-step='4'] .cz-lbl--healed { opacity: 1; }
+
+  /* ---- steps, captions, controls ---- */
+  .cyst-anim__steps {
+    list-style: none;
+    margin: 14px 0 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 8px;
+  }
+  .cyst-anim__dot {
+    width: 100%;
+    font: inherit;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 5px;
+    padding: 4px 2px;
+    background: none;
+    border: 0;
+    cursor: pointer;
+    color: var(--muted-3);
+  }
+  .cyst-anim__dotnum {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    display: grid;
+    place-items: center;
+    font-size: 14px;
+    font-weight: 800;
+    background: var(--surface-alt);
+    border: 1px solid var(--border);
+  }
+  .cyst-anim__dotlabel {
+    font-size: 12.5px;
+    line-height: 1.35;
+    text-align: center;
+  }
+  .cyst-anim__dot.is-active { color: var(--heading); font-weight: 700; }
+  .cyst-anim__dot.is-active .cyst-anim__dotnum {
+    background: var(--accent);
+    border-color: var(--accent);
+    color: #fff;
+  }
+
+  .cyst-anim__captions { margin-top: 12px; min-height: 8.5em; }
+  .cyst-anim__title {
+    margin: 0 0 6px;
+    font-size: 17px;
+    font-weight: 800;
+    line-height: 1.5;
+    color: var(--heading);
+  }
+  .cyst-anim__stepno {
+    display: inline-block;
+    margin-right: 6px;
+    padding: 1px 9px;
+    border-radius: 999px;
+    background: var(--surface-alt);
+    border: 1px solid var(--border);
+    font-size: 12.5px;
+    font-weight: 700;
+    color: var(--muted-4);
+    vertical-align: 2px;
+  }
+  .cyst-anim__desc {
+    margin: 0;
+    font-size: 15px;
+    line-height: 1.85;
+    color: var(--body);
+  }
+
+  .cyst-anim__verdict {
+    margin: 14px 0 0;
+    padding: 10px 16px;
+    border-radius: 10px;
+    font-size: 15.5px;
+    font-weight: 800;
+    display: flex;
+    gap: 10px;
+    align-items: center;
+  }
+  .cyst-anim__verdict.is-bad { background: var(--danger-bg); border: 1px solid var(--danger-border); color: var(--danger-fg); }
+  .cyst-anim__verdict.is-good { background: #e8f4ec; border: 1px solid #a9d3b8; color: #21603b; }
+
+  .cyst-anim__controls {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 14px;
+    flex-wrap: wrap;
+  }
+  .cyst-anim__btn {
+    font: inherit;
+    font-size: 14.5px;
+    font-weight: 700;
+    padding: 8px 18px;
+    border-radius: 999px;
+    border: 1px solid var(--border);
+    background: var(--surface);
+    color: var(--body);
+    cursor: pointer;
+  }
+  .cyst-anim__btn:hover,
+  .cyst-anim__tab:not(.is-active):hover { border-color: var(--accent); }
+  .cyst-anim__btn--play { background: var(--surface-alt); min-width: 84px; }
+
+  .cyst-anim [hidden] { display: none !important; }
+
+  @media (max-width: 600px) {
+    .cyst-anim { padding: 12px 12px 16px; }
+    .cz-svg text { font-size: 54px; stroke-width: 12px; }
+    .cz-svg .cz-layer { font-size: 46px; }
+    .cz-svg .cz-note { font-size: 66px; }
+    .cyst-anim__dotlabel { font-size: 11px; }
+    .cyst-anim__captions { min-height: 11em; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .cyst-anim * { transition: none !important; }
+  }
+</style>
+
+<script>
+  // One animation per page. Steps advance on a timer while it is on screen;
+  // the buttons and the numbered dots take over whenever the reader wants.
+  const STEPS = 5;
+  const INTERVAL = 3800;
+
+  for (const root of document.querySelectorAll<HTMLElement>('[data-cyst-anim]')) {
+    const panels = Array.from(root.querySelectorAll<HTMLElement>('[data-cyst-panel]'));
+    const tabs = Array.from(root.querySelectorAll<HTMLElement>('[data-cyst-tab]'));
+    const playBtn = root.querySelector<HTMLElement>('[data-cyst-play]')!;
+    const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    let scenario = panels[0].dataset.cystPanel!;
+    let step = 0;
+    let playing = !reduce;
+    let visible = false;
+    let timer: number | undefined;
+
+    const panel = () => panels.find((p) => p.dataset.cystPanel === scenario)!;
+
+    function render() {
+      root.dataset.scenario = scenario;
+      for (const p of panels) p.hidden = p.dataset.cystPanel !== scenario;
+      for (const t of tabs) {
+        const on = t.dataset.cystTab === scenario;
+        t.classList.toggle('is-active', on);
+        t.setAttribute('aria-selected', String(on));
+      }
+      const cur = panel();
+      cur.querySelector('svg')!.setAttribute('data-step', String(step));
+      for (const d of cur.querySelectorAll<HTMLElement>('[data-cyst-dot]')) {
+        d.classList.toggle('is-active', Number(d.dataset.cystDot) === step);
+      }
+      for (const c of cur.querySelectorAll<HTMLElement>('[data-cyst-caption]')) {
+        c.hidden = Number(c.dataset.cystCaption) !== step;
+      }
+      playBtn.textContent = playing ? playBtn.dataset.labelPause! : playBtn.dataset.labelPlay!;
+    }
+
+    function schedule() {
+      window.clearInterval(timer);
+      if (playing && visible) {
+        timer = window.setInterval(() => {
+          step = (step + 1) % STEPS;
+          render();
+        }, INTERVAL);
+      }
+    }
+
+    function go(n: number, keepPlaying = false) {
+      step = (n + STEPS) % STEPS;
+      if (!keepPlaying) playing = false;
+      render();
+      schedule();
+    }
+
+    tabs.forEach((t) =>
+      t.addEventListener('click', () => {
+        scenario = t.dataset.cystTab!;
+        step = 0;
+        playing = !reduce;
+        render();
+        schedule();
+      }),
+    );
+    root.querySelector('[data-cyst-prev]')!.addEventListener('click', () => go(step - 1));
+    root.querySelector('[data-cyst-next]')!.addEventListener('click', () => go(step + 1));
+    root.querySelectorAll<HTMLElement>('[data-cyst-dot]').forEach((d) =>
+      d.addEventListener('click', () => go(Number(d.dataset.cystDot))),
+    );
+    playBtn.addEventListener('click', () => {
+      playing = !playing;
+      render();
+      schedule();
+    });
+
+    new IntersectionObserver(
+      (entries) => {
+        visible = entries[0].isIntersecting;
+        schedule();
+      },
+      { threshold: 0.4 },
+    ).observe(root);
+
+    render();
+  }
+</script>

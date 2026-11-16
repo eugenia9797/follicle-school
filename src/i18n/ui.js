@@ -35,6 +35,14 @@ export const UI = {
     medicalDisclaimer: MEDICAL_DISCLAIMER,
     // 切換到「另一種」語言的連結
     langSwitch: { label: 'EN', title: 'Read this page in English', lang: 'en' },
+    search: {
+      open: '搜尋',
+      close: '關閉',
+      placeholder: '輸入關鍵字，例如：粉瘤、落髮、痘痘',
+      hint: '輸入關鍵字，搜尋全站的衛教文章。',
+      none: '找不到與「{q}」相關的內容，換個關鍵字試試。',
+      unavailable: '搜尋索引尚未建立（本機開發模式不支援，網站正式版可以使用）。',
+    },
 
     nav: {
       main: '主選單',
@@ -57,6 +65,7 @@ export const UI = {
       conditions: '皮膚疾病',
       rosacea: '玫瑰斑（酒糟）',
       acne: '青春痘與痘疤',
+      commonDerm: '常見皮膚疾病',
       hairLead: '毛囊研究所｜落髮專區',
       aga: '雄性禿',
       telogen: '休止期落髮',
@@ -188,6 +197,14 @@ export const UI = {
     medicalDisclaimer:
       'The information on this website is for general education only. It is not personal medical advice and cannot replace an in-person diagnosis, assessment and prescription from a doctor. Skin and hair problems have many possible causes, so please see a dermatologist and decide on treatment together.',
     langSwitch: { label: '中文', title: '閱讀中文版', lang: 'zh-Hant-TW' },
+    search: {
+      open: 'Search',
+      close: 'Close',
+      placeholder: 'Type a keyword, e.g. acne, cyst, hair loss',
+      hint: 'Type a keyword to search the whole site.',
+      none: 'Nothing found for “{q}”. Try another keyword.',
+      unavailable: 'The search index has not been built yet (not available in local dev mode, but works on the live site).',
+    },
 
     nav: {
       main: 'Main menu',
@@ -210,6 +227,7 @@ export const UI = {
       conditions: 'Skin conditions',
       rosacea: 'Rosacea',
       acne: 'Acne & acne scars',
+      commonDerm: 'Common skin conditions',
       hairLead: 'Follicle School | Hair loss',
       aga: 'Pattern hair loss',
       telogen: 'Telogen effluvium',

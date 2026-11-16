@@ -1,6 +1,7 @@
 ---
 import MobileNav from './MobileNav.astro';
 import LangSwitch from './LangSwitch.astro';
+import Search from './Search.astro';
 import { CONTACT_LINKS, HAIR_SECTION_BASE as BASE } from '../consts.js';
 import { localize, pageLang, t } from '../i18n/index.js';
 
@@ -55,6 +56,7 @@ const drawerItems = [
       </a>
     </nav>
 
+    <Search />
     <LangSwitch />
 
     <button

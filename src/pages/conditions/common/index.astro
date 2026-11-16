@@ -1,0 +1,39 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+
+const description =
+  '常見皮膚疾病衛教：表皮囊腫（粉瘤）、黑色素痣、異位性皮膚炎、乾癬等門診常見的皮膚問題。由皮膚專科醫師黃易欣整理。';
+---
+
+<BaseLayout title="常見皮膚疾病" description={description} current="conditions">
+  <section class="wrap wrap--narrow" style="padding-block:56px 80px;">
+    <p class="breadcrumb"><a href="/conditions/">皮膚疾病</a> ／ 常見皮膚疾病</p>
+    <h1 class="page-title" style="margin-bottom:18px;">常見皮膚疾病</h1>
+    <p class="lede lede--lg">
+      除了落髮、玫瑰斑與青春痘，門診還有許多常見的皮膚問題。這裡會陸續整理這些疾病的成因、表現與處理方式，目前已完成表皮囊腫（粉瘤）。
+    </p>
+
+    <div class="split-grid">
+      <a class="split-card" href="/conditions/common/epidermal-cyst/">
+        <span class="split-card__title">表皮囊腫（粉瘤）</span>
+        <span class="split-card__desc">為什麼會長粉瘤，以及為什麼只擠出來無法根治</span>
+        <span class="split-card__more">查看內容 →</span>
+      </a>
+      <div class="split-card is-soon" aria-disabled="true">
+        <span class="split-card__title">黑色素痣</span>
+        <span class="split-card__desc">痣的種類，以及什麼樣的痣需要留意</span>
+        <span class="split-card__more">內容建置中</span>
+      </div>
+      <div class="split-card is-soon" aria-disabled="true">
+        <span class="split-card__title">異位性皮膚炎</span>
+        <span class="split-card__desc">反覆搔癢、乾燥發炎的成因與長期控制</span>
+        <span class="split-card__more">內容建置中</span>
+      </div>
+      <div class="split-card is-soon" aria-disabled="true">
+        <span class="split-card__title">乾癬</span>
+        <span class="split-card__desc">紅斑脫屑的免疫機轉與治療選擇</span>
+        <span class="split-card__more">內容建置中</span>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

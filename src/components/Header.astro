@@ -3,6 +3,7 @@ import { Image } from 'astro:assets';
 import logo from '../assets/brand/logo-esheen.png';
 import MobileNav from './MobileNav.astro';
 import LangSwitch from './LangSwitch.astro';
+import Search from './Search.astro';
 import { CONTACT_LINKS } from '../consts.js';
 import { localize, pageLang, t } from '../i18n/index.js';
 
@@ -39,6 +40,7 @@ const NAV = [
     children: [
       { label: nav.rosacea, href: to('/conditions/rosacea/') },
       { label: nav.acne, href: to('/conditions/acne/') },
+      { label: nav.commonDerm, href: to('/conditions/common/') },
       {
         label: nav.hairLead,
         href: to('/follicle-school/'),
@@ -131,6 +133,7 @@ const drawerItems = [
       </a>
     </nav>
 
+    <Search />
     <LangSwitch />
 
     <button

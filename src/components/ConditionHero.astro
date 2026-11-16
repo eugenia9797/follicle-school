@@ -35,15 +35,21 @@ const parts = (text) => text.split('|');
     </div>
 
     <div class="hero-band__media">
-      <Image
-        style={lqipStyle(image)}
-        src={image}
-        alt={imageAlt}
-        width={420}
-        widths={[420, 840]}
-        sizes="(min-width: 900px) 420px, 60vw"
-        loading="eager"
-      />
+      {
+        image.format === 'svg' ? (
+          <img src={image.src} width={image.width} height={image.height} alt={imageAlt} />
+        ) : (
+          <Image
+            style={lqipStyle(image)}
+            src={image}
+            alt={imageAlt}
+            width={420}
+            widths={[420, 840]}
+            sizes="(min-width: 900px) 420px, 60vw"
+            loading="eager"
+          />
+        )
+      }
     </div>
   </div>
 
