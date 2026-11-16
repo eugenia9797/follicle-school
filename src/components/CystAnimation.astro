@@ -212,10 +212,14 @@ const svgs = { squeeze: svgA, excise: svgB };
     display: block;
     width: 100%;
     height: auto;
+    /* on a wide screen the drawing would be taller than the window, so cap its height:
+       the tabs, drawing, steps, caption and buttons then fit in one view */
+    max-height: clamp(240px, 36vh, 340px);
+    margin: 0 auto;
   }
   .cz-svg text {
     font-family: var(--font);
-    font-size: 34px;
+    font-size: 46px;
     font-weight: 700;
     fill: var(--muted-4);
     paint-order: stroke;
@@ -223,8 +227,8 @@ const svgs = { squeeze: svgA, excise: svgB };
     stroke-width: 8px;
     stroke-linejoin: round;
   }
-  .cz-svg .cz-layer { font-size: 30px; font-weight: 600; fill: var(--muted-2); }
-  .cz-svg .cz-note { font-size: 44px; font-weight: 800; }
+  .cz-svg .cz-layer { font-size: 42px; font-weight: 600; fill: var(--muted-2); }
+  .cz-svg .cz-note { font-size: 58px; font-weight: 800; }
   .cz-svg .cz-note--red { fill: var(--cz-bad); }
   .cz-svg .cz-note--green { fill: var(--cz-good); }
 
@@ -355,7 +359,7 @@ const svgs = { squeeze: svgA, excise: svgB };
     color: #fff;
   }
 
-  .cyst-anim__captions { margin-top: 12px; min-height: 8.5em; }
+  .cyst-anim__captions { margin-top: 10px; min-height: 7.2em; }
   .cyst-anim__title {
     margin: 0 0 6px;
     font-size: 17px;
